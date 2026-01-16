@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+
+# Grading outputs (generated during grading)
+grading_extracted/
+grading_rendered/
+grading_report_*.md
+
+# Submissions (don't commit student work)
+submissions/*
+!submissions/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.venv/
+env/
+venv/
