@@ -11,7 +11,9 @@ This folder contains student submissions for grading. The primary task is evalua
 - `assignment.md` - Assignment instructions students received
 - `rubric.md` - Grading rubric with point allocations
 - `submissions/` - Student submission files (PDF, DOCX, XLSX, etc.)
+- `turnitin/` - Turnitin similarity reports (optional; include when flagging for citation review)
 - `skills/grading/` - Grading instructions, scripts, and references
+- `grading_report_*.md` - Generated grading reports (used for revision tracking)
 
 ## Grading Agent
 
@@ -37,10 +39,22 @@ WORKFLOW:
 2. If submissions include Excel files, render charts for visual review:
    python skills/grading/scripts/render_xlsx_quicklook.py --input submissions --out grading_rendered
 
-3. Read the extracted text files from grading_extracted/
-4. Read any rendered images from grading_rendered/ (if applicable)
-5. Score each submission against the rubric
-6. Write the grading report with teaching-focused feedback
+3. Check for Turnitin reports:
+   - Look in turnitin/ subfolder
+   - Look for files with "turnitin" in filename in submissions/
+   - If found, read and incorporate into feedback (teach citation practices)
+   - If not found, proceed without (instructor chose not to include)
+
+4. Identify submission versions:
+   - Canvas naming: username_assignmentID_submissionID_filename
+   - Group by username, highest submissionID = final version
+   - If multiple versions exist, compare against prior and note revision quality
+   - Check for prior grading_report_*.md files for that student's feedback history
+
+5. Read the extracted text files from grading_extracted/
+6. Read any rendered images from grading_rendered/ (if applicable)
+7. Score each submission against the rubric (grade the FINAL version only)
+8. Write the grading report with teaching-focused feedback
 
 FEEDBACK MUST INCLUDE:
 1. "What You Did Well" - genuine strengths showing good thinking AND good writing
@@ -48,6 +62,8 @@ FEEDBACK MUST INCLUDE:
 3. "Strengthening Your Writing" - if needed, 1-2 writing issues with teaching-focused explanations of why clear writing matters professionally
 4. "Required Revisions" - specific fixes prioritized by impact
 5. "Optional Enhancements" - suggestions for excellent work
+6. "Turnitin Review" (ONLY if Turnitin report was provided) - similarity score, what matches mean, action items for proper citation
+7. "Revision Assessment" (ONLY if multiple submissions exist) - which prior feedback was addressed vs. not, revision quality assessment
 
 WRITING EVALUATION: When assessing writing quality, look for active verbs, concrete examples, plain language, and natural voice. Address issues like nominalization (verbs buried in nouns), passive voice, elegant variation, and boilerplate. Frame feedback around WHY it matters: unclear writing suggests unclear thinking, and readers who stumble stop reading.
 

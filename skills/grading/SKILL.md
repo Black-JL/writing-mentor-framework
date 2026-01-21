@@ -75,6 +75,41 @@ If students will present their findings, feedback should prepare them to:
 - Load course concepts from `references/course_concepts.md` (if available).
 - If any required inputs are missing, request them and do not guess.
 
+### 1a) Check for Turnitin reports (if present)
+Check for Turnitin similarity reports in these locations:
+- `turnitin/` subfolder in the assignment root
+- Any file in `submissions/` with "turnitin" in the filename (case-insensitive)
+
+**If Turnitin reports are found:**
+- Read and incorporate the similarity findings into feedback
+- Note the overall similarity percentage and flagged passages
+- Frame feedback pedagogically: teach proper citation, paraphrasing vs. quoting, and when common phrases are acceptable matches
+- Do NOT treat similarity scores as automatic evidence of misconduct—explain what the matches mean and how to address legitimate concerns
+
+**If no Turnitin reports are found:**
+- Proceed without Turnitin integration (instructor chose not to include it for this student)
+
+### 1b) Identify submission versions (handle multiple submissions)
+Canvas exports use this naming convention:
+```
+username_assignmentID_submissionID_originalFilename
+```
+Example: `smithjohn_179254_21003078_Final_Paper.pdf`
+
+**To identify versions:**
+1. Group files by username (first segment before the first underscore)
+2. Within each group, the submission ID (third number) indicates version order—higher = later
+3. The submission with the highest submission ID is the **final version** to grade
+
+**If multiple submissions exist for a student:**
+1. Identify all prior versions
+2. Look for prior grading reports in the assignment root (files matching `grading_report_*.md`)
+3. If prior feedback exists, note which recommendations were or were not addressed in the revision
+4. Grade based on the **final submission only**, but include a revision assessment section
+
+**If only one submission exists:**
+- Proceed with standard grading (no revision comparison needed)
+
 ### 2) Extract evidence (text + visuals)
 - Run `scripts/extract_submission_text.py` to extract DOCX text, XLSX formulas/labels, embedded Excel objects in DOCX, and PDF text.
 - If PDF text is sparse, the script automatically runs OCR (tesseract) on page images.
@@ -173,6 +208,33 @@ Structure feedback to teach clear thinking and effective writing:
 ## Optional Enhancements (For Excellent Work)
 - [Suggestion that would elevate the analysis]
 - [Suggestion that would elevate the analysis]
+
+---
+
+## Turnitin Review (Include only if Turnitin report was provided)
+**Similarity Score:** [X%]
+
+**What the Matches Mean:**
+[Explain which matches are concerning vs. benign (common phrases, properly cited quotations, bibliography entries). Teach proper paraphrasing and citation practices.]
+
+**Action Items:**
+- [Specific passages to rephrase or properly cite]
+- [Guidance on paraphrasing techniques if needed]
+
+---
+
+## Revision Assessment (Include only if this is a resubmission)
+**Comparing to:** [Prior submission ID/date]
+
+**Feedback Addressed:**
+- ✓ [Recommendation from prior feedback that was addressed, with brief note on how]
+- ✓ [Another addressed item]
+
+**Feedback Not Yet Addressed:**
+- ✗ [Recommendation that remains unaddressed]
+- ✗ [Another unaddressed item, with guidance on why it still matters]
+
+**Revision Quality:** [Brief assessment of how thoughtfully the student engaged with prior feedback—did they make surface-level fixes or genuinely improve their analysis?]
 ```
 
 ## Resources
