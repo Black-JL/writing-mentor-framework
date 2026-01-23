@@ -2,13 +2,25 @@
 
 A reusable template for grading student submissions with Claude Code. Provides substantive feedback that teaches clear thinking and effective writing.
 
+## FERPA Compliance
+
+**Recommended:** Enable Canvas's built-in Anonymous Grading before downloading submissions. This anonymizes student names in filenames, reducing identifiable information passed to the AI model.
+
+To enable in Canvas:
+1. Edit the assignment settings
+2. Check "Anonymous Grading" under the grading options
+3. Download submissions after enabling
+
+The grading workflow functions correctly with either anonymized or standard Canvas filenames.
+
 ## Quick Start
 
-1. **Copy this folder** to your assignment location
-2. **Replace `assignment.md`** with the actual assignment instructions
-3. **Replace `rubric.md`** with your grading rubric
-4. **Place student submissions** in the `submissions/` folder
-5. **Ask Claude to grade** the submissions
+1. **Enable Anonymous Grading in Canvas** (recommended for FERPA compliance)
+2. **Copy this folder** to your assignment location
+3. **Replace `assignment.md`** with the actual assignment instructions
+4. **Replace `rubric.md`** with your grading rubric
+5. **Place student submissions** in the `submissions/` folder
+6. **Ask Claude to grade** the submissions
 
 ## Folder Structure
 
