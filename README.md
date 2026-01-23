@@ -24,6 +24,7 @@ Grading-Template/
 ├── assignment.md          # ← REPLACE with your assignment instructions
 ├── rubric.md              # ← REPLACE with your grading rubric
 ├── submissions/           # ← PUT student files here
+├── turnitin/              # ← OPTIONAL: Turnitin similarity reports
 ├── skills/
 │   └── grading/
 │       ├── SKILL.md       # Detailed grading workflow (don't modify)
@@ -52,6 +53,12 @@ Grading-Template/
 - Include total points and grade scale if applicable
 
 ### Optional Files
+
+**`turnitin/`** - Turnitin similarity reports
+- Place exported Turnitin reports here (or in `submissions/` with "turnitin" in the filename)
+- The grading agent checks for reports and incorporates findings into feedback
+- Feedback explains what matches mean (benign vs. concerning) and teaches proper citation practices
+- If no reports are present, grading proceeds without Turnitin integration
 
 **`skills/grading/references/course_concepts.md`** - Course-specific concepts
 - Key terminology and definitions
@@ -100,14 +107,16 @@ Use the grading agent to evaluate all student submissions
 
 1. **Extracts text** from all submission files (including OCR for scanned PDFs)
 2. **Renders Excel charts** as images for visual review
-3. **Evaluates against the rubric** with scores for each criterion
-4. **Provides teaching-focused feedback:**
+3. **Checks for Turnitin reports** and incorporates similarity findings if present
+4. **Evaluates against the rubric** with scores for each criterion
+5. **Provides teaching-focused feedback:**
    - What the student did well
    - 2-3 issues with explanations of WHY they matter
    - Writing quality feedback (clarity, active verbs, concreteness)
+   - Turnitin review with citation guidance (if reports provided)
    - Required revisions prioritized by impact
    - Optional enhancements for excellent work
-5. **Writes a grading report** as a timestamped markdown file
+6. **Writes a grading report** as a timestamped markdown file
 
 ## Feedback Philosophy
 
