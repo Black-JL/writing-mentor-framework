@@ -146,21 +146,32 @@ Place all submission files in `submissions/`. The framework handles multi-compon
 
 ## Dependencies
 
-The framework will **automatically check** for required dependencies on first run and prompt you to install any that are missing.
+The framework will **automatically check** for required dependencies on first run and provide platform-specific install guidance. It detects your operating system and available package managers.
 
 **Required:**
 - `olefile` — Python package for old Office formats
 - `poppler` — PDF text extraction (provides `pdftotext`)
 - `tesseract` — OCR for scanned PDFs
 
-**Manual install (if needed):**
-```bash
-pip install olefile
-brew install poppler
-brew install tesseract
-```
+**What happens without these?**
+- Without olefile: Cannot read older .doc/.xls formats (pre-2007)
+- Without poppler: Cannot extract text from PDF files
+- Without tesseract: Cannot OCR scanned/image-based PDFs
 
-Or let the framework prompt you — it will detect what's missing and offer to install.
+The framework still works for supported file types even with missing dependencies.
+
+**Manual install by platform:**
+
+| Platform | Package Manager | Commands |
+|----------|-----------------|----------|
+| macOS | Homebrew | `brew install poppler tesseract` |
+| Ubuntu/Debian | apt | `sudo apt-get install poppler-utils tesseract-ocr` |
+| Fedora | dnf | `sudo dnf install poppler-utils tesseract` |
+| Windows | Chocolatey | `choco install poppler tesseract` |
+| Windows | Scoop | `scoop install poppler tesseract` |
+| All | pip | `pip install olefile` |
+
+Or let the framework prompt you — it will detect what's missing, explain what each dependency does, and show the exact commands for your system.
 
 ## Usage
 
