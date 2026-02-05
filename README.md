@@ -63,7 +63,7 @@ The framework functions correctly with either anonymized or standard Canvas file
 1. **Copy this folder** to your project location
 2. **Replace `assignment.md`** with the assignment or paper requirements
 3. **Replace `rubric.md`** with your evaluation criteria
-4. **(Critical) Add `skills/grading/references/course_concepts.md`** with domain concepts for assumption validation
+4. **(Recommended) Add `skills/grading/references/course_concepts.md`** with domain concepts for enhanced assumption validation
 5. **Place submissions** in the `submissions/` folder
 6. **Ask Claude to review** the submissions
 
@@ -85,7 +85,7 @@ Writing-Mentor-Framework/
 │   │   │   └── render_xlsx_quicklook.py
 │   │   └── references/
 │   │       ├── economical_writing_principles.md  # Writing evaluation guide
-│   │       └── course_concepts.md                # ← CRITICAL: domain concepts
+│   │       └── course_concepts.md                # ← RECOMMENDED: domain concepts
 │   └── code-audit/
 │       └── SKILL.md       # Code review skill (auto-invoked when code detected)
 └── README.md
@@ -105,11 +105,11 @@ Writing-Mentor-Framework/
 - Describe what excellent, competent, and developing work looks like
 - Include total points if applicable
 
-### Critical File
+### Recommended File
 
 **`skills/grading/references/course_concepts.md`** - Domain-specific concepts for assumption validation
 
-This file is **critical** for the assumption auditing capability. Include:
+This file **enhances** the assumption auditing capability. Without it, the framework still provides full feedback on writing quality, analysis structure, internal consistency, and data validation—it just won't be able to check assumptions against your specific course principles. Include:
 - Key economic/statistical principles that submissions should follow
 - Common errors to flag (e.g., "comparing nominal values across countries without PPP adjustment")
 - Correct approaches for common analytical tasks

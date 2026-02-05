@@ -58,7 +58,7 @@ REFERENCES (READ ALL BEFORE REVIEWING):
 - Assignment requirements: assignment.md
 - Evaluation criteria: rubric.md
 - Economical writing principles: skills/grading/references/economical_writing_principles.md (REQUIRED)
-- Course/domain concepts: skills/grading/references/course_concepts.md (CRITICAL for assumption validation)
+- Course/domain concepts: skills/grading/references/course_concepts.md (if available - enhances assumption validation)
 
 WRITER: {username}
 
@@ -177,6 +177,6 @@ The extraction scripts require:
 1. Copy this entire folder to your project location
 2. Replace `assignment.md` with the paper/assignment requirements
 3. Replace `rubric.md` with your evaluation criteria
-4. (CRITICAL) Add `skills/grading/references/course_concepts.md` with domain concepts for assumption validation
+4. (Recommended) Add `skills/grading/references/course_concepts.md` with domain concepts to enhance assumption validation
 5. Place submissions in `submissions/`
 6. Ask Claude to review the submissions

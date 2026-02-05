@@ -67,7 +67,7 @@ When submissions include multiple components (paper + spreadsheet, raw data + an
 
 ### Economic/Statistical Assumption Audit
 
-Check claims against principles from `references/course_concepts.md` and standard economic/statistical practice:
+Check claims against principles from `references/course_concepts.md` (if available) and standard economic/statistical practice. If no course concepts file is provided, use general principles—the framework still works, but won't catch course-specific errors:
 
 - [ ] **Appropriate deflation**: Is nominal data converted to real when comparing across time?
 - [ ] **Exchange rate normalization**: Are cross-country comparisons using PPP or appropriate exchange rates?
@@ -224,7 +224,7 @@ Include 1-2 questions that prompt the writer to think deeper rather than just fi
 - Load the rubric from `rubric.md` (in the assignment root folder)
 - Load the assignment requirements from `assignment.md` (in the assignment root folder)
 - Load economical writing principles from `references/economical_writing_principles.md` (REQUIRED)
-- Load course concepts from `references/course_concepts.md` (if available—CRITICAL for assumption validation)
+- Load course concepts from `references/course_concepts.md` (if available—enhances assumption validation but framework works without it)
 - If any required inputs are missing, request them and do not guess
 
 ### 1a) Check for Turnitin reports (if present)
@@ -456,7 +456,7 @@ Example: FRED GDP series → Sheet1!B2:B20 → Chart 1 → "GDP grew 3.2%"
 
 ### references/
 - `references/economical_writing_principles.md` for evaluating writing quality
-- `references/course_concepts.md` (CRITICAL) for validating economic/statistical assumptions
+- `references/course_concepts.md` (recommended) for validating economic/statistical assumptions — if not provided, the framework still works but assumption auditing will be limited to general principles
 
 ### Related skills/
 - `skills/code-audit/SKILL.md` for auditing code submissions
