@@ -146,18 +146,21 @@ Place all submission files in `submissions/`. The framework handles multi-compon
 
 ## Dependencies
 
-Install these before use:
+The framework will **automatically check** for required dependencies on first run and prompt you to install any that are missing.
 
+**Required:**
+- `olefile` — Python package for old Office formats
+- `poppler` — PDF text extraction (provides `pdftotext`)
+- `tesseract` — OCR for scanned PDFs
+
+**Manual install (if needed):**
 ```bash
-# Python package for old Office formats
 pip install olefile
-
-# PDF text extraction and rendering
 brew install poppler
-
-# OCR fallback for image-based PDFs
 brew install tesseract
 ```
+
+Or let the framework prompt you — it will detect what's missing and offer to install.
 
 ## Usage
 
