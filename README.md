@@ -60,35 +60,73 @@ The framework functions correctly with either anonymized or standard Canvas file
 
 ## Quick Start
 
+**Option A: Centralized Setup (Recommended for multiple classes)**
+
+1. **Install the framework** in a permanent location (e.g., `~/writing-mentor-framework/`)
+2. **Initialize a new class folder**:
+   ```bash
+   python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/class
+   ```
+3. **Edit the generated templates** (`assignment.md`, `rubric.md`, `course_concepts.md`)
+4. **Place submissions** in `submissions/`
+5. **Ask Claude to review** the submissions
+
+**Option B: Full Copy (Simpler for single use)**
+
 1. **Copy this folder** to your project location
 2. **Replace `assignment.md`** with the assignment or paper requirements
 3. **Replace `rubric.md`** with your evaluation criteria
-4. **(Recommended) Add `skills/grading/references/course_concepts.md`** with domain concepts for enhanced assumption validation
+4. **(Recommended) Edit `skills/grading/references/course_concepts.md`** with domain concepts
 5. **Place submissions** in the `submissions/` folder
 6. **Ask Claude to review** the submissions
 
 ## Folder Structure
 
+### Framework Installation
+
 ```
-Writing-Mentor-Framework/
-├── CLAUDE.md              # Instructions for Claude Code (don't modify)
-├── assignment.md          # ← REPLACE with assignment/paper requirements
-├── rubric.md              # ← REPLACE with your evaluation criteria
-├── submissions/           # ← PUT papers/spreadsheets/data here
-├── turnitin/              # ← OPTIONAL: Similarity reports
+writing-mentor-framework/
+├── CLAUDE.md                      # Instructions for Claude Code
+├── README.md                      # This file
+├── assignment.md                  # Template assignment requirements
+├── rubric.md                      # Template evaluation criteria
+├── wmf-config.yaml.example        # Config file template (for centralized setup)
+├── submissions/                   # Template submissions folder
+├── turnitin/                      # Template Turnitin folder
+├── scripts/
+│   └── init_project.py            # Initialize new class folders
+├── templates/
+│   └── CLAUDE.md.minimal          # Minimal CLAUDE.md for class folders
 ├── skills/
 │   ├── grading/
-│   │   ├── SKILL.md       # Detailed feedback workflow (don't modify)
-│   │   ├── scripts/       # Text/formula extraction utilities
+│   │   ├── SKILL.md               # Detailed feedback workflow
+│   │   ├── scripts/               # Extraction utilities
+│   │   │   ├── check_dependencies.py
 │   │   │   ├── extract_submission_text.py
 │   │   │   ├── render_xlsx_excel.py
-│   │   │   └── render_xlsx_quicklook.py
+│   │   │   ├── render_xlsx_quicklook.py
+│   │   │   └── render_xlsx.py
 │   │   └── references/
-│   │       ├── economical_writing_principles.md  # Writing evaluation guide
-│   │       └── course_concepts.md                # ← RECOMMENDED: domain concepts
+│   │       ├── economical_writing_principles.md
+│   │       └── course_concepts.md
 │   └── code-audit/
-│       └── SKILL.md       # Code review skill (auto-invoked when code detected)
-└── README.md
+│       └── SKILL.md               # Code review skill
+└── .gitignore
+```
+
+### Class Folder (Centralized Setup)
+
+When using `init_project.py`, each class folder contains only:
+
+```
+My-Class/
+├── wmf-config.yaml        # Points to central framework
+├── CLAUDE.md              # Minimal instructions
+├── assignment.md          # Your assignment requirements
+├── rubric.md              # Your evaluation criteria
+├── course_concepts.md     # Your domain concepts (optional)
+├── submissions/           # Student work
+└── turnitin/              # Similarity reports (optional)
 ```
 
 ## Setup Details
@@ -222,9 +260,9 @@ All feedback applies the principles from `economical_writing_principles.md`:
 
 Writing feedback focuses on WHY clear writing matters professionally—unclear writing suggests unclear thinking to readers.
 
-## Centralized Framework Setup (Recommended)
+## Centralized Setup Details
 
-Instead of copying the entire framework to each class folder, you can keep the framework in one central location and point each class folder to it using a config file.
+The centralized setup (Option A in Quick Start) keeps framework code separate from class data.
 
 ### Benefits
 
@@ -232,49 +270,9 @@ Instead of copying the entire framework to each class folder, you can keep the f
 - **Smaller class folders**: Each class only contains assignment-specific files
 - **Cleaner separation**: Framework code lives separately from class data
 
-### Setup
-
-1. **Install the framework** in a permanent location:
-   ```bash
-   # Clone or move the framework to a central location
-   mv writing-mentor-framework ~/writing-mentor-framework
-   ```
-
-2. **Initialize a new class folder**:
-   ```bash
-   python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/class/folder
-   ```
-
-   This creates:
-   - `wmf-config.yaml` — points to the central framework
-   - `CLAUDE.md` — minimal instructions for Claude Code
-   - `assignment.md` — template for assignment requirements
-   - `rubric.md` — template for evaluation criteria
-   - `course_concepts.md` — template for domain concepts
-   - `submissions/` — folder for student work
-
-3. **Customize the templates** with your assignment-specific content
-
-4. **Place submissions** and ask Claude to review
-
-### Class Folder Structure (Centralized)
-
-```
-My-Economics-Class/
-├── wmf-config.yaml        # Points to central framework
-├── CLAUDE.md              # Minimal instructions
-├── assignment.md          # Your assignment requirements
-├── rubric.md              # Your evaluation criteria
-├── course_concepts.md     # Your domain concepts (optional)
-├── submissions/           # Student work goes here
-└── turnitin/              # Similarity reports (optional)
-```
-
-The framework's `skills/`, `scripts/`, and `references/` folders remain in the central installation and are referenced via the config file.
-
 ### Config File Reference
 
-See `wmf-config.yaml.example` for all available options:
+The `wmf-config.yaml` file controls how the framework operates. See `wmf-config.yaml.example` for all options:
 
 ```yaml
 # Path to the framework installation
@@ -302,6 +300,19 @@ review:
   sequential: true
   compare_to_round: null  # For resubmission comparisons
 ```
+
+### Multi-Round Reviews
+
+For assignments with resubmissions:
+
+1. Enable rounds in config: `submissions.rounds.enabled: true`
+2. Organize submissions: `submissions/round1/`, `submissions/round2/`, etc.
+3. Set comparison: `review.compare_to_round: 1` (for round 2 reviews)
+
+The framework automatically:
+- Extracts track changes from DOCX files to show what students modified
+- Compares current work to prior feedback
+- Provides both standalone scores and improvement assessments
 
 ---
 
