@@ -222,15 +222,98 @@ All feedback applies the principles from `economical_writing_principles.md`:
 
 Writing feedback focuses on WHY clear writing matters professionally—unclear writing suggests unclear thinking to readers.
 
+## Centralized Framework Setup (Recommended)
+
+Instead of copying the entire framework to each class folder, you can keep the framework in one central location and point each class folder to it using a config file.
+
+### Benefits
+
+- **Single source of truth**: Updates to the framework apply to all classes
+- **Smaller class folders**: Each class only contains assignment-specific files
+- **Cleaner separation**: Framework code lives separately from class data
+
+### Setup
+
+1. **Install the framework** in a permanent location:
+   ```bash
+   # Clone or move the framework to a central location
+   mv writing-mentor-framework ~/writing-mentor-framework
+   ```
+
+2. **Initialize a new class folder**:
+   ```bash
+   python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/class/folder
+   ```
+
+   This creates:
+   - `wmf-config.yaml` — points to the central framework
+   - `CLAUDE.md` — minimal instructions for Claude Code
+   - `assignment.md` — template for assignment requirements
+   - `rubric.md` — template for evaluation criteria
+   - `course_concepts.md` — template for domain concepts
+   - `submissions/` — folder for student work
+
+3. **Customize the templates** with your assignment-specific content
+
+4. **Place submissions** and ask Claude to review
+
+### Class Folder Structure (Centralized)
+
+```
+My-Economics-Class/
+├── wmf-config.yaml        # Points to central framework
+├── CLAUDE.md              # Minimal instructions
+├── assignment.md          # Your assignment requirements
+├── rubric.md              # Your evaluation criteria
+├── course_concepts.md     # Your domain concepts (optional)
+├── submissions/           # Student work goes here
+└── turnitin/              # Similarity reports (optional)
+```
+
+The framework's `skills/`, `scripts/`, and `references/` folders remain in the central installation and are referenced via the config file.
+
+### Config File Reference
+
+See `wmf-config.yaml.example` for all available options:
+
+```yaml
+# Path to the framework installation
+framework_path: ~/writing-mentor-framework
+
+# Assignment files (in this folder)
+assignment: assignment.md
+rubric: rubric.md
+course_concepts: course_concepts.md  # or null
+
+# Submission handling
+submissions:
+  folder: submissions
+  rounds:
+    enabled: false  # Set true for multi-round reviews
+
+# Output folders
+output:
+  extracted: grading_extracted
+  rendered: grading_rendered
+  feedback: grading_feedback
+
+# Review settings
+review:
+  sequential: true
+  compare_to_round: null  # For resubmission comparisons
+```
+
+---
+
 ## Customization
 
-### Adding Domain-Specific Concepts (Critical)
+### Adding Domain-Specific Concepts (Recommended)
 
-Edit `skills/grading/references/course_concepts.md` to include:
+Edit `course_concepts.md` (in your class folder, or `skills/grading/references/course_concepts.md` if using the full copy approach) to include:
 - Key principles from your field (economics, statistics, etc.)
 - Common analytical errors to flag
 - Correct approaches for typical assignments
-- This file drives the assumption auditing capability
+- This file enhances the assumption auditing capability
 
 ### Modifying the Feedback Format
 

@@ -1,0 +1,46 @@
+# Writing Mentor Framework - Configuration File
+# Copy this file to your class folder as `wmf-config.yaml` and customize
+
+# Path to the framework installation (where skills/, scripts/, references/ live)
+# Use absolute path or ~ for home directory
+framework_path: ~/writing-mentor-framework
+
+# Assignment-specific files (relative to this config file's location)
+assignment: assignment.md
+rubric: rubric.md
+
+# Optional: Course-specific concepts file for enhanced assumption validation
+# If not specified, the framework will look for course_concepts.md in the current folder
+# or use general principles only
+course_concepts: null  # or: course_concepts.md, frank_bernanke_concepts.md, etc.
+
+# Submission handling
+submissions:
+  # Folder containing submissions (relative to this config file)
+  folder: submissions
+
+  # For multi-round reviews, specify the round structure
+  # If rounds is null, treats submissions/ as a flat folder
+  rounds:
+    enabled: false
+    # When enabled, expects: submissions/round1/, submissions/round2/, etc.
+    # Set to true to use round-based subfolder structure
+
+# Output folders (relative to this config file)
+# These are created automatically during review
+output:
+  extracted: grading_extracted      # Extracted text from submissions
+  rendered: grading_rendered        # Rendered Excel charts
+  feedback: grading_feedback        # Generated feedback files
+
+# Optional: Turnitin reports folder
+turnitin: turnitin  # or null if not using
+
+# Review settings
+review:
+  # Run review agents sequentially (recommended) or in parallel
+  sequential: true
+
+  # For resubmissions: compare to prior round's feedback
+  # Set to the round number to compare against (e.g., 1 for round 2 reviews)
+  compare_to_round: null
