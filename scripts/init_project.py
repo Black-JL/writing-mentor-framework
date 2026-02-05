@@ -244,6 +244,97 @@ def create_folders(target: Path) -> None:
     print(f"  Created: submissions/, turnitin/")
 
 
+def install_grade_skill(target: Path, framework: Path) -> None:
+    """Install the /grade skill into the target folder."""
+    skill_dir = target / 'skills' / 'grade'
+    skill_dir.mkdir(parents=True, exist_ok=True)
+
+    skill_content = f'''---
+name: grade
+description: Review student submissions using the Writing Mentor Framework
+user-invocable: true
+---
+
+# Grade Submissions
+
+Review all submissions in this folder using the Writing Mentor Framework.
+
+## Prerequisites
+
+Before running, ensure you have:
+- `assignment.md` - Your assignment requirements
+- `rubric.md` - Your evaluation criteria
+- `submissions/` - Folder containing student work
+
+Optional:
+- `course_concepts.md` - Domain concepts for assumption validation
+- `turnitin/` - Similarity reports
+
+## Workflow
+
+When this skill is invoked:
+
+1. **Read the config** from `wmf-config.yaml` to get the framework path: `{framework}`
+
+2. **Check dependencies** by running:
+   ```bash
+   python {framework}/skills/grading/scripts/check_dependencies.py
+   ```
+   If dependencies are missing, prompt the user to install them before continuing.
+
+3. **Verify required files exist**:
+   - `assignment.md` (required)
+   - `rubric.md` (required)
+   - `submissions/` folder with at least one file (required)
+
+   If any are missing, tell the user what's needed and stop.
+
+4. **Extract text from submissions**:
+   ```bash
+   python {framework}/skills/grading/scripts/extract_submission_text.py --input submissions --out grading_extracted
+   ```
+
+5. **Render Excel charts** (if any .xlsx files exist):
+   ```bash
+   python {framework}/skills/grading/scripts/render_xlsx_quicklook.py --input submissions --out grading_rendered
+   ```
+
+6. **Read the framework instructions** from `{framework}/skills/grading/SKILL.md`
+
+7. **Read reference materials**:
+   - `assignment.md`
+   - `rubric.md`
+   - `{framework}/skills/grading/references/economical_writing_principles.md`
+   - `course_concepts.md` (if present)
+
+8. **Enumerate submissions** by parsing filenames. Group by username (Canvas format: `username_assignmentID_submissionID_filename`).
+
+9. **For each submission**, spawn a Task agent with `subagent_type: "general-purpose"` following the isolated review workflow from the framework SKILL.md. Run agents **sequentially** (one at a time, wait for completion).
+
+10. **Write feedback** to `grading_feedback/{{username}}.md`
+
+11. **Report completion** with summary of submissions reviewed.
+
+## Multi-Round Reviews
+
+If using rounds (`submissions/round1/`, `submissions/round2/`):
+
+1. Check `wmf-config.yaml` for `submissions.rounds.enabled`
+2. Use round-specific folders: `grading_extracted_round{{N}}/`, `grading_feedback_round{{N}}/`
+3. For resubmissions, compare to prior round feedback per `review.compare_to_round` config setting
+
+## Output
+
+Feedback files are written to `grading_feedback/` (or `grading_feedback_round{{N}}/` for rounds).
+
+Each file contains:
+- **Section A: Reviewer Notes** - Technical audit for instructor only
+- **Section B: Writer Feedback** - Teaching-focused guidance to share with student
+'''
+    (skill_dir / 'SKILL.md').write_text(skill_content)
+    print(f"  Created: skills/grade/SKILL.md (invoke with /grade)")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description='Initialize a new project folder for the Writing Mentor Framework'
@@ -302,16 +393,28 @@ def main():
     create_claude_md(target, framework)
     create_template_files(target)
     create_folders(target)
+    install_grade_skill(target, framework)
 
     print()
+    print("=" * 50)
     print("Project initialized successfully!")
+    print("=" * 50)
     print()
-    print("Next steps:")
-    print("  1. Edit assignment.md with your assignment requirements")
-    print("  2. Edit rubric.md with your evaluation criteria")
-    print("  3. (Optional) Edit course_concepts.md with domain-specific principles")
-    print("  4. Place submissions in the submissions/ folder")
-    print("  5. Open Claude Code and ask to review the submissions")
+    print("NEXT STEPS:")
+    print()
+    print("  1. DROP IN your files:")
+    print("     - assignment.md  <- Your assignment requirements")
+    print("     - rubric.md      <- Your evaluation criteria")
+    print("     - submissions/   <- Student work (DOCX, PDF, XLSX)")
+    print()
+    print("  2. (Optional) Edit course_concepts.md with domain principles")
+    print()
+    print("  3. OPEN Claude Code:")
+    print(f"     cd {target}")
+    print("     claude")
+    print()
+    print("  4. TYPE: /grade")
+    print("     (or say: 'review the submissions')")
 
 
 if __name__ == '__main__':

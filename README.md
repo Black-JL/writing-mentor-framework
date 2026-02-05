@@ -58,20 +58,57 @@ When working with student submissions, enabling Canvas Anonymous mode before dow
 
 The framework functions correctly with either anonymized or standard Canvas filenames.
 
+## Installation
+
+**One-time setup** — Add the `wmf` command to your PATH:
+
+```bash
+# Clone or download the framework to a permanent location
+git clone https://github.com/Black-JL/writing-mentor-framework.git ~/writing-mentor-framework
+
+# Add to your shell profile (~/.zshrc or ~/.bashrc)
+echo 'export PATH="$HOME/writing-mentor-framework/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+Now you can use `wmf init` from any folder.
+
 ## Quick Start
 
-**Option A: Centralized Setup (Recommended for multiple classes)**
+**For each new class:**
 
-1. **Install the framework** in a permanent location (e.g., `~/writing-mentor-framework/`)
-2. **Initialize a new class folder**:
-   ```bash
-   python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/class
-   ```
-3. **Edit the generated templates** (`assignment.md`, `rubric.md`, `course_concepts.md`)
-4. **Place submissions** in `submissions/`
-5. **Ask Claude to review** the submissions
+```bash
+# 1. Go to your class folder (or create a new one)
+cd /path/to/my-class
+# or: mkdir my-economics-class && cd my-economics-class
 
-**Option B: Full Copy (Simpler for single use)**
+# 2. Initialize the framework
+wmf init
+
+# 3. Drop in your files:
+#    - assignment.md (your assignment requirements)
+#    - rubric.md (your evaluation criteria)
+#    - submissions/ (student work: DOCX, PDF, XLSX)
+
+# 4. Open Claude Code
+claude
+
+# 5. Type: /grade
+```
+
+That's it. Claude will check dependencies, extract submissions, and generate two-tier feedback.
+
+---
+
+**Alternative: Manual Setup**
+
+If you prefer not to install the `wmf` command:
+
+```bash
+python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/class
+```
+
+**Alternative: Full Copy (for single use or offline)**
 
 1. **Copy this folder** to your project location
 2. **Replace `assignment.md`** with the assignment or paper requirements
@@ -86,17 +123,15 @@ The framework functions correctly with either anonymized or standard Canvas file
 
 ```
 writing-mentor-framework/
-├── CLAUDE.md                      # Instructions for Claude Code
 ├── README.md                      # This file
-├── assignment.md                  # Template assignment requirements
-├── rubric.md                      # Template evaluation criteria
-├── wmf-config.yaml.example        # Config file template (for centralized setup)
-├── submissions/                   # Template submissions folder
-├── turnitin/                      # Template Turnitin folder
+├── CLAUDE.md                      # Instructions for Claude Code
+├── bin/
+│   └── wmf                        # CLI tool (add to PATH)
 ├── scripts/
 │   └── init_project.py            # Initialize new class folders
 ├── templates/
-│   └── CLAUDE.md.minimal          # Minimal CLAUDE.md for class folders
+│   ├── CLAUDE.md.minimal          # Minimal CLAUDE.md template
+│   └── skills/grade/SKILL.md      # /grade skill template
 ├── skills/
 │   ├── grading/
 │   │   ├── SKILL.md               # Detailed feedback workflow
@@ -111,23 +146,33 @@ writing-mentor-framework/
 │   │       └── course_concepts.md
 │   └── code-audit/
 │       └── SKILL.md               # Code review skill
+├── wmf-config.yaml.example        # Config file template
+├── assignment.md                  # Template assignment
+├── rubric.md                      # Template rubric
+├── submissions/                   # Template folder
+├── turnitin/                      # Template folder
 └── .gitignore
 ```
 
-### Class Folder (Centralized Setup)
+### Class Folder (After `wmf init`)
 
-When using `init_project.py`, each class folder contains only:
+When you run `wmf init`, it creates:
 
 ```
 My-Class/
 ├── wmf-config.yaml        # Points to central framework
-├── CLAUDE.md              # Minimal instructions
-├── assignment.md          # Your assignment requirements
-├── rubric.md              # Your evaluation criteria
+├── CLAUDE.md              # Instructions for Claude Code
+├── assignment.md          # ← DROP IN your requirements
+├── rubric.md              # ← DROP IN your criteria
 ├── course_concepts.md     # Your domain concepts (optional)
-├── submissions/           # Student work
-└── turnitin/              # Similarity reports (optional)
+├── submissions/           # ← DROP IN student work
+├── turnitin/              # Similarity reports (optional)
+└── skills/
+    └── grade/
+        └── SKILL.md       # /grade command (auto-installed)
 ```
+
+The `/grade` skill is automatically installed, so you can just type `/grade` in Claude Code.
 
 ## Setup Details
 
