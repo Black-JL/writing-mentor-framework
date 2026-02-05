@@ -73,14 +73,20 @@ TURNITIN: {turnitin_info}
 - If a Turnitin report exists for this student, incorporate into feedback
 - If not, proceed without (instructor chose not to include)
 
+SYSTEMATIC EVALUATION: Before writing feedback, silently run through the Analysis Quality, Evidence Quality, and Structure & Logic checklists in SKILL.md to ensure systematic coverage. Do not include the checklists in output.
+
 FEEDBACK MUST INCLUDE:
-1. "What You Did Well" - genuine strengths showing good thinking AND good writing
-2. "Developing Your Analysis" - 2-3 teaching-focused issues explaining WHY they matter
-3. "Strengthening Your Writing" - if needed, 1-2 writing issues with teaching-focused explanations
-4. "Required Revisions" - specific fixes prioritized by impact
-5. "Optional Enhancements" - suggestions for excellent work
-6. "Turnitin Review" (ONLY if Turnitin report provided)
-7. "Revision Assessment" (ONLY if multiple submissions exist)
+1. "Summary" - 2-3 sentence overall assessment (big picture before details)
+2. "What You Did Well" - genuine strengths showing good thinking AND good writing
+3. "Developing Your Analysis" - 2-3 teaching-focused issues with LOCATION REFERENCES where possible (page, section, or quote)
+4. "Strengthening Your Writing" - if needed, 1-2 writing issues with teaching-focused explanations
+5. "Questions for Reflection" - 1-2 questions that prompt deeper thinking (not just fixing)
+6. "Major Concerns" / "Minor Concerns" / "Suggestions" - tiered by severity, replacing flat "Required Revisions" list
+7. "Code Review" (ONLY if code files detected - use code-audit skill)
+8. "Turnitin Review" (ONLY if Turnitin report provided)
+9. "Revision Assessment" (ONLY if multiple submissions exist)
+
+LOCATION SPECIFICITY: When addressing issues, point to specific locations (page, section, paragraph, or quote the relevant sentence) so students know exactly what you're referring to.
 
 WRITING EVALUATION: Look for active verbs, concrete examples, plain language, and natural voice. Address nominalization, passive voice, elegant variation, and boilerplate. Frame feedback around WHY clear writing matters professionally.
 

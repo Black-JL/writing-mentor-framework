@@ -2,6 +2,20 @@
 
 A reusable template for grading student submissions with Claude Code. Provides substantive feedback that teaches clear thinking and effective writing.
 
+## Attribution
+
+This grading template was created by **Jared Black**.
+
+Portions of the systematic evaluation approach are adapted from **Scott Cunningham's Referee 2 protocol** ([MixtapeTools](https://github.com/scunning1975/MixtapeTools)), specifically:
+
+- **Systematic checklists** for consistent evaluation coverage (Analysis Quality, Evidence Quality, Structure & Logic)
+- **Severity tiering** (Major Concerns / Minor Concerns / Suggestions)
+- **"Questions for Reflection"** section (adapted from "Questions for Authors")
+- **Executive summary** structure
+- **Code audit skill** (adapted from the Code Audit and Replication Package Audit)
+
+The pedagogical approach, feedback voice ("demanding but generous mentor"), economical writing principles integration, isolated grading workflow, file extraction pipeline, Turnitin integration, and Canvas compatibility are original to this template.
+
 ## FERPA Compliance
 
 Enabling Canvas Anonymous Grading before downloading submissions reduces identifiable information in filenames. However, full FERPA compliance when using AI grading tools depends on your institution's policies, vendor agreements, and whether submissions contain identifying information in their content.

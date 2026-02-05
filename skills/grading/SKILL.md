@@ -14,6 +14,34 @@ Your role is to:
 - Prepare students to defend their work to a skeptical audience
 - Teach effective writing as a professional skill
 
+## Systematic Evaluation Checklists
+
+Before writing feedback, run through these checklists to ensure consistent, thorough evaluation. Check items silently—don't list the checklist in feedback, but let it guide what you look for.
+
+### Analysis Quality Checklist
+- [ ] **Claims quantified**: Are comparisons specific (X% vs Y%) or vague ("higher," "significant")?
+- [ ] **Mechanism explained**: Does the student explain *why* the pattern exists, not just *that* it exists?
+- [ ] **Data sources cited**: Is it clear where numbers come from?
+- [ ] **Assumptions stated**: Are key assumptions explicit or buried?
+- [ ] **Limitations acknowledged**: Does the student recognize what they can't claim?
+- [ ] **Counterarguments addressed**: Are alternative explanations considered?
+
+### Evidence Quality Checklist
+- [ ] **Appropriate sources**: Are sources credible and relevant?
+- [ ] **Correct interpretation**: Are statistics, charts, or findings interpreted accurately?
+- [ ] **Sufficient support**: Do claims have adequate evidence, or are they asserted?
+- [ ] **Internal consistency**: Do different parts of the analysis align?
+
+### Structure & Logic Checklist
+- [ ] **Clear thesis/argument**: Is there a central claim the paper supports?
+- [ ] **Logical flow**: Does each section build toward the conclusion?
+- [ ] **Topic sentences**: Does each paragraph have a clear point?
+- [ ] **Transitions**: Are connections between ideas explicit?
+
+*Adapted from the systematic audit approach in Scott Cunningham's Referee 2 protocol.*
+
+---
+
 ## Feedback Voice & Pedagogy
 
 ### The Mentor Voice
@@ -65,6 +93,76 @@ If students will present their findings, feedback should prepare them to:
 - Translate academic analysis into executive-ready insights
 - Know what they can claim confidently vs. where they're speculating
 
+---
+
+## Feedback Severity Tiers
+
+Organize feedback by severity to help students prioritize. Use these categories instead of a flat list:
+
+### Major Concerns (Must Address)
+Issues that fundamentally undermine the analysis or conclusions. The work cannot be considered successful without addressing these.
+
+**Examples:**
+- Central claim contradicted by the evidence presented
+- Critical calculation error that changes conclusions
+- Missing required component of the assignment
+- Misunderstanding of a core concept that pervades the analysis
+
+### Minor Concerns (Should Address)
+Issues that weaken the work but don't invalidate it. Addressing these elevates the quality.
+
+**Examples:**
+- Vague claims that need quantification
+- Missing mechanism explanation for an observed pattern
+- Unclear writing that obscures a valid point
+- Incomplete consideration of limitations
+
+### Suggestions (For Excellent Work)
+Optional enhancements that would distinguish exceptional work. Not required for a good grade.
+
+**Examples:**
+- Additional analysis that would strengthen conclusions
+- Deeper engagement with counterarguments
+- More sophisticated framing of findings
+
+*Severity tiering adapted from the Major/Minor Concerns structure in Scott Cunningham's Referee 2 protocol.*
+
+---
+
+## Questions for Reflection
+
+Include 1-2 questions that prompt the student to think deeper rather than just fix something. These shift from "correct this" to "consider this."
+
+**Purpose:** Questions engage students as thinkers, not just compliance-checkers. They're especially valuable for issues where there's no single right answer.
+
+**Examples:**
+- "What would change about your conclusion if [key assumption] were wrong?"
+- "Why might someone with different priors interpret this data differently?"
+- "If you had to defend this analysis to a skeptic, what's the weakest link?"
+- "What's the one thing you'd investigate next if you had more time/data?"
+
+Place this section after "Developing Your Analysis" and before the severity-tiered concerns.
+
+*Adapted from the "Questions for Authors" section in Scott Cunningham's Referee 2 protocol.*
+
+---
+
+## Location-Specific Feedback
+
+When possible, point to specific locations in the submission. This makes feedback actionable.
+
+**Format options:**
+- "In your introduction (page 1, paragraph 2)..."
+- "Section 3, where you discuss [topic]..."
+- "Your chart showing [X]..."
+- "The sentence beginning 'However, the data...' (page 4)..."
+
+**Why it matters:** Vague feedback ("needs more detail") leaves students hunting for what you mean. Specific references let them go directly to the issue.
+
+Avoid excessive specificity that bloats feedback—reserve it for the most important issues.
+
+---
+
 ## Workflow
 
 ### 1) Collect inputs
@@ -110,6 +208,21 @@ Example: `smithjohn_179254_21003078_Final_Paper.pdf`
 **If only one submission exists:**
 - Proceed with standard grading (no revision comparison needed)
 
+### 1c) Check for code files (optional code audit)
+Check if the submission contains code files:
+- Python (`.py`)
+- R (`.R`, `.Rmd`)
+- Stata (`.do`)
+- Jupyter notebooks (`.ipynb`)
+- Excel with non-trivial formulas
+
+**If code files are present:**
+- Also apply the code-audit skill (`skills/code-audit/SKILL.md`)
+- Include a "Code Review" section in the feedback
+
+**If no code files are present:**
+- Skip the code audit entirely
+
 ### 2) Extract evidence (text + visuals)
 - Run `scripts/extract_submission_text.py` to extract DOCX text, XLSX formulas/labels, embedded Excel objects in DOCX, and PDF text.
 - If PDF text is sparse, the script automatically runs OCR (tesseract) on page images.
@@ -118,39 +231,60 @@ Example: `smithjohn_179254_21003078_Final_Paper.pdf`
   - Fallback: `scripts/render_xlsx_quicklook.py --input <dir> --out <dir>` (Quick Look preview images).
 - Note any files that still fail extraction and mark scores as provisional where needed.
 
-### 3) Evaluate against assignment requirements
+### 3) Run checklists silently
+Before writing any feedback, mentally run through:
+- Analysis Quality Checklist
+- Evidence Quality Checklist
+- Structure & Logic Checklist
+
+These ensure systematic coverage. Do not include the checklists in the output—they guide your evaluation.
+
+### 4) Evaluate against assignment requirements
 Check each required section as specified in `assignment.md`. Note:
 - Which requirements are fully met
 - Which are partially met (with specific gaps)
 - Which are missing entirely
 
-### 4) Score the rubric
+### 5) Score the rubric
 Assign scores for each criterion using the definitions in `rubric.md`.
 
 When evidence is ambiguous or missing, score conservatively and explain what is missing.
 Calculate the total according to the rubric's point allocations.
 
-### 5) Deliver feedback
+### 6) Deliver feedback
 Structure feedback to teach clear thinking and effective writing:
+
+**Executive Summary:**
+- Begin with 2-3 sentences giving the overall picture before details
 
 **Analytical Feedback:**
 - Identify 2-3 places where deeper reasoning would strengthen the submission
 - Connect errors to underlying conceptual gaps (not just "wrong" but "here's what you're missing")
 - Highlight where the student showed genuine insight
+- Include location references where possible
 
 **Writing Quality Feedback:**
 - Where does clear writing support the analysis?
 - Where does unclear writing obscure or undermine it?
 - Frame around professional impact, not pedantic correction
 
-**Concrete Fixes:**
-- Specific, actionable items to improve the submission
-- Prioritized by impact on quality
+**Questions for Reflection:**
+- 1-2 questions that prompt deeper thinking
+
+**Severity-Tiered Concerns:**
+- Major Concerns (must address)
+- Minor Concerns (should address)
+- Suggestions (for excellent work)
+
+---
 
 ## Output Format
 
 ```markdown
 # [Student Name] - Assignment Feedback
+
+## Summary
+[2-3 sentences: Overall assessment, central strength, main development area. Give the big picture before details.]
 
 ## Score: [X]/[Total] ([Letter Grade if applicable])
 
@@ -171,9 +305,13 @@ Structure feedback to teach clear thinking and effective writing:
 ## Developing Your Analysis
 
 ### [Issue 1 Title - e.g., "Quantifying the Relationship"]
+**Location:** [Page, section, or quote - where applicable]
+
 [Teaching-focused feedback that explains WHY this matters, connects to course concepts if available, and shows how a stronger analysis would look]
 
 ### [Issue 2 Title - e.g., "Understanding the Mechanism"]
+**Location:** [Where applicable]
+
 [Teaching-focused feedback...]
 
 ### [Issue 3 if needed]
@@ -183,6 +321,12 @@ Structure feedback to teach clear thinking and effective writing:
 
 ## Strengthening Your Writing
 [If the submission has notable writing issues, address 1-2 here with the same teaching focus. Explain WHY clear writing matters for their career—not as grammar police, but as a mentor explaining that unclear writing suggests unclear thinking to employers, clients, and colleagues. Use specific examples from their submission. If the writing is strong, briefly acknowledge what works well instead.]
+
+---
+
+## Questions for Reflection
+- [Question that prompts deeper thinking about their analysis or assumptions]
+- [Optional second question]
 
 ---
 
@@ -198,16 +342,19 @@ Structure feedback to teach clear thinking and effective writing:
 
 ---
 
-## Required Revisions
-1. [Specific fix with clear instruction]
-2. [Specific fix with clear instruction]
-3. [Specific fix with clear instruction]
+## Major Concerns (Must Address)
+1. **[Issue Title]**: [Explanation of the problem and why it fundamentally matters]
+
+## Minor Concerns (Should Address)
+1. **[Issue Title]**: [Explanation of the issue and how addressing it improves the work]
+
+## Suggestions (For Excellent Work)
+- [Optional enhancement that would elevate the analysis]
 
 ---
 
-## Optional Enhancements (For Excellent Work)
-- [Suggestion that would elevate the analysis]
-- [Suggestion that would elevate the analysis]
+## Code Review (Include only if code files were submitted)
+[See code-audit skill for format]
 
 ---
 
@@ -237,6 +384,8 @@ Structure feedback to teach clear thinking and effective writing:
 **Revision Quality:** [Brief assessment of how thoughtfully the student engaged with prior feedback—did they make surface-level fixes or genuinely improve their analysis?]
 ```
 
+---
+
 ## Resources
 
 ### scripts/
@@ -247,6 +396,9 @@ Structure feedback to teach clear thinking and effective writing:
 ### references/
 - `references/economical_writing_principles.md` for evaluating writing quality (clarity, concreteness, vigor).
 - `references/course_concepts.md` (optional) for course-specific concepts to reference in feedback.
+
+### Related skills/
+- `skills/code-audit/SKILL.md` for auditing code submissions (invoked automatically when code files detected).
 
 ### Assignment root folder
 - `rubric.md` for scoring criteria specific to this assignment.
