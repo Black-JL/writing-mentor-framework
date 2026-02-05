@@ -13,6 +13,7 @@ import olefile
 
 NS = {
     'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main',
+    'w14': 'http://schemas.microsoft.com/office/word/2010/wordml',
     's': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
 }
 
@@ -26,17 +27,144 @@ def write_text(path, text):
 
 
 def extract_docx(path):
-    text = []
+    """Extract text, track changes, and comments from a DOCX file."""
+    text_parts = []
+    track_changes = {
+        'insertions': [],
+        'deletions': [],
+    }
+    comments = []
+    comment_map = {}  # id -> comment text
+
     try:
         with zipfile.ZipFile(path) as z:
+            # First, extract comments if they exist
+            if 'word/comments.xml' in z.namelist():
+                with z.open('word/comments.xml') as f:
+                    tree = ET.parse(f)
+                    for comment in tree.findall('.//w:comment', NS):
+                        comment_id = comment.attrib.get(f"{{{NS['w']}}}id")
+                        author = comment.attrib.get(f"{{{NS['w']}}}author", "Unknown")
+                        date = comment.attrib.get(f"{{{NS['w']}}}date", "")
+                        # Get comment text
+                        comment_text = []
+                        for t in comment.iter():
+                            if t.tag == f"{{{NS['w']}}}t" and t.text:
+                                comment_text.append(t.text)
+                        if comment_id and comment_text:
+                            full_text = ''.join(comment_text)
+                            comment_map[comment_id] = {
+                                'author': author,
+                                'date': date,
+                                'text': full_text
+                            }
+                            comments.append({
+                                'id': comment_id,
+                                'author': author,
+                                'date': date,
+                                'text': full_text
+                            })
+
+            # Extract main document with track changes
             with z.open('word/document.xml') as f:
                 tree = ET.parse(f)
+
                 for node in tree.iter():
+                    # Regular text
                     if node.tag == f"{{{NS['w']}}}t" and node.text:
-                        text.append(node.text)
+                        text_parts.append(node.text)
+
+                    # Track changes - insertions
+                    elif node.tag == f"{{{NS['w']}}}ins":
+                        author = node.attrib.get(f"{{{NS['w']}}}author", "Unknown")
+                        date = node.attrib.get(f"{{{NS['w']}}}date", "")
+                        ins_text = []
+                        for t in node.iter():
+                            if t.tag == f"{{{NS['w']}}}t" and t.text:
+                                ins_text.append(t.text)
+                        if ins_text:
+                            track_changes['insertions'].append({
+                                'author': author,
+                                'date': date,
+                                'text': ''.join(ins_text)
+                            })
+
+                    # Track changes - deletions
+                    elif node.tag == f"{{{NS['w']}}}del":
+                        author = node.attrib.get(f"{{{NS['w']}}}author", "Unknown")
+                        date = node.attrib.get(f"{{{NS['w']}}}date", "")
+                        del_text = []
+                        for t in node.iter():
+                            if t.tag == f"{{{NS['w']}}}delText" and t.text:
+                                del_text.append(t.text)
+                        if del_text:
+                            track_changes['deletions'].append({
+                                'author': author,
+                                'date': date,
+                                'text': ''.join(del_text)
+                            })
+
+                    # Comment references (marks where comments are in the text)
+                    elif node.tag == f"{{{NS['w']}}}commentRangeStart":
+                        comment_id = node.attrib.get(f"{{{NS['w']}}}id")
+                        if comment_id and comment_id in comment_map:
+                            text_parts.append(f" [COMMENT: {comment_map[comment_id]['text'][:50]}...] ")
+
     except Exception as exc:
         return f"[docx extract error: {exc}]"
-    return "\n".join(text)
+
+    # Build output
+    output = []
+    output.append("=" * 60)
+    output.append("DOCUMENT TEXT")
+    output.append("=" * 60)
+    output.append("\n".join(text_parts))
+
+    # Add track changes section if any exist
+    if track_changes['insertions'] or track_changes['deletions']:
+        output.append("\n" + "=" * 60)
+        output.append("TRACK CHANGES DETECTED")
+        output.append("=" * 60)
+        output.append("The student submitted with track changes enabled.")
+        output.append("Use these to understand what was modified from the previous version.")
+        output.append("")
+
+        if track_changes['insertions']:
+            output.append("-" * 40)
+            output.append(f"INSERTIONS ({len(track_changes['insertions'])} found):")
+            output.append("-" * 40)
+            for i, ins in enumerate(track_changes['insertions'][:50], 1):  # Limit to 50
+                output.append(f"  [{i}] \"{ins['text'][:200]}{'...' if len(ins['text']) > 200 else ''}\"")
+                if ins['author'] != "Unknown":
+                    output.append(f"      - by {ins['author']}")
+            if len(track_changes['insertions']) > 50:
+                output.append(f"  ... and {len(track_changes['insertions']) - 50} more insertions")
+
+        if track_changes['deletions']:
+            output.append("-" * 40)
+            output.append(f"DELETIONS ({len(track_changes['deletions'])} found):")
+            output.append("-" * 40)
+            for i, dele in enumerate(track_changes['deletions'][:50], 1):  # Limit to 50
+                output.append(f"  [{i}] \"{dele['text'][:200]}{'...' if len(dele['text']) > 200 else ''}\"")
+                if dele['author'] != "Unknown":
+                    output.append(f"      - by {dele['author']}")
+            if len(track_changes['deletions']) > 50:
+                output.append(f"  ... and {len(track_changes['deletions']) - 50} more deletions")
+
+    # Add comments section if any exist
+    if comments:
+        output.append("\n" + "=" * 60)
+        output.append("COMMENTS IN DOCUMENT")
+        output.append("=" * 60)
+        output.append("The student's document contains comments.")
+        output.append("These may be instructor feedback or student notes.")
+        output.append("")
+        for i, comment in enumerate(comments[:30], 1):  # Limit to 30
+            output.append(f"  [{i}] {comment['author']}: \"{comment['text'][:300]}{'...' if len(comment['text']) > 300 else ''}\"")
+        if len(comments) > 30:
+            output.append(f"  ... and {len(comments) - 30} more comments")
+
+    return "\n".join(output)
 
 
 def _parse_ole10_native(data):

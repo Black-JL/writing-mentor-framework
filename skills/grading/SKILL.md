@@ -257,6 +257,22 @@ Check if the submission contains code files:
   - `scripts/render_xlsx_excel.py` (preferred) or `scripts/render_xlsx_quicklook.py` (fallback)
 - **Extract formulas** from all Excel files for validation
 
+### 2a) Check for track changes and comments (resubmissions)
+The extraction script automatically detects and extracts:
+- **Track changes** (insertions and deletions) — shows exactly what the student modified
+- **Comments** — may be instructor feedback or student notes
+
+**If track changes are detected:**
+- Use them to **focus your review** on sections that were changed
+- **Verify** that claimed improvements match actual edits
+- Note whether changes are substantive (rewrites, new analysis) or surface-level (word tweaks, formatting)
+
+**If comments are detected:**
+- Check if they are instructor feedback from Round 1 that the student left visible
+- Note which comments were addressed in the revision
+
+This information appears in the extracted text file under "TRACK CHANGES DETECTED" and "COMMENTS IN DOCUMENT" sections.
+
 ### 3) Validate data pipeline (CRITICAL)
 Before evaluating the paper's arguments, validate the underlying data:
 
@@ -439,10 +455,43 @@ Example: FRED GDP series → Sheet1!B2:B20 → Chart 1 → "GDP grew 3.2%"
 ---
 
 ## Revision Assessment (Include only if this is a resubmission)
-**Comparing to:** [Prior submission]
-**Feedback Addressed:** [List with ✓]
-**Feedback Not Yet Addressed:** [List with ✗]
-**Revision Quality:** [Assessment]
+
+### Track Changes & Comments Analysis
+If the submission contains track changes or comments (extracted automatically), use them to:
+- **Focus your review** on sections the student modified
+- **Verify claimed changes** match actual edits
+- **Assess revision effort** — surface-level tweaks vs. substantive improvements
+
+**Track Changes Detected:** [Yes/No — if yes, summarize what was changed]
+**Comments in Document:** [Yes/No — if yes, note if they're instructor feedback or student notes]
+
+### Comparison to Prior Submission
+**Comparing to:** [Prior feedback file, e.g., grading_feedback_round1/username.md]
+
+### Prior Feedback Response
+| Prior Feedback Item | Addressed? | How? |
+|---------------------|------------|------|
+| [Issue from Round 1] | ✓ / ✗ | [Brief description of change, or "Not addressed"] |
+| [Issue from Round 1] | ✓ / ✗ | [Brief description] |
+
+### Rubric Scores: Standalone vs. Improvement
+
+**STANDALONE ASSESSMENT** (Current paper on its own merits):
+| Criterion | Score | Assessment |
+|-----------|-------|------------|
+| [Criterion 1] | X/Y | [Current paper evaluation] |
+| [Criterion 2] | X/Y | [Current paper evaluation] |
+
+**IMPROVEMENT ASSESSMENT** (Change from prior submission):
+| Criterion | Prior | Current | Change | Notes |
+|-----------|-------|---------|--------|-------|
+| [Criterion 1] | X/Y | X/Y | +/-N | [What improved or regressed] |
+| [Criterion 2] | X/Y | X/Y | +/-N | [What improved or regressed] |
+
+### Revision Quality Summary
+**Overall Improvement:** [Significant / Moderate / Minimal / None]
+**Engagement with Feedback:** [Thoughtful / Surface-level / Ignored]
+**Recommendation:** [Ready to finalize / Needs another revision / Major issues remain]
 ```
 
 ---
