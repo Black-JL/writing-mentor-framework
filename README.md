@@ -283,6 +283,16 @@ Provide feedback on all papers in submissions
    - **Reviewer Notes**: Complete technical audit for instructor
    - **Writer Feedback**: Teaching-focused guidance for the author
 
+### Performance Note
+
+**The framework takes time to run** — expect several minutes per submission for thorough review. However, it's designed to be reliable:
+
+- **One agent per submission**: Each student's work is reviewed by a separate agent with fresh context
+- **No context accumulation**: Because each agent starts clean, the conversation history doesn't grow unbounded
+- **Sequential processing**: Submissions are reviewed one at a time, which is slower but prevents resource contention
+
+This architecture means the framework **won't time out or hit context window limits**, even with large classes. You can start it and walk away — it will work through all submissions reliably.
+
 ## Feedback Philosophy
 
 The framework provides feedback as a demanding but generous mentor would:
