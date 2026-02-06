@@ -65,12 +65,27 @@ Optional:
 
 8. **Enumerate submissions** by parsing filenames. Group by username.
 
-9. **For each submission**, spawn a Task agent with `subagent_type: "general-purpose"` following the isolated review workflow from the framework SKILL.md. Run agents **sequentially** (one at a time).
+9. **Read parallelism setting** from `wmf-config.yaml`: `review.max_parallel_agents` (default: 3)
 
-10. **Write feedback** to `grading_feedback/{username}.md`
+10. **Process submissions in parallel batches**:
+    - For each batch of N submissions (where N = max_parallel_agents):
+      - Spawn N Task agents **in a single message** with `subagent_type: "general-purpose"`
+      - Each agent follows the isolated review workflow from the framework SKILL.md
+      - **Wait for all N to complete** before starting the next batch
+    - Each agent writes to `grading_feedback/{username}.md`
 
 11. **Report completion** with summary of submissions reviewed.
 </workflow>
+
+## Parallelism Settings
+
+Configure `review.max_parallel_agents` in `wmf-config.yaml`:
+
+| Setting | Use Case |
+|---------|----------|
+| `1` | Sequential mode — use if you experience rate limits or errors |
+| `3` | Default — good balance of speed and reliability |
+| `5-10` | Large classes with hundreds of students |
 
 ## Multi-Round Reviews
 

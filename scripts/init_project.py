@@ -58,7 +58,8 @@ turnitin: turnitin
 
 # Review settings
 review:
-  sequential: true
+  # Parallel agents: 3 = default, 1 = sequential/safe, 5-10 = large classes
+  max_parallel_agents: 3
   compare_to_round: null
 '''
     (target / 'wmf-config.yaml').write_text(config_content)
@@ -309,11 +310,21 @@ When this skill is invoked:
 
 8. **Enumerate submissions** by parsing filenames. Group by username (Canvas format: `username_assignmentID_submissionID_filename`).
 
-9. **For each submission**, spawn a Task agent with `subagent_type: "general-purpose"` following the isolated review workflow from the framework SKILL.md. Run agents **sequentially** (one at a time, wait for completion).
+9. **Read parallelism setting** from `wmf-config.yaml`: `review.max_parallel_agents` (default: 3)
 
-10. **Write feedback** to `grading_feedback/{{username}}.md`
+10. **Process submissions in parallel batches**:
+    - For each batch of N submissions (where N = max_parallel_agents):
+      - Spawn N Task agents **in a single message** with `subagent_type: "general-purpose"`
+      - Each agent follows the isolated review workflow from the framework SKILL.md
+      - **Wait for all N to complete** before starting the next batch
+    - Each agent writes to `grading_feedback/{{username}}.md`
 
 11. **Report completion** with summary of submissions reviewed.
+
+**Parallelism settings** (in `wmf-config.yaml`):
+- `max_parallel_agents: 3` — Default, good balance of speed and reliability
+- `max_parallel_agents: 1` — Sequential mode if you experience rate limits or errors
+- `max_parallel_agents: 5-10` — For large classes with hundreds of students
 
 ## Multi-Round Reviews
 

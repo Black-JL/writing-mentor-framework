@@ -38,8 +38,11 @@ turnitin: turnitin  # or null if not using
 
 # Review settings
 review:
-  # Run review agents sequentially (recommended) or in parallel
-  sequential: true
+  # Maximum number of parallel review agents
+  # - Default: 3 (good balance of speed and reliability)
+  # - Set to 1 if you experience issues (rate limits, system resources)
+  # - Set higher (5-10) for large classes with hundreds of students
+  max_parallel_agents: 3
 
   # For resubmissions: compare to prior round's feedback
   # Set to the round number to compare against (e.g., 1 for round 2 reviews)

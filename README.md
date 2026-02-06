@@ -289,9 +289,17 @@ Provide feedback on all papers in submissions
 
 - **One agent per submission**: Each student's work is reviewed by a separate agent with fresh context
 - **No context accumulation**: Because each agent starts clean, the conversation history doesn't grow unbounded
-- **Sequential processing**: Submissions are reviewed one at a time, which is slower but prevents resource contention
+- **Parallel batching**: Submissions are reviewed in parallel batches (default: 3 at a time) for speed
 
 This architecture means the framework **won't time out or hit context window limits**, even with large classes. You can start it and walk away — it will work through all submissions reliably.
+
+**Parallelism settings** (in `wmf-config.yaml`):
+
+| Setting | Use Case |
+|---------|----------|
+| `max_parallel_agents: 1` | Sequential mode — use if you experience rate limits or errors |
+| `max_parallel_agents: 3` | Default — good balance of speed and reliability |
+| `max_parallel_agents: 5-10` | Large classes with hundreds of students |
 
 ## Feedback Philosophy
 
@@ -352,7 +360,7 @@ output:
 
 # Review settings
 review:
-  sequential: true
+  max_parallel_agents: 3  # 1=sequential, 3=default, 5-10=large classes
   compare_to_round: null  # For resubmission comparisons
 ```
 

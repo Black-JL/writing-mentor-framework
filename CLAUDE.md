@@ -57,12 +57,17 @@ python skills/grading/scripts/render_xlsx_quicklook.py --input submissions --out
 
 Then enumerate submissions by parsing filenames (Canvas format: `username_assignmentID_submissionID_filename`). Group files by username. For writers with multiple submissions, identify the final version (highest submissionID).
 
-### Phase 2: Isolated Review (One Agent Per Submission)
+### Phase 2: Isolated Review (Parallel Agents)
 
 For **each submission**, spawn a separate Task agent with `subagent_type: "general-purpose"`. Each agent receives:
 - The reference materials (read fresh each time)
 - **Only that writer's files** (no other submissions)
 - Instructions to write to a submission-specific output file
+
+**Parallelism:** Review submissions in batches based on `review.max_parallel_agents` in config (default: 3).
+- Spawn up to N agents simultaneously
+- Wait for the batch to complete before starting the next batch
+- Each agent writes to a separate file, so there are no conflicts
 
 **Agent prompt template:**
 
@@ -155,17 +160,21 @@ To review all submissions with isolated context:
 Review all submissions with isolated context
 ```
 
-**CRITICAL: Run agents SEQUENTIALLY, not in parallel.**
+**Process submissions in parallel batches.**
 
-The workflow must process submissions one at a time:
+The workflow processes submissions in batches for speed while maintaining reliability:
 1. Run Phase 1 (preparation) once
-2. For each submission:
-   - Spawn ONE Task agent
-   - **WAIT for it to complete** before starting the next
-   - Confirm the feedback file was written
-3. After ALL agents complete, optionally run Phase 3 (consolidation)
+2. Read `max_parallel_agents` from config (default: 3)
+3. For each batch of N submissions:
+   - Spawn N Task agents **in a single message** (parallel)
+   - **WAIT for all N to complete** before starting the next batch
+   - Confirm all feedback files were written
+4. After ALL agents complete, optionally run Phase 3 (consolidation)
 
-**DO NOT spawn multiple agents in parallel.** Sequential execution is slower but reliable.
+**Parallelism settings** (in `wmf-config.yaml`):
+- `max_parallel_agents: 3` — Default, good balance of speed and reliability
+- `max_parallel_agents: 1` — Sequential mode if you experience issues
+- `max_parallel_agents: 5-10` — For large classes with hundreds of students
 
 ## Commands
 
