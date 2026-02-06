@@ -1,6 +1,6 @@
 # Economical Writing Principles
 
-A comprehensive guide for evaluating student writing, derived from McCloskey's *Economical Writing* (2000).
+A comprehensive guide for evaluating written work, derived from McCloskey's *Economical Writing* (2000).
 
 ---
 

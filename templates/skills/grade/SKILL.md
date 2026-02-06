@@ -1,6 +1,6 @@
 ---
 name: grade
-description: Review student submissions using the Writing Mentor Framework
+description: Review writer submissions using the Writing Mentor Framework
 user-invocable: true
 ---
 
@@ -21,7 +21,7 @@ Review all submissions in this folder using the Writing Mentor Framework.
 Before running, ensure you have:
 - `assignment.md` - Your assignment requirements
 - `rubric.md` - Your evaluation criteria
-- `submissions/` - Folder containing student work
+- `submissions/` - Folder containing writer work
 
 Optional:
 - `course_concepts.md` - Domain concepts for assumption validation
@@ -85,7 +85,7 @@ Configure `review.max_parallel_agents` in `wmf-config.yaml`:
 |---------|----------|
 | `1` | Sequential mode — use if you experience rate limits or errors |
 | `3` | Default — good balance of speed and reliability |
-| `5-10` | Large classes with hundreds of students |
+| `5-10` | Large classes with hundreds of submissions |
 
 ## Multi-Round Reviews
 
@@ -101,4 +101,4 @@ Feedback files are written to `grading_feedback/` (or `grading_feedback_round{N}
 
 Each file contains:
 - **Section A: Reviewer Notes** - Technical audit for instructor only
-- **Section B: Writer Feedback** - Teaching-focused guidance to share with student
+- **Section B: Writer Feedback** - Teaching-focused guidance to share with writer

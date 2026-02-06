@@ -125,7 +125,7 @@ def extract_docx(path):
         output.append("\n" + "=" * 60)
         output.append("TRACK CHANGES DETECTED")
         output.append("=" * 60)
-        output.append("The student submitted with track changes enabled.")
+        output.append("The writer submitted with track changes enabled.")
         output.append("Use these to understand what was modified from the previous version.")
         output.append("")
 
@@ -156,8 +156,8 @@ def extract_docx(path):
         output.append("\n" + "=" * 60)
         output.append("COMMENTS IN DOCUMENT")
         output.append("=" * 60)
-        output.append("The student's document contains comments.")
-        output.append("These may be instructor feedback or student notes.")
+        output.append("The writer's document contains comments.")
+        output.append("These may be instructor feedback or writer notes.")
         output.append("")
         for i, comment in enumerate(comments[:30], 1):  # Limit to 30
             output.append(f"  [{i}] {comment['author']}: \"{comment['text'][:300]}{'...' if len(comment['text']) > 300 else ''}\"")

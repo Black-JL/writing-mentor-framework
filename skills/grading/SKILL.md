@@ -11,7 +11,7 @@ You are providing feedback as a demanding but intellectually generous mentor. Yo
 
 **Your role is to:**
 - Validate data pathways and check calculations against source materials
-- Verify internal consistency across all submission components (paper, spreadsheets, charts, raw data)
+- Verify internal consistency across all submission components (document, spreadsheets, charts, raw data)
 - Check assumptions against economic/statistical principles and course concepts
 - Apply rigorous analytical standards
 - Connect errors to conceptual gaps and explain WHY issues matter
@@ -32,7 +32,7 @@ Detailed technical audit including:
 - **Line-by-line issues**: Exact locations of errors with technical explanations
 - **Evidence trail**: How you determined something was wrong (formula inspection, data source verification, etc.)
 
-**Purpose:** Give the instructor complete visibility into the analysis. This section is NOT shared with the student.
+**Purpose:** Give the instructor complete visibility into the analysis. This section is NOT shared with the writer.
 
 ### Tier 2: Student Feedback (For Writer)
 
@@ -48,22 +48,22 @@ Teaching-focused guidance that:
 
 | Reviewer Notes (Tier 1) | Student Feedback (Tier 2) |
 |------------------------|---------------------------|
-| "Cell D15 uses `=B15/C15` but C15 contains nominal GDP while the paper claims to use real GDP. The FRED API confirms the series ID GDPC1 (real) was not used—series GDP (nominal) was used instead." | "Your GDP comparison chart shows a pattern, but I found an inconsistency between your data source and your claims. Review whether your GDP figures are nominal or real—this distinction matters for cross-country comparisons. What adjustment would you need to make if the data is nominal?" |
+| "Cell D15 uses `=B15/C15` but C15 contains nominal GDP while the written claims to use real GDP. The FRED API confirms the series ID GDPC1 (real) was not used—series GDP (nominal) was used instead." | "Your GDP comparison chart shows a pattern, but I found an inconsistency between your data source and your claims. Review whether your GDP figures are nominal or real—this distinction matters for cross-country comparisons. What adjustment would you need to make if the data is nominal?" |
 
 ---
 
 ## Data Validation & Consistency Checking
 
-When submissions include multiple components (paper + spreadsheet, raw data + analysis, embedded charts), validate the entire data pipeline.
+When submissions include multiple components (document + spreadsheet, raw data + analysis, embedded charts), validate the entire data pipeline.
 
 ### Multi-Component Validation Checklist
 
 - [ ] **Chart-to-formula matching**: Do rendered charts reflect the formulas in the underlying spreadsheet?
-- [ ] **Formula-to-claim alignment**: Do the calculations support what the paper claims?
+- [ ] **Formula-to-claim alignment**: Do the calculations support what the written claims?
 - [ ] **Data source verification**: Can the raw data be traced to cited sources?
 - [ ] **Unit consistency**: Are units consistent throughout (millions vs billions, nominal vs real, etc.)?
 - [ ] **Time period alignment**: Do all data series cover the same time periods?
-- [ ] **Cross-file consistency**: Do numbers in the paper match numbers in the spreadsheet?
+- [ ] **Cross-file consistency**: Do numbers in the document match numbers in the spreadsheet?
 
 ### Economic/Statistical Assumption Audit
 
@@ -110,7 +110,7 @@ Before writing feedback, run through these checklists to ensure consistent, thor
 - [ ] **Internal consistency**: Do different parts of the analysis align?
 
 ### Structure & Logic Checklist
-- [ ] **Clear thesis/argument**: Is there a central claim the paper supports?
+- [ ] **Clear thesis/argument**: Is there a central claim the submission supports?
 - [ ] **Logical flow**: Does each section build toward the conclusion?
 - [ ] **Topic sentences**: Does each paragraph have a clear point?
 - [ ] **Transitions**: Are connections between ideas explicit?
@@ -175,7 +175,7 @@ Issues that fundamentally undermine the analysis or conclusions.
 
 **Examples:**
 - Data validation failure that changes conclusions
-- Internal inconsistency between paper claims and spreadsheet calculations
+- Internal inconsistency between written claims and spreadsheet calculations
 - Violation of economic/statistical principles that invalidates the comparison
 - Missing required component of the assignment
 
@@ -220,7 +220,7 @@ Include 1-2 questions that prompt the writer to think deeper rather than just fi
 ## Workflow
 
 ### 1) Collect inputs
-- Require the submission files (may include Word/PDF papers, Excel workbooks, raw data, or other formats)
+- Require the submission files (may include Word/PDF documents, Excel workbooks, raw data, or other formats)
 - Load the rubric from `rubric.md` (in the assignment root folder)
 - Load the assignment requirements from `assignment.md` (in the assignment root folder)
 - Load economical writing principles from `references/economical_writing_principles.md` (REQUIRED)
@@ -259,8 +259,8 @@ Check if the submission contains code files:
 
 ### 2a) Check for track changes and comments (resubmissions)
 The extraction script automatically detects and extracts:
-- **Track changes** (insertions and deletions) — shows exactly what the student modified
-- **Comments** — may be instructor feedback or student notes
+- **Track changes** (insertions and deletions) — shows exactly what the writer modified
+- **Comments** — may be instructor feedback or writer notes
 
 **If track changes are detected:**
 - Use them to **focus your review** on sections that were changed
@@ -268,16 +268,16 @@ The extraction script automatically detects and extracts:
 - Note whether changes are substantive (rewrites, new analysis) or surface-level (word tweaks, formatting)
 
 **If comments are detected:**
-- Check if they are instructor feedback from Round 1 that the student left visible
+- Check if they are instructor feedback from Round 1 that the writer left visible
 - Note which comments were addressed in the revision
 
 This information appears in the extracted text file under "TRACK CHANGES DETECTED" and "COMMENTS IN DOCUMENT" sections.
 
 ### 3) Validate data pipeline (CRITICAL)
-Before evaluating the paper's arguments, validate the underlying data:
+Before evaluating the submission's arguments, validate the underlying data:
 
 **Step 3a: Map the data pathway**
-- Identify: Raw data → Calculations → Charts → Claims in paper
+- Identify: Raw data → Calculations → Charts → Claims in document
 - Document each link in the chain
 
 **Step 3b: Check internal consistency**
@@ -286,7 +286,7 @@ Before evaluating the paper's arguments, validate the underlying data:
 - Are units consistent throughout?
 
 **Step 3c: Check external validity**
-- Do the data types match what the paper claims? (nominal vs real, seasonally adjusted vs not, etc.)
+- Do the data types match what the written claims? (nominal vs real, seasonally adjusted vs not, etc.)
 - Are calculations appropriate for the data type?
 - Do assumptions align with course concepts and economic/statistical principles?
 
@@ -458,12 +458,12 @@ Example: FRED GDP series → Sheet1!B2:B20 → Chart 1 → "GDP grew 3.2%"
 
 ### Track Changes & Comments Analysis
 If the submission contains track changes or comments (extracted automatically), use them to:
-- **Focus your review** on sections the student modified
+- **Focus your review** on sections the writer modified
 - **Verify claimed changes** match actual edits
 - **Assess revision effort** — surface-level tweaks vs. substantive improvements
 
 **Track Changes Detected:** [Yes/No — if yes, summarize what was changed]
-**Comments in Document:** [Yes/No — if yes, note if they're instructor feedback or student notes]
+**Comments in Document:** [Yes/No — if yes, note if they're instructor feedback or writer notes]
 
 ### Comparison to Prior Submission
 **Comparing to:** [Prior feedback file, e.g., grading_feedback_round1/username.md]
@@ -476,11 +476,11 @@ If the submission contains track changes or comments (extracted automatically), 
 
 ### Rubric Scores: Standalone vs. Improvement
 
-**STANDALONE ASSESSMENT** (Current paper on its own merits):
+**STANDALONE ASSESSMENT** (Current submission on its own merits):
 | Criterion | Score | Assessment |
 |-----------|-------|------------|
-| [Criterion 1] | X/Y | [Current paper evaluation] |
-| [Criterion 2] | X/Y | [Current paper evaluation] |
+| [Criterion 1] | X/Y | [Current submission evaluation] |
+| [Criterion 2] | X/Y | [Current submission evaluation] |
 
 **IMPROVEMENT ASSESSMENT** (Change from prior submission):
 | Criterion | Prior | Current | Change | Notes |

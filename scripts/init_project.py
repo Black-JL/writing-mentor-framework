@@ -113,7 +113,7 @@ When reviewing submissions, Claude Code should:
 
 ## Key Principles
 
-- **Two-tier feedback**: Reviewer Notes (for instructor) + Writer Feedback (for student)
+- **Two-tier feedback**: Reviewer Notes (for instructor) + Writer Feedback (for writer)
 - **Data validation**: Check internal consistency, verify formulas match charts
 - **Assumption auditing**: Check against economic/statistical principles
 - **Isolated review**: Each submission reviewed by fresh agent (no cross-contamination)
@@ -252,7 +252,7 @@ def install_grade_skill(target: Path, framework: Path) -> None:
 
     skill_content = f'''---
 name: grade
-description: Review student submissions using the Writing Mentor Framework
+description: Review writer submissions using the Writing Mentor Framework
 user-invocable: true
 ---
 
@@ -265,7 +265,7 @@ Review all submissions in this folder using the Writing Mentor Framework.
 Before running, ensure you have:
 - `assignment.md` - Your assignment requirements
 - `rubric.md` - Your evaluation criteria
-- `submissions/` - Folder containing student work
+- `submissions/` - Folder containing writer work
 
 Optional:
 - `course_concepts.md` - Domain concepts for assumption validation
@@ -324,7 +324,7 @@ When this skill is invoked:
 **Parallelism settings** (in `wmf-config.yaml`):
 - `max_parallel_agents: 3` — Default, good balance of speed and reliability
 - `max_parallel_agents: 1` — Sequential mode if you experience rate limits or errors
-- `max_parallel_agents: 5-10` — For large classes with hundreds of students
+- `max_parallel_agents: 5-10` — For large classes with hundreds of submissions
 
 ## Multi-Round Reviews
 
@@ -340,7 +340,7 @@ Feedback files are written to `grading_feedback/` (or `grading_feedback_round{{N
 
 Each file contains:
 - **Section A: Reviewer Notes** - Technical audit for instructor only
-- **Section B: Writer Feedback** - Teaching-focused guidance to share with student
+- **Section B: Writer Feedback** - Teaching-focused guidance to share with writer
 '''
     (skill_dir / 'SKILL.md').write_text(skill_content)
     print(f"  Created: skills/grade/SKILL.md (invoke with /grade)")

@@ -4,14 +4,14 @@ A structured framework for providing rigorous feedback on written work. Goes bey
 
 ## What This Framework Does
 
-The Writing Mentor Framework provides **comprehensive validation and teaching-focused feedback** on papers and analytical submissions.
+The Writing Mentor Framework provides **comprehensive validation and teaching-focused feedback** on written work and analytical submissions.
 
 ### Data Validation & Consistency Checking
 
-When submissions include multiple components (paper + spreadsheet, raw data + analysis, embedded charts), the framework validates the entire data pipeline:
+When submissions include multiple components (document + spreadsheet, raw data + analysis, embedded charts), the framework validates the entire data pipeline:
 
 - **Chart-to-formula matching**: Renders Excel charts and matches them to underlying formulas
-- **Cross-file consistency**: Verifies that numbers in the paper match the spreadsheet calculations
+- **Cross-file consistency**: Verifies that numbers in the document match the spreadsheet calculations
 - **Assumption auditing**: Checks economic/statistical assumptions against course principles (e.g., flagging nominal GDP when real GDP is needed, or missing PPP adjustment for cross-country comparisons)
 - **External source verification**: When data sources are cited, attempts to verify via APIs (FRED, World Bank, BLS) that the data pulled matches what was claimed
 
@@ -26,7 +26,7 @@ The framework produces **two distinct sections** of feedback:
 - External validation attempts and results
 - Evidence trail documenting how issues were identified
 
-**Tier 2: Writer Feedback** (For Student/Author)
+**Tier 2: Writer Feedback** (For Writer/Author)
 - Teaching-focused guidance that shows *evidence* something is wrong without giving the exact fix
 - Points to areas of concern without line-by-line correction
 - Prompts reflection with questions that guide the writer toward discovering the fix themselves
@@ -54,7 +54,7 @@ The two-tier feedback system, data validation pipeline, assumption auditing, ext
 
 ## Privacy Considerations
 
-When working with student submissions, enabling Canvas Anonymous mode before downloading reduces identifiable information in filenames. Full compliance with institutional policies depends on your specific context and vendor agreements.
+When working with writer submissions, enabling Canvas Anonymous mode before downloading reduces identifiable information in filenames. Full compliance with institutional policies depends on your specific context and vendor agreements.
 
 The framework functions correctly with either anonymized or standard Canvas filenames.
 
@@ -88,7 +88,7 @@ wmf init
 # 3. Drop in your files:
 #    - assignment.md (your assignment requirements)
 #    - rubric.md (your evaluation criteria)
-#    - submissions/ (student work: DOCX, PDF, XLSX)
+#    - submissions/ (writer work: DOCX, PDF, XLSX)
 
 # 4. Open Claude Code
 claude
@@ -111,7 +111,7 @@ python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/clas
 **Alternative: Full Copy (for single use or offline)**
 
 1. **Copy this folder** to your project location
-2. **Replace `assignment.md`** with the assignment or paper requirements
+2. **Replace `assignment.md`** with the assignment or assignment requirements
 3. **Replace `rubric.md`** with your evaluation criteria
 4. **(Recommended) Edit `skills/grading/references/course_concepts.md`** with domain concepts
 5. **Place submissions** in the `submissions/` folder
@@ -165,7 +165,7 @@ My-Class/
 ├── assignment.md          # ← DROP IN your requirements
 ├── rubric.md              # ← DROP IN your criteria
 ├── course_concepts.md     # Your domain concepts (optional)
-├── submissions/           # ← DROP IN student work
+├── submissions/           # ← DROP IN writer work
 ├── turnitin/              # Similarity reports (optional)
 └── skills/
     └── grade/
@@ -178,7 +178,7 @@ The `/grade` skill is automatically installed, so you can just type `/grade` in 
 
 ### Required Files
 
-**`assignment.md`** - The requirements for the paper or assignment
+**`assignment.md`** - The requirements for the assignment
 - Include all required sections/components
 - Include formatting requirements
 - Include any resources provided
@@ -267,15 +267,15 @@ Review the submissions in the submissions folder
 Or:
 
 ```
-Provide feedback on all papers in submissions
+Provide feedback on all submissions
 ```
 
 ## How the Framework Works
 
 1. **Extracts text and formulas** from all submission files (including OCR for scanned PDFs, embedded Excel objects)
 2. **Renders Excel charts** as images for visual review
-3. **Maps data pathways**: Raw data → Calculations → Charts → Claims in paper
-4. **Validates internal consistency**: Do formulas match charts? Do paper claims match spreadsheet values?
+3. **Maps data pathways**: Raw data → Calculations → Charts → Claims in document
+4. **Validates internal consistency**: Do formulas match charts? Do written claims match spreadsheet values?
 5. **Audits assumptions**: Checks against course concepts and economic/statistical principles
 6. **Attempts external verification**: Uses APIs (FRED, World Bank, etc.) to verify cited data when possible
 7. **Evaluates against the rubric** with scores for each criterion
@@ -287,7 +287,7 @@ Provide feedback on all papers in submissions
 
 **The framework takes time to run** — expect several minutes per submission for thorough review. However, it's designed to be reliable:
 
-- **One agent per submission**: Each student's work is reviewed by a separate agent with fresh context
+- **One agent per submission**: Each writer's work is reviewed by a separate agent with fresh context
 - **No context accumulation**: Because each agent starts clean, the conversation history doesn't grow unbounded
 - **Parallel batching**: Submissions are reviewed in parallel batches (default: 3 at a time) for speed
 
@@ -299,7 +299,7 @@ This architecture means the framework **won't time out or hit context window lim
 |---------|----------|
 | `max_parallel_agents: 1` | Sequential mode — use if you experience rate limits or errors |
 | `max_parallel_agents: 3` | Default — good balance of speed and reliability |
-| `max_parallel_agents: 5-10` | Large classes with hundreds of students |
+| `max_parallel_agents: 5-10` | Large classes with hundreds of submissions |
 
 ## Feedback Philosophy
 
@@ -373,7 +373,7 @@ For assignments with resubmissions:
 3. Set comparison: `review.compare_to_round: 1` (for round 2 reviews)
 
 The framework automatically:
-- Extracts track changes from DOCX files to show what students modified
+- Extracts track changes from DOCX files to show what writers modified
 - Compares current work to prior feedback
 - Provides both standalone scores and improvement assessments
 

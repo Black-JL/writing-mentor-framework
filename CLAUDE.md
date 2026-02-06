@@ -5,13 +5,13 @@ This file provides guidance to Claude Code when reviewing submissions in this fo
 ## Purpose
 
 This folder contains submissions for review using the Writing Mentor Framework. The primary task is:
-1. **Validating data and calculations** across all submission components (papers, spreadsheets, charts, raw data)
+1. **Validating data and calculations** across all submission components (documents, spreadsheets, charts, raw data)
 2. **Checking internal and external consistency** against economic/statistical principles
 3. **Providing two-tier feedback**: detailed technical notes for the reviewer, teaching-focused guidance for the writer
 
 ## Folder Structure
 
-- `assignment.md` - Assignment/paper requirements
+- `assignment.md` - Assignment requirements
 - `rubric.md` - Evaluation criteria with point allocations
 - `submissions/` - Submission files (PDF, DOCX, XLSX, etc.)
 - `turnitin/` - Similarity reports (optional)
@@ -41,7 +41,7 @@ Only proceed with the review workflow after dependencies are confirmed.
 
 ## Review Workflow (Isolated Per Submission)
 
-To ensure fair, unbiased review, each submission is reviewed by a **separate agent with fresh context**. This prevents anchor effects, comparison bias, and context contamination between papers.
+To ensure fair, unbiased review, each submission is reviewed by a **separate agent with fresh context**. This prevents anchor effects, comparison bias, and context contamination between submissions.
 
 ### Phase 1: Preparation (Run Once)
 
@@ -100,8 +100,8 @@ TURNITIN: {turnitin_info}
 - If not, proceed without
 
 DATA VALIDATION (CRITICAL):
-1. Map the data pathway: Raw data → Calculations → Charts → Claims in paper
-2. Check internal consistency: Do formulas match charts? Do paper claims match spreadsheet values?
+1. Map the data pathway: Raw data → Calculations → Charts → Claims in document
+2. Check internal consistency: Do formulas match charts? Do written claims match spreadsheet values?
 3. Check external validity: Are assumptions correct? (nominal vs real GDP, PPP adjustment, etc.)
 4. Attempt source verification: If data sources are cited, verify via API when possible (FRED, World Bank, etc.)
 5. Document all validation findings in REVIEWER NOTES (Tier 1)
@@ -174,7 +174,7 @@ The workflow processes submissions in batches for speed while maintaining reliab
 **Parallelism settings** (in `wmf-config.yaml`):
 - `max_parallel_agents: 3` — Default, good balance of speed and reliability
 - `max_parallel_agents: 1` — Sequential mode if you experience issues
-- `max_parallel_agents: 5-10` — For large classes with hundreds of students
+- `max_parallel_agents: 5-10` — For large classes with hundreds of submissions
 
 ## Commands
 
@@ -203,7 +203,7 @@ The extraction scripts require:
 ## Setup for a New Project
 
 1. Copy this entire folder to your project location
-2. Replace `assignment.md` with the paper/assignment requirements
+2. Replace `assignment.md` with the assignment requirements
 3. Replace `rubric.md` with your evaluation criteria
 4. (Recommended) Add `skills/grading/references/course_concepts.md` with domain concepts to enhance assumption validation
 5. Place submissions in `submissions/`

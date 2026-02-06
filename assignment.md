@@ -1,11 +1,11 @@
 # Assignment: [ASSIGNMENT TITLE]
 
-> **TEMPLATE INSTRUCTIONS:** Replace this entire file with the actual assignment instructions you gave to students. Delete this instruction block when done.
+> **TEMPLATE INSTRUCTIONS:** Replace this entire file with the actual assignment instructions you gave to writers. Delete this instruction block when done.
 >
 > The grading agent will use this file to:
-> - Understand what students were asked to do
+> - Understand what writers were asked to do
 > - Check if required sections/elements are present
-> - Evaluate whether students followed the instructions
+> - Evaluate whether writers followed the instructions
 >
 > Include:
 > - Assignment objectives and learning goals
@@ -26,15 +26,15 @@
 ### Required Sections
 
 1. **[Section Name]**
-   - [What students should include]
+   - [What writers should include]
    - [Specific requirements]
 
 2. **[Section Name]**
-   - [What students should include]
+   - [What writers should include]
    - [Specific requirements]
 
 3. **[Section Name]**
-   - [What students should include]
+   - [What writers should include]
    - [Specific requirements]
 
 ### Formatting Requirements
@@ -51,7 +51,7 @@
 
 ## Resources Provided
 
-[List any data sources, readings, or materials provided to students]
+[List any data sources, readings, or materials provided to writers]
 
 ## Due Date
 

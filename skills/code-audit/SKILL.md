@@ -1,6 +1,6 @@
 ---
 name: code-audit
-description: Audit student code submissions for correctness, style, and reproducibility. Only invoke when code files are detected in the submission.
+description: Audit writer code submissions for correctness, style, and reproducibility. Only invoke when code files are detected in the submission.
 ---
 
 # Code Audit Skill
@@ -20,12 +20,12 @@ If no code files are present, skip this skill entirely.
 
 ## Code Audit Checklists
 
-Run through these checklists when evaluating student code. Check items silently—they guide your evaluation but don't appear in output.
+Run through these checklists when evaluating writer code. Check items silently—they guide your evaluation but don't appear in output.
 
 ### Correctness Checklist
 - [ ] **Logic errors**: Does the code do what the comments/documentation claim?
 - [ ] **Edge cases**: Are boundary conditions handled (empty data, missing values, zeros)?
-- [ ] **Output verification**: Do outputs match what the student claims in their writeup?
+- [ ] **Output verification**: Do outputs match what the writer claims in their writeup?
 - [ ] **Calculation accuracy**: Are formulas and computations correct?
 
 ### Data Handling Checklist
@@ -56,9 +56,9 @@ Run through these checklists when evaluating student code. Check items silently�
 
 **Correctness over style:** Prioritize whether the code produces correct results. Style issues matter less than logic errors.
 
-**Match claims to code:** Verify that what the student claims in their writeup matches what the code actually does. Discrepancies are major concerns.
+**Match claims to code:** Verify that what the writer claims in their writeup matches what the code actually does. Discrepancies are major concerns.
 
-**Reproducibility matters:** Code that only runs on the student's machine isn't useful. Flag absolute paths, missing dependencies, and undocumented requirements.
+**Reproducibility matters:** Code that only runs on the writer's machine isn't useful. Flag absolute paths, missing dependencies, and undocumented requirements.
 
 ### Severity Guidelines
 
@@ -101,7 +101,7 @@ Add a "Code Review" section to the grading feedback:
 
 **[Issue 2 - e.g., "Absolute Path Will Break on Other Machines"]**
 - **Location:** `data_load.R`, line 5
-- **Problem:** `read.csv("C:/Users/student/Desktop/data.csv")` uses an absolute path
+- **Problem:** `read.csv("C:/Users/writer/Desktop/data.csv")` uses an absolute path
 - **Why it matters:** This code will fail on any other computer
 - **Suggested fix:** Use a relative path like `read.csv("data/data.csv")` and include the data file
 
@@ -148,5 +148,5 @@ Use `SheetName!CellRange` format:
 
 - **Don't rewrite the code:** Your job is to identify issues, not fix them. Point to problems and explain why they matter.
 - **Be specific:** Vague feedback ("code could be cleaner") isn't helpful. Point to exact locations and explain the issue.
-- **Connect to the writeup:** If the code produces results that appear in the paper, verify they match.
-- **Acknowledge good practices:** If the student did something well (good variable names, proper error handling, clear organization), mention it briefly.
+- **Connect to the writeup:** If the code produces results that appear in the submission, verify they match.
+- **Acknowledge good practices:** If the writer did something well (good variable names, proper error handling, clear organization), mention it briefly.
