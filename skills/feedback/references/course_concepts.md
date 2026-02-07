@@ -3,7 +3,7 @@
 > **TEMPLATE INSTRUCTIONS:** This file is OPTIONAL. Use it to provide course-specific concepts, terminology, and frameworks that the review agent should reference when giving feedback.
 >
 > Benefits of including this file:
-> - Feedback connects to what writers learned in class
+> - Feedback connects to what writers have studied
 > - Reinforces course vocabulary and frameworks
 > - Shows writers how their work relates to course material
 >
@@ -29,7 +29,7 @@
 
 ---
 
-## Frameworks Students Should Apply
+## Frameworks Writers Should Apply
 
 ### [Framework 1 Name]
 
@@ -51,9 +51,9 @@
 
 ---
 
-## Vocabulary Students Should Use
+## Vocabulary Writers Should Use
 
-| Instead of... | Students should write... | Because... |
+| Instead of... | Writers should use... | Because... |
 |---------------|-------------------------|------------|
 | [Informal/imprecise term] | [Precise course term] | [Why the precise term matters] |
 | [Informal/imprecise term] | [Precise course term] | [Why the precise term matters] |

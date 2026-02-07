@@ -37,7 +37,7 @@ When asked to review submissions, Claude Code should:
 
 ## Key Principles
 
-- **Two-tier feedback**: Reviewer Notes (for instructor) + Writer Feedback (for student)
+- **Two-tier feedback**: Reviewer Notes (for instructor) + Writer Feedback (for writer)
 - **Data validation**: Check internal consistency and external validity
 - **Isolated review**: Each submission reviewed by a fresh agent to prevent bias
 - **Teaching focus**: Guide writers to discover fixes themselves

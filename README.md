@@ -75,12 +75,12 @@ Now you can use `wmf init` from any folder.
 
 ## Quick Start
 
-**For each new class:**
+**For each new project:**
 
 ```bash
-# 1. Go to your class folder (or create a new one)
-cd /path/to/my-class
-# or: mkdir my-economics-class && cd my-economics-class
+# 1. Go to your project folder (or create a new one)
+cd /path/to/my-project
+# or: mkdir my-economics-project && cd my-economics-project
 
 # 2. Initialize the framework
 wmf init
@@ -105,7 +105,7 @@ That's it. Claude will check dependencies, extract submissions, and generate two
 If you prefer not to install the `wmf` command:
 
 ```bash
-python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/class
+python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/project
 ```
 
 **Alternative: Full Copy (for single use or offline)**
@@ -128,7 +128,7 @@ writing-mentor-framework/
 ├── bin/
 │   └── wmf                        # CLI tool (add to PATH)
 ├── scripts/
-│   └── init_project.py            # Initialize new class folders
+│   └── init_project.py            # Initialize new project folders
 ├── templates/
 │   ├── CLAUDE.md.minimal          # Minimal CLAUDE.md template
 │   └── skills/feedback/SKILL.md    # /feedback skill template
@@ -154,12 +154,12 @@ writing-mentor-framework/
 └── .gitignore
 ```
 
-### Class Folder (After `wmf init`)
+### Project Folder (After `wmf init`)
 
 When you run `wmf init`, it creates:
 
 ```
-My-Class/
+My-Project/
 ├── wmf-config.yaml        # Points to central framework
 ├── CLAUDE.md              # Instructions for Claude Code
 ├── assignment.md          # ← DROP IN your requirements
@@ -291,16 +291,16 @@ Provide feedback on all submissions
 - **No context accumulation**: Because each agent starts clean, the conversation history doesn't grow unbounded
 - **Parallel batching**: Submissions are reviewed in parallel batches (default: 3 at a time) for speed
 
-This architecture means the framework **won't time out or hit context window limits**, even with large classes. You can start it and walk away — it will work through all submissions reliably.
+This architecture means the framework **won't time out or hit context window limits**, even with large batches. You can start it and walk away — it will work through all submissions reliably.
 
-### Class Summary Report
+### Feedback Summary Report
 
-After all individual reviews complete, the framework automatically generates `feedback/CLASS_SUMMARY.md` — a single file containing:
+After all individual reviews complete, the framework automatically generates `feedback/FEEDBACK_SUMMARY.md` — a single file containing:
 
-- **Score table** (all students, sorted highest to lowest)
-- **Class statistics** (mean, median, range)
-- **One-paragraph summaries** per student (key strength, biggest concern, score)
-- **Common issues** across the class
+- **Score table** (all writers, sorted highest to lowest)
+- **Summary statistics** (mean, median, range)
+- **One-paragraph summaries** per writer (key strength, biggest concern, score)
+- **Common issues** across all submissions
 
 This gives the instructor an at-a-glance view without opening 20+ individual files.
 
@@ -310,7 +310,7 @@ This gives the instructor an at-a-glance view without opening 20+ individual fil
 |---------|----------|
 | `max_parallel_agents: 1` | Sequential mode — use if you experience rate limits or errors |
 | `max_parallel_agents: 3` | Default — good balance of speed and reliability |
-| `max_parallel_agents: 5-10` | Large classes with hundreds of submissions |
+| `max_parallel_agents: 5-10` | Large batches with hundreds of submissions |
 
 ## Feedback Philosophy
 
@@ -336,13 +336,13 @@ Writing feedback focuses on WHY clear writing matters professionally—unclear w
 
 ## Centralized Setup Details
 
-The centralized setup (Option A in Quick Start) keeps framework code separate from class data.
+The centralized setup (Option A in Quick Start) keeps framework code separate from project data.
 
 ### Benefits
 
-- **Single source of truth**: Updates to the framework apply to all classes
-- **Smaller class folders**: Each class only contains assignment-specific files
-- **Cleaner separation**: Framework code lives separately from class data
+- **Single source of truth**: Updates to the framework apply to all projects
+- **Smaller project folders**: Each project only contains assignment-specific files
+- **Cleaner separation**: Framework code lives separately from project data
 
 ### Config File Reference
 
@@ -371,7 +371,7 @@ output:
 
 # Review settings
 review:
-  max_parallel_agents: 3  # 1=sequential, 3=default, 5-10=large classes
+  max_parallel_agents: 3  # 1=sequential, 3=default, 5-10=large batches
   compare_to_round: null  # For resubmission comparisons
 ```
 
@@ -394,7 +394,7 @@ The framework automatically:
 
 ### Adding Domain-Specific Concepts (Recommended)
 
-Edit `course_concepts.md` (in your class folder, or `skills/feedback/references/course_concepts.md` if using the full copy approach) to include:
+Edit `course_concepts.md` (in your project folder, or `skills/feedback/references/course_concepts.md` if using the full copy approach) to include:
 - Key principles from your field (economics, statistics, etc.)
 - Common analytical errors to flag
 - Correct approaches for typical assignments

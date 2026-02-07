@@ -2,14 +2,14 @@
 """
 Initialize a new project folder to use the Writing Mentor Framework.
 
-This script sets up a class folder with:
+This script sets up a project folder with:
 - wmf-config.yaml pointing to the central framework
 - Minimal CLAUDE.md with review instructions
 - Template assignment.md and rubric.md
 - Empty submissions/ folder
 
 Usage:
-    python init_project.py --target /path/to/class/folder [--framework /path/to/framework]
+    python init_project.py --target /path/to/project/folder [--framework /path/to/framework]
 
 If --framework is not specified, uses the parent directory of this script.
 """
@@ -58,7 +58,7 @@ turnitin: turnitin
 
 # Review settings
 review:
-  # Parallel agents: 3 = default, 1 = sequential/safe, 5-10 = large classes
+  # Parallel agents: 3 = default, 1 = sequential/safe, 5-10 = large batches
   max_parallel_agents: 3
   compare_to_round: null
 '''
@@ -324,7 +324,7 @@ When this skill is invoked:
 **Parallelism settings** (in `wmf-config.yaml`):
 - `max_parallel_agents: 3` — Default, good balance of speed and reliability
 - `max_parallel_agents: 1` — Sequential mode if you experience rate limits or errors
-- `max_parallel_agents: 5-10` — For large classes with hundreds of submissions
+- `max_parallel_agents: 5-10` — For large batches with hundreds of submissions
 
 ## Multi-Round Reviews
 
@@ -416,7 +416,7 @@ def main():
     print("  1. DROP IN your files:")
     print("     - assignment.md  <- Your assignment requirements")
     print("     - rubric.md      <- Your evaluation criteria")
-    print("     - submissions/   <- Student work (DOCX, PDF, XLSX)")
+    print("     - submissions/   <- Writer submissions (DOCX, PDF, XLSX)")
     print()
     print("  2. (Optional) Edit course_concepts.md with domain principles")
     print()

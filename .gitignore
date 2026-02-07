@@ -16,7 +16,7 @@ __pycache__/
 /feedback/
 feedback_report_*.md
 
-# Submissions (don't commit student work)
+# Submissions (don't commit writer work)
 submissions/*
 !submissions/.gitkeep
 

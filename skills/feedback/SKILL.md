@@ -34,7 +34,7 @@ Detailed technical audit including:
 
 **Purpose:** Give the instructor complete visibility into the analysis. This section is NOT shared with the writer.
 
-### Tier 2: Student Feedback (For Writer)
+### Tier 2: Writer Feedback (For Writer)
 
 Teaching-focused guidance that:
 - **Shows evidence** that something needs attention without giving the exact fix
@@ -46,7 +46,7 @@ Teaching-focused guidance that:
 
 **Example of the difference:**
 
-| Reviewer Notes (Tier 1) | Student Feedback (Tier 2) |
+| Reviewer Notes (Tier 1) | Writer Feedback (Tier 2) |
 |------------------------|---------------------------|
 | "Cell D15 uses `=B15/C15` but C15 contains nominal GDP while the written claims to use real GDP. The FRED API confirms the series ID GDPC1 (real) was not used—series GDP (nominal) was used instead." | "Your GDP comparison chart shows a pattern, but I found an inconsistency between your data source and your claims. Review whether your GDP figures are nominal or real—this distinction matters for cross-country comparisons. What adjustment would you need to make if the data is nominal?" |
 
@@ -315,7 +315,7 @@ Assign scores for each criterion using the definitions in `rubric.md`.
 
 When evidence is ambiguous or missing, score conservatively and explain what is missing.
 
-**Missing required components:** If `assignment.md` specifies required submission components (e.g., "upload one Excel file and one Word/PDF file") and a student is missing one or more, apply the rubric strictly:
+**Missing required components:** If `assignment.md` specifies required submission components (e.g., "upload one Excel file and one Word/PDF file") and a writer is missing one or more, apply the rubric strictly:
 - Score the relevant rubric criteria based only on what can actually be verified from the submitted materials.
 - If a required component is absent and that component is the primary evidence for a rubric criterion, the score for that criterion cannot exceed the rubric's partial-credit tier (or the midpoint if the rubric defines only full/zero).
 - Document what is missing and what cannot be assessed in the Reviewer Notes.
@@ -324,26 +324,26 @@ When evidence is ambiguous or missing, score conservatively and explain what is 
 ### 7) Deliver two-tier feedback
 Structure output with clear separation between reviewer and writer sections.
 
-### 8) Generate class summary report (REQUIRED — after all individual reviews are complete)
+### 8) Generate feedback summary report (REQUIRED — after all individual reviews are complete)
 
-After every individual feedback file has been written to the feedback output folder, launch one final agent to produce `CLASS_SUMMARY.md` in the same folder. The agent must:
+After every individual feedback file has been written to the feedback output folder, launch one final agent to produce `FEEDBACK_SUMMARY.md` in the same folder. The agent must:
 
 1. Read every `.md` feedback file in the output folder
-2. Extract each student's total score and rubric sub-scores
-3. Write one tight paragraph per student: strongest finding, biggest concern, and the score
+2. Extract each writer's total score and rubric sub-scores
+3. Write one tight paragraph per writer: strongest finding, biggest concern, and the score
 4. Compile a score table sorted highest to lowest
-5. Compute class statistics (mean, median, range, standard deviation)
+5. Compute summary statistics (mean, median, range, standard deviation)
 6. Identify the 3–5 most common issues across all submissions
-7. Write the result to `[feedback_folder]/CLASS_SUMMARY.md`
+7. Write the result to `[feedback_folder]/FEEDBACK_SUMMARY.md`
 
-**Format for CLASS_SUMMARY.md:**
+**Format for FEEDBACK_SUMMARY.md:**
 
 ```markdown
-# Class Summary — [Assignment Name]
+# Feedback Summary — [Assignment Name]
 
 ## Score Overview
 
-| Student | [Criterion 1] | [Criterion 2] | ... | Total |
+| Writer  | [Criterion 1] | [Criterion 2] | ... | Total |
 |---------|----------------|----------------|-----|-------|
 | [Name]  | X/Y            | X/Y            | ... | X/Z   |
 
@@ -353,7 +353,7 @@ After every individual feedback file has been written to the feedback output fol
 
 ## Individual Summaries
 
-### [Student Name] — X/20
+### [Writer Name] — X/20
 [One paragraph: key strength, primary concern, notable observation.]
 
 ## Common Issues Across Submissions

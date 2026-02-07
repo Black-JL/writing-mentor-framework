@@ -1,5 +1,5 @@
 # Writing Mentor Framework - Configuration File
-# Copy this file to your class folder as `wmf-config.yaml` and customize
+# Copy this file to your project folder as `wmf-config.yaml` and customize
 
 # Path to the framework installation (where skills/, scripts/, references/ live)
 # Use absolute path or ~ for home directory
@@ -41,7 +41,7 @@ review:
   # Maximum number of parallel review agents
   # - Default: 3 (good balance of speed and reliability)
   # - Set to 1 if you experience issues (rate limits, system resources)
-  # - Set higher (5-10) for large classes with hundreds of students
+  # - Set higher (5-10) for large batches with hundreds of submissions
   max_parallel_agents: 3
 
   # For resubmissions: compare to prior round's feedback
