@@ -315,8 +315,52 @@ Assign scores for each criterion using the definitions in `rubric.md`.
 
 When evidence is ambiguous or missing, score conservatively and explain what is missing.
 
+**Missing required components:** If `assignment.md` specifies required submission components (e.g., "upload one Excel file and one Word/PDF file") and a student is missing one or more, apply the rubric strictly:
+- Score the relevant rubric criteria based only on what can actually be verified from the submitted materials.
+- If a required component is absent and that component is the primary evidence for a rubric criterion, the score for that criterion cannot exceed the rubric's partial-credit tier (or the midpoint if the rubric defines only full/zero).
+- Document what is missing and what cannot be assessed in the Reviewer Notes.
+- Do not infer quality from absence — if you cannot verify data, formulas, or charts because the file was not submitted, that is a scoring limitation, not a reason to give benefit of the doubt.
+
 ### 7) Deliver two-tier feedback
 Structure output with clear separation between reviewer and writer sections.
+
+### 8) Generate class summary report (REQUIRED — after all individual reviews are complete)
+
+After every individual feedback file has been written to the feedback output folder, launch one final agent to produce `CLASS_SUMMARY.md` in the same folder. The agent must:
+
+1. Read every `.md` feedback file in the output folder
+2. Extract each student's total score and rubric sub-scores
+3. Write one tight paragraph per student: strongest finding, biggest concern, and the score
+4. Compile a score table sorted highest to lowest
+5. Compute class statistics (mean, median, range, standard deviation)
+6. Identify the 3–5 most common issues across all submissions
+7. Write the result to `[feedback_folder]/CLASS_SUMMARY.md`
+
+**Format for CLASS_SUMMARY.md:**
+
+```markdown
+# Class Summary — [Assignment Name]
+
+## Score Overview
+
+| Student | [Criterion 1] | [Criterion 2] | ... | Total |
+|---------|----------------|----------------|-----|-------|
+| [Name]  | X/Y            | X/Y            | ... | X/Z   |
+
+(Use the actual criterion names and point values from rubric.md)
+
+**Mean:** X.X | **Median:** X | **Range:** X–X | **Std Dev:** X.X
+
+## Individual Summaries
+
+### [Student Name] — X/20
+[One paragraph: key strength, primary concern, notable observation.]
+
+## Common Issues Across Submissions
+1. [Most frequent issue and count]
+2. [Second most frequent]
+3. [Third most frequent]
+```
 
 ---
 
@@ -379,7 +423,7 @@ Example: FRED GDP series → Sheet1!B2:B20 → Chart 1 → "GDP grew 3.2%"
 ## Summary
 [2-3 sentences: Overall assessment, central strength, main development area. Give the big picture before details.]
 
-## Score: [X]/[Total] ([Letter Grade if applicable])
+## Score: [X]/[Total] ([Letter if applicable])
 
 ### Rubric Breakdown
 | Criterion | Score | Assessment |
@@ -466,7 +510,7 @@ If the submission contains track changes or comments (extracted automatically), 
 **Comments in Document:** [Yes/No — if yes, note if they're instructor feedback or writer notes]
 
 ### Comparison to Prior Submission
-**Comparing to:** [Prior feedback file, e.g., grading_feedback_round1/username.md]
+**Comparing to:** [Prior feedback file, e.g., feedback_round1/username.md]
 
 ### Prior Feedback Response
 | Prior Feedback Item | Addressed? | How? |

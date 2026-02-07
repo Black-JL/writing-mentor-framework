@@ -83,7 +83,7 @@ Run through these checklists when evaluating writer code. Check items silentlyâ€
 
 ## Output Format
 
-Add a "Code Review" section to the grading feedback:
+Add a "Code Review" section to the feedback:
 
 ```markdown
 ## Code Review

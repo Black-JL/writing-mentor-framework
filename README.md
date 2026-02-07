@@ -93,7 +93,7 @@ wmf init
 # 4. Open Claude Code
 claude
 
-# 5. Type: /grade
+# 5. Type: /feedback
 ```
 
 That's it. Claude will check dependencies, extract submissions, and generate two-tier feedback.
@@ -113,7 +113,7 @@ python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/clas
 1. **Copy this folder** to your project location
 2. **Replace `assignment.md`** with the assignment or assignment requirements
 3. **Replace `rubric.md`** with your evaluation criteria
-4. **(Recommended) Edit `skills/grading/references/course_concepts.md`** with domain concepts
+4. **(Recommended) Edit `skills/feedback/references/course_concepts.md`** with domain concepts
 5. **Place submissions** in the `submissions/` folder
 6. **Ask Claude to review** the submissions
 
@@ -131,9 +131,9 @@ writing-mentor-framework/
 │   └── init_project.py            # Initialize new class folders
 ├── templates/
 │   ├── CLAUDE.md.minimal          # Minimal CLAUDE.md template
-│   └── skills/grade/SKILL.md      # /grade skill template
+│   └── skills/feedback/SKILL.md    # /feedback skill template
 ├── skills/
-│   ├── grading/
+│   ├── feedback/
 │   │   ├── SKILL.md               # Detailed feedback workflow
 │   │   ├── scripts/               # Extraction utilities
 │   │   │   ├── check_dependencies.py
@@ -168,11 +168,11 @@ My-Class/
 ├── submissions/           # ← DROP IN writer work
 ├── turnitin/              # Similarity reports (optional)
 └── skills/
-    └── grade/
-        └── SKILL.md       # /grade command (auto-installed)
+    └── feedback/
+        └── SKILL.md       # /feedback command (auto-installed)
 ```
 
-The `/grade` skill is automatically installed, so you can just type `/grade` in Claude Code.
+The `/feedback` skill is automatically installed, so you can just type `/feedback` in Claude Code.
 
 ## Setup Details
 
@@ -190,7 +190,7 @@ The `/grade` skill is automatically installed, so you can just type `/grade` in 
 
 ### Recommended File
 
-**`skills/grading/references/course_concepts.md`** - Domain-specific concepts for assumption validation
+**`skills/feedback/references/course_concepts.md`** - Domain-specific concepts for assumption validation
 
 This file **enhances** the assumption auditing capability. Without it, the framework still provides full feedback on writing quality, analysis structure, internal consistency, and data validation—it just won't be able to check assumptions against your specific course principles. Include:
 - Key economic/statistical principles that submissions should follow
@@ -293,6 +293,17 @@ Provide feedback on all submissions
 
 This architecture means the framework **won't time out or hit context window limits**, even with large classes. You can start it and walk away — it will work through all submissions reliably.
 
+### Class Summary Report
+
+After all individual reviews complete, the framework automatically generates `feedback/CLASS_SUMMARY.md` — a single file containing:
+
+- **Score table** (all students, sorted highest to lowest)
+- **Class statistics** (mean, median, range)
+- **One-paragraph summaries** per student (key strength, biggest concern, score)
+- **Common issues** across the class
+
+This gives the instructor an at-a-glance view without opening 20+ individual files.
+
 **Parallelism settings** (in `wmf-config.yaml`):
 
 | Setting | Use Case |
@@ -354,9 +365,9 @@ submissions:
 
 # Output folders
 output:
-  extracted: grading_extracted
-  rendered: grading_rendered
-  feedback: grading_feedback
+  extracted: feedback_extracted
+  rendered: feedback_rendered
+  feedback: feedback
 
 # Review settings
 review:
@@ -383,7 +394,7 @@ The framework automatically:
 
 ### Adding Domain-Specific Concepts (Recommended)
 
-Edit `course_concepts.md` (in your class folder, or `skills/grading/references/course_concepts.md` if using the full copy approach) to include:
+Edit `course_concepts.md` (in your class folder, or `skills/feedback/references/course_concepts.md` if using the full copy approach) to include:
 - Key principles from your field (economics, statistics, etc.)
 - Common analytical errors to flag
 - Correct approaches for typical assignments
@@ -391,7 +402,7 @@ Edit `course_concepts.md` (in your class folder, or `skills/grading/references/c
 
 ### Modifying the Feedback Format
 
-Edit `skills/grading/SKILL.md` to:
+Edit `skills/feedback/SKILL.md` to:
 - Change the output format
 - Add or remove feedback sections
 - Adjust the two-tier structure
@@ -399,7 +410,7 @@ Edit `skills/grading/SKILL.md` to:
 
 ### Adjusting Writing Standards
 
-Edit `skills/grading/references/economical_writing_principles.md` to:
+Edit `skills/feedback/references/economical_writing_principles.md` to:
 - Emphasize different writing principles
 - Add discipline-specific writing guidance
 - Adjust the level of writing feedback

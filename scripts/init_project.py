@@ -49,9 +49,9 @@ submissions:
 
 # Output folders (created automatically during review)
 output:
-  extracted: grading_extracted
-  rendered: grading_rendered
-  feedback: grading_feedback
+  extracted: feedback_extracted
+  rendered: feedback_rendered
+  feedback: feedback
 
 # Optional: Turnitin reports
 turnitin: turnitin
@@ -86,17 +86,17 @@ Settings: See `wmf-config.yaml`
 
 **Check dependencies:**
 ```bash
-python {framework}/skills/grading/scripts/check_dependencies.py
+python {framework}/skills/feedback/scripts/check_dependencies.py
 ```
 
 **Extract text from submissions:**
 ```bash
-python {framework}/skills/grading/scripts/extract_submission_text.py --input submissions --out grading_extracted
+python {framework}/skills/feedback/scripts/extract_submission_text.py --input submissions --out feedback_extracted
 ```
 
 **Render Excel charts:**
 ```bash
-python {framework}/skills/grading/scripts/render_xlsx_quicklook.py --input submissions --out grading_rendered
+python {framework}/skills/feedback/scripts/render_xlsx_quicklook.py --input submissions --out feedback_rendered
 ```
 
 ## Review Workflow
@@ -104,10 +104,10 @@ python {framework}/skills/grading/scripts/render_xlsx_quicklook.py --input submi
 When reviewing submissions, Claude Code should:
 
 1. **Read `wmf-config.yaml`** to get framework path and settings
-2. **Read framework instructions** from `{framework}/skills/grading/SKILL.md`
+2. **Read framework instructions** from `{framework}/skills/feedback/SKILL.md`
 3. **Read assignment requirements** from `assignment.md`
 4. **Read evaluation criteria** from `rubric.md`
-5. **Read writing principles** from `{framework}/skills/grading/references/economical_writing_principles.md`
+5. **Read writing principles** from `{framework}/skills/feedback/references/economical_writing_principles.md`
 6. **Read course concepts** from `course_concepts.md` (if present) for assumption validation
 7. **Follow the isolated review workflow** in the framework SKILL.md
 
@@ -245,18 +245,18 @@ def create_folders(target: Path) -> None:
     print(f"  Created: submissions/, turnitin/")
 
 
-def install_grade_skill(target: Path, framework: Path) -> None:
-    """Install the /grade skill into the target folder."""
-    skill_dir = target / 'skills' / 'grade'
+def install_feedback_skill(target: Path, framework: Path) -> None:
+    """Install the /feedback skill into the target folder."""
+    skill_dir = target / 'skills' / 'feedback'
     skill_dir.mkdir(parents=True, exist_ok=True)
 
     skill_content = f'''---
-name: grade
+name: feedback
 description: Review writer submissions using the Writing Mentor Framework
 user-invocable: true
 ---
 
-# Grade Submissions
+# Review Submissions
 
 Review all submissions in this folder using the Writing Mentor Framework.
 
@@ -279,7 +279,7 @@ When this skill is invoked:
 
 2. **Check dependencies** by running:
    ```bash
-   python {framework}/skills/grading/scripts/check_dependencies.py
+   python {framework}/skills/feedback/scripts/check_dependencies.py
    ```
    If dependencies are missing, prompt the user to install them before continuing.
 
@@ -292,20 +292,20 @@ When this skill is invoked:
 
 4. **Extract text from submissions**:
    ```bash
-   python {framework}/skills/grading/scripts/extract_submission_text.py --input submissions --out grading_extracted
+   python {framework}/skills/feedback/scripts/extract_submission_text.py --input submissions --out feedback_extracted
    ```
 
 5. **Render Excel charts** (if any .xlsx files exist):
    ```bash
-   python {framework}/skills/grading/scripts/render_xlsx_quicklook.py --input submissions --out grading_rendered
+   python {framework}/skills/feedback/scripts/render_xlsx_quicklook.py --input submissions --out feedback_rendered
    ```
 
-6. **Read the framework instructions** from `{framework}/skills/grading/SKILL.md`
+6. **Read the framework instructions** from `{framework}/skills/feedback/SKILL.md`
 
 7. **Read reference materials**:
    - `assignment.md`
    - `rubric.md`
-   - `{framework}/skills/grading/references/economical_writing_principles.md`
+   - `{framework}/skills/feedback/references/economical_writing_principles.md`
    - `course_concepts.md` (if present)
 
 8. **Enumerate submissions** by parsing filenames. Group by username (Canvas format: `username_assignmentID_submissionID_filename`).
@@ -317,7 +317,7 @@ When this skill is invoked:
       - Spawn N Task agents **in a single message** with `subagent_type: "general-purpose"`
       - Each agent follows the isolated review workflow from the framework SKILL.md
       - **Wait for all N to complete** before starting the next batch
-    - Each agent writes to `grading_feedback/{{username}}.md`
+    - Each agent writes to `feedback/{{username}}.md`
 
 11. **Report completion** with summary of submissions reviewed.
 
@@ -331,19 +331,19 @@ When this skill is invoked:
 If using rounds (`submissions/round1/`, `submissions/round2/`):
 
 1. Check `wmf-config.yaml` for `submissions.rounds.enabled`
-2. Use round-specific folders: `grading_extracted_round{{N}}/`, `grading_feedback_round{{N}}/`
+2. Use round-specific folders: `feedback_extracted_round{{N}}/`, `feedback_round{{N}}/`
 3. For resubmissions, compare to prior round feedback per `review.compare_to_round` config setting
 
 ## Output
 
-Feedback files are written to `grading_feedback/` (or `grading_feedback_round{{N}}/` for rounds).
+Feedback files are written to `feedback/` (or `feedback_round{{N}}/` for rounds).
 
 Each file contains:
 - **Section A: Reviewer Notes** - Technical audit for instructor only
 - **Section B: Writer Feedback** - Teaching-focused guidance to share with writer
 '''
     (skill_dir / 'SKILL.md').write_text(skill_content)
-    print(f"  Created: skills/grade/SKILL.md (invoke with /grade)")
+    print(f"  Created: skills/feedback/SKILL.md (invoke with /feedback)")
 
 
 def main():
@@ -375,7 +375,7 @@ def main():
         framework = get_framework_path(script_path)
 
     # Validate framework path
-    skill_file = framework / 'skills' / 'grading' / 'SKILL.md'
+    skill_file = framework / 'skills' / 'feedback' / 'SKILL.md'
     if not skill_file.exists():
         print(f"Error: Framework not found at {framework}")
         print(f"  Expected to find: {skill_file}")
@@ -404,7 +404,7 @@ def main():
     create_claude_md(target, framework)
     create_template_files(target)
     create_folders(target)
-    install_grade_skill(target, framework)
+    install_feedback_skill(target, framework)
 
     print()
     print("=" * 50)
@@ -424,7 +424,7 @@ def main():
     print(f"     cd {target}")
     print("     claude")
     print()
-    print("  4. TYPE: /grade")
+    print("  4. TYPE: /feedback")
     print("     (or say: 'review the submissions')")
 
 

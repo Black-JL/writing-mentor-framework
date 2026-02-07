@@ -234,7 +234,7 @@ def main():
     print("install them manually using the commands above.")
     print()
     print("Run this check again after installing to verify:")
-    print("  python skills/grading/scripts/check_dependencies.py")
+    print("  python skills/feedback/scripts/check_dependencies.py")
     print()
 
     return 1

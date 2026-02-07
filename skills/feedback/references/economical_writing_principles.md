@@ -414,7 +414,7 @@ however, therefore, furthermore, indeed, to be sure, on the other hand
 
 ---
 
-## For Graders: Evaluating Student Writing
+## For Reviewers: Evaluating Writing
 
 ### Strengths to Praise (with specific observations)
 - **Active verbs driving the prose:** "The author writes 'GDP grew 3.2%' rather than 'GDP growth of 3.2% was observed'"

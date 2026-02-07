@@ -1,10 +1,10 @@
 ---
-name: grade
+name: feedback
 description: Review writer submissions using the Writing Mentor Framework
 user-invocable: true
 ---
 
-# Grade Submissions
+# Review Submissions
 
 Review all submissions in this folder using the Writing Mentor Framework.
 
@@ -34,7 +34,7 @@ Optional:
 
 2. **Check dependencies** by running:
    ```bash
-   python {framework_path}/skills/grading/scripts/check_dependencies.py
+   python {framework_path}/skills/feedback/scripts/check_dependencies.py
    ```
    If dependencies are missing, prompt the user to install them before continuing.
 
@@ -47,20 +47,20 @@ Optional:
 
 4. **Extract text from submissions**:
    ```bash
-   python {framework_path}/skills/grading/scripts/extract_submission_text.py --input submissions --out grading_extracted
+   python {framework_path}/skills/feedback/scripts/extract_submission_text.py --input submissions --out feedback_extracted
    ```
 
 5. **Render Excel charts** (if any .xlsx files exist):
    ```bash
-   python {framework_path}/skills/grading/scripts/render_xlsx_quicklook.py --input submissions --out grading_rendered
+   python {framework_path}/skills/feedback/scripts/render_xlsx_quicklook.py --input submissions --out feedback_rendered
    ```
 
-6. **Read the framework instructions** from `{framework_path}/skills/grading/SKILL.md`
+6. **Read the framework instructions** from `{framework_path}/skills/feedback/SKILL.md`
 
 7. **Read reference materials**:
    - `assignment.md`
    - `rubric.md`
-   - `{framework_path}/skills/grading/references/economical_writing_principles.md`
+   - `{framework_path}/skills/feedback/references/economical_writing_principles.md`
    - `course_concepts.md` (if present)
 
 8. **Enumerate submissions** by parsing filenames. Group by username.
@@ -72,7 +72,7 @@ Optional:
       - Spawn N Task agents **in a single message** with `subagent_type: "general-purpose"`
       - Each agent follows the isolated review workflow from the framework SKILL.md
       - **Wait for all N to complete** before starting the next batch
-    - Each agent writes to `grading_feedback/{username}.md`
+    - Each agent writes to `feedback/{username}.md`
 
 11. **Report completion** with summary of submissions reviewed.
 </workflow>
@@ -92,12 +92,12 @@ Configure `review.max_parallel_agents` in `wmf-config.yaml`:
 If submissions are organized in rounds (`submissions/round1/`, `submissions/round2/`):
 
 1. Check `wmf-config.yaml` for `submissions.rounds.enabled: true`
-2. Use round-specific folders: `grading_extracted_round{N}/`, `grading_feedback_round{N}/`
+2. Use round-specific folders: `feedback_extracted_round{N}/`, `feedback_round{N}/`
 3. For resubmissions, compare to prior round feedback per config setting
 
 ## Output
 
-Feedback files are written to `grading_feedback/` (or `grading_feedback_round{N}/` for rounds).
+Feedback files are written to `feedback/` (or `feedback_round{N}/` for rounds).
 
 Each file contains:
 - **Section A: Reviewer Notes** - Technical audit for instructor only

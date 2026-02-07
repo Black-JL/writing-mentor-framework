@@ -1,8 +1,8 @@
-# Grading Rubric: [ASSIGNMENT TITLE]
+# Evaluation Rubric: [ASSIGNMENT TITLE]
 
-> **TEMPLATE INSTRUCTIONS:** Replace this entire file with your actual grading rubric. Delete this instruction block when done.
+> **TEMPLATE INSTRUCTIONS:** Replace this entire file with your actual evaluation rubric. Delete this instruction block when done.
 >
-> The grading agent will use this file to:
+> The review agent will use this file to:
 > - Assign scores for each criterion
 > - Determine what distinguishes excellent from competent from poor work
 > - Calculate the total score
@@ -61,9 +61,9 @@
 
 ---
 
-## Grade Scale (if applicable)
+## Score Scale (if applicable)
 
-| Grade | Points | Percentage |
+| Score | Points | Percentage |
 |-------|--------|------------|
 | A | [XX-XX] | [90-100%] |
 | B | [XX-XX] | [80-89%] |
@@ -75,4 +75,4 @@
 
 ## Additional Notes
 
-[Any special considerations, late penalties, or additional guidance for grading]
+[Any special considerations, late penalties, or additional guidance for evaluation]

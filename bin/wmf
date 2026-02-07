@@ -72,7 +72,7 @@ init_folder() {
         echo -e "     ${GREEN}claude${NC}"
         echo ""
         echo "  4. In Claude Code, say:"
-        echo -e "     ${GREEN}/grade${NC}"
+        echo -e "     ${GREEN}/feedback${NC}"
         echo "     or: 'review the submissions'"
         echo ""
     else

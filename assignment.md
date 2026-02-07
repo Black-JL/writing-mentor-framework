@@ -2,7 +2,7 @@
 
 > **TEMPLATE INSTRUCTIONS:** Replace this entire file with the actual assignment instructions you gave to writers. Delete this instruction block when done.
 >
-> The grading agent will use this file to:
+> The review agent will use this file to:
 > - Understand what writers were asked to do
 > - Check if required sections/elements are present
 > - Evaluate whether writers followed the instructions

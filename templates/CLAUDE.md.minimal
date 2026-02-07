@@ -10,17 +10,17 @@ Framework location and settings are defined in `wmf-config.yaml`.
 
 **Check dependencies:**
 ```bash
-python {FRAMEWORK_PATH}/skills/grading/scripts/check_dependencies.py
+python {FRAMEWORK_PATH}/skills/feedback/scripts/check_dependencies.py
 ```
 
 **Extract text from submissions:**
 ```bash
-python {FRAMEWORK_PATH}/skills/grading/scripts/extract_submission_text.py --input submissions --out grading_extracted
+python {FRAMEWORK_PATH}/skills/feedback/scripts/extract_submission_text.py --input submissions --out feedback_extracted
 ```
 
 **Render Excel charts:**
 ```bash
-python {FRAMEWORK_PATH}/skills/grading/scripts/render_xlsx_quicklook.py --input submissions --out grading_rendered
+python {FRAMEWORK_PATH}/skills/feedback/scripts/render_xlsx_quicklook.py --input submissions --out feedback_rendered
 ```
 
 ## Review Workflow
@@ -28,11 +28,11 @@ python {FRAMEWORK_PATH}/skills/grading/scripts/render_xlsx_quicklook.py --input 
 When asked to review submissions, Claude Code should:
 
 1. **Read the config file** (`wmf-config.yaml`) to get framework path and settings
-2. **Read framework instructions** from `{framework_path}/skills/grading/SKILL.md`
+2. **Read framework instructions** from `{framework_path}/skills/feedback/SKILL.md`
 3. **Read assignment requirements** from `assignment.md` (in this folder)
 4. **Read evaluation criteria** from `rubric.md` (in this folder)
-5. **Read writing principles** from `{framework_path}/skills/grading/references/economical_writing_principles.md`
-6. **Read course concepts** from `course_concepts.md` (if present) or `{framework_path}/skills/grading/references/course_concepts.md`
+5. **Read writing principles** from `{framework_path}/skills/feedback/references/economical_writing_principles.md`
+6. **Read course concepts** from `course_concepts.md` (if present) or `{framework_path}/skills/feedback/references/course_concepts.md`
 7. **Follow the isolated review workflow** described in the framework SKILL.md
 
 ## Key Principles
@@ -48,6 +48,6 @@ If using rounds (submissions/round1/, round2/, etc.):
 
 1. Update `wmf-config.yaml` with `rounds.enabled: true`
 2. Set `review.compare_to_round` to the prior round number
-3. Use round-specific output folders: `grading_extracted_round{N}`, etc.
+3. Use round-specific output folders: `feedback_extracted_round{N}`, etc.
 
 See the framework README for detailed multi-round workflow instructions.

@@ -29,9 +29,9 @@ submissions:
 # Output folders (relative to this config file)
 # These are created automatically during review
 output:
-  extracted: grading_extracted      # Extracted text from submissions
-  rendered: grading_rendered        # Rendered Excel charts
-  feedback: grading_feedback        # Generated feedback files
+  extracted: feedback_extracted      # Extracted text from submissions
+  rendered: feedback_rendered       # Rendered Excel charts
+  feedback: feedback                # Generated feedback files
 
 # Optional: Turnitin reports folder
 turnitin: turnitin  # or null if not using

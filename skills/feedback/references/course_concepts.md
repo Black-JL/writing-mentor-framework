@@ -1,13 +1,13 @@
 # Course Concepts Reference
 
-> **TEMPLATE INSTRUCTIONS:** This file is OPTIONAL. Use it to provide course-specific concepts, terminology, and frameworks that the grading agent should reference when giving feedback.
+> **TEMPLATE INSTRUCTIONS:** This file is OPTIONAL. Use it to provide course-specific concepts, terminology, and frameworks that the review agent should reference when giving feedback.
 >
 > Benefits of including this file:
 > - Feedback connects to what writers learned in class
 > - Reinforces course vocabulary and frameworks
 > - Shows writers how their work relates to course material
 >
-> If you don't have course-specific concepts to include, you can delete this file. The grading agent will still work using the assignment requirements, rubric, and writing principles.
+> If you don't have course-specific concepts to include, you can delete this file. The review agent will still work using the assignment requirements, rubric, and writing principles.
 
 ---
 
