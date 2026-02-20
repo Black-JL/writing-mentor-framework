@@ -271,7 +271,7 @@ Provide feedback on all submissions
 4. **Validates internal consistency**: Do formulas match charts? Do written claims match spreadsheet values?
 5. **Audits assumptions**: Checks against domain concepts and economic/statistical principles
 6. **Attempts external verification**: Uses APIs (FRED, World Bank, etc.) to verify cited data when possible
-7. **Evaluates against the criteria** with scores for each criterion
+7. **Evaluates against the criteria** to identify strengths and development areas
 8. **Provides two-tier feedback**:
    - **Reviewer Notes**: Complete technical audit for reviewer
    - **Writer Feedback**: Teaching-focused guidance for the author
@@ -286,14 +286,14 @@ Provide feedback on all submissions
 
 This architecture means the framework **won't time out or hit context window limits**, even with large batches. You can start it and walk away — it will work through all submissions reliably.
 
-### Feedback Summary Report
+### Feedback Overview
 
 After all individual reviews complete, the framework automatically generates `feedback/FEEDBACK_SUMMARY.md` — a single file containing:
 
-- **Score table** (all writers, sorted highest to lowest)
-- **Summary statistics** (mean, median, range)
-- **One-paragraph summaries** per writer (key strength, biggest concern, score)
-- **Common issues** across all submissions
+- **Criteria overview** showing where each writer is strong and where they need development
+- **One-paragraph summaries** per writer (key strength, most important development area, what to focus on next)
+- **Common development areas** across all submissions — patterns that reveal where writers need the most support
+- **Patterns worth noting** — systemic observations that may suggest guidelines or resources could be clarified
 
 This gives the reviewer an at-a-glance view without opening 20+ individual files.
 

@@ -126,7 +126,7 @@ REVIEWER NOTES MUST INCLUDE:
 
 WRITER FEEDBACK MUST INCLUDE:
 1. "Summary" - 2-3 sentence overall assessment
-2. "Score" with Criteria Breakdown
+2. "Assessment" with Criteria Breakdown (Strong / Developing / Needs Work per criterion)
 3. "What You Did Well" - genuine strengths
 4. "Developing Your Analysis" - issues with AREA OF CONCERN (not exact location) and QUESTION TO CONSIDER
 5. "Strengthening Your Writing" - if needed

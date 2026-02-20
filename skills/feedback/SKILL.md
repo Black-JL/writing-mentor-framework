@@ -310,56 +310,56 @@ Check each required section as specified in `guidelines.md`. Note:
 - Which are partially met (with specific gaps)
 - Which are missing entirely
 
-### 6) Score against the evaluation criteria
-Assign scores for each criterion using the definitions in `criteria.md`.
+### 6) Assess against the evaluation criteria
+Evaluate the submission against each criterion using the definitions in `criteria.md`. Focus on identifying where the writer is strong and where they have the most room to grow.
 
-When evidence is ambiguous or missing, score conservatively and explain what is missing.
+When evidence is ambiguous or missing, note what cannot be assessed and explain what is missing.
 
 **Missing required components:** If `guidelines.md` specifies required submission components (e.g., "upload one Excel file and one Word/PDF file") and a writer is missing one or more, apply the criteria strictly:
-- Score the relevant criteria based only on what can actually be verified from the submitted materials.
-- If a required component is absent and that component is the primary evidence for a criterion, the score for that criterion cannot exceed the partial-credit tier (or the midpoint if the criteria define only full/zero).
+- Assess the relevant criteria based only on what can actually be verified from the submitted materials.
+- If a required component is absent and that component is the primary evidence for a criterion, note this as a gap rather than assuming quality.
 - Document what is missing and what cannot be assessed in the Reviewer Notes.
-- Do not infer quality from absence — if you cannot verify data, formulas, or charts because the file was not submitted, that is a scoring limitation, not a reason to give benefit of the doubt.
+- Do not infer quality from absence — if you cannot verify data, formulas, or charts because the file was not submitted, that is a limitation, not a reason to give benefit of the doubt.
 
 ### 7) Deliver two-tier feedback
 Structure output with clear separation between reviewer and writer sections.
 
-### 8) Generate feedback summary report (REQUIRED — after all individual reviews are complete)
+### 8) Generate feedback overview (REQUIRED — after all individual reviews are complete)
 
 After every individual feedback file has been written to the feedback output folder, launch one final agent to produce `FEEDBACK_SUMMARY.md` in the same folder. The agent must:
 
 1. Read every `.md` feedback file in the output folder
-2. Extract each writer's total score and criteria sub-scores
-3. Write one tight paragraph per writer: strongest finding, biggest concern, and the score
-4. Compile a score table sorted highest to lowest
-5. Compute summary statistics (mean, median, range, standard deviation)
-6. Identify the 3–5 most common issues across all submissions
-7. Write the result to `[feedback_folder]/FEEDBACK_SUMMARY.md`
+2. Extract each writer's criteria assessments and key findings
+3. Write one tight paragraph per writer: strongest area, most important development opportunity, and overall assessment
+4. Compile a criteria overview showing where writers are strong vs. where they need development
+5. Identify the 3–5 most common issues across all submissions — these are the patterns that matter most for helping writers improve
+6. Write the result to `[feedback_folder]/FEEDBACK_SUMMARY.md`
 
 **Format for FEEDBACK_SUMMARY.md:**
 
 ```markdown
-# Feedback Summary — [Title]
+# Feedback Overview — [Title]
 
-## Score Overview
+## Criteria Overview
 
-| Writer  | [Criterion 1] | [Criterion 2] | ... | Total |
-|---------|----------------|----------------|-----|-------|
-| [Name]  | X/Y            | X/Y            | ... | X/Z   |
+| Writer  | [Criterion 1] | [Criterion 2] | ... | Overall |
+|---------|----------------|----------------|-----|---------|
+| [Name]  | Strong / Developing / Needs Work | ... | ... | [Brief assessment] |
 
-(Use the actual criterion names and point values from criteria.md)
-
-**Mean:** X.X | **Median:** X | **Range:** X–X | **Std Dev:** X.X
+(Use the actual criterion names from criteria.md. Characterize performance qualitatively.)
 
 ## Individual Summaries
 
-### [Writer Name] — X/20
-[One paragraph: key strength, primary concern, notable observation.]
+### [Writer Name]
+[One paragraph: key strength, most important development area, what to focus on next.]
 
-## Common Issues Across Submissions
-1. [Most frequent issue and count]
-2. [Second most frequent]
-3. [Third most frequent]
+## Common Development Areas
+1. [Most frequent issue — what writers should focus on and why it matters]
+2. [Second most frequent — with brief explanation]
+3. [Third most frequent — with brief explanation]
+
+## Patterns Worth Noting
+[Any observations about what writers are doing well collectively, or systemic gaps that suggest the guidelines or resources could be clarified.]
 ```
 
 ---
@@ -423,13 +423,13 @@ Example: FRED GDP series → Sheet1!B2:B20 → Chart 1 → "GDP grew 3.2%"
 ## Summary
 [2-3 sentences: Overall assessment, central strength, main development area. Give the big picture before details.]
 
-## Score: [X]/[Total]
+## Assessment
 
 ### Criteria Breakdown
-| Criterion | Score | Assessment |
-|-----------|-------|------------|
-| [Criterion 1] | X/Y | [One sentence] |
-| [Criterion 2] | X/Y | [One sentence] |
+| Criterion | Level | Feedback |
+|-----------|-------|----------|
+| [Criterion 1] | Strong / Developing / Needs Work | [One sentence on where the writer stands and what to focus on] |
+| [Criterion 2] | Strong / Developing / Needs Work | [One sentence] |
 
 ---
 
@@ -518,19 +518,19 @@ If the submission contains track changes or comments (extracted automatically), 
 | [Issue from Round 1] | ✓ / ✗ | [Brief description of change, or "Not addressed"] |
 | [Issue from Round 1] | ✓ / ✗ | [Brief description] |
 
-### Scores: Standalone vs. Improvement
+### Current Assessment vs. Prior
 
-**STANDALONE ASSESSMENT** (Current submission on its own merits):
-| Criterion | Score | Assessment |
-|-----------|-------|------------|
-| [Criterion 1] | X/Y | [Current submission evaluation] |
-| [Criterion 2] | X/Y | [Current submission evaluation] |
+**CURRENT ASSESSMENT** (This submission on its own merits):
+| Criterion | Level | Feedback |
+|-----------|-------|----------|
+| [Criterion 1] | Strong / Developing / Needs Work | [Current submission evaluation] |
+| [Criterion 2] | Strong / Developing / Needs Work | [Current submission evaluation] |
 
-**IMPROVEMENT ASSESSMENT** (Change from prior submission):
+**GROWTH SINCE PRIOR SUBMISSION:**
 | Criterion | Prior | Current | Change | Notes |
 |-----------|-------|---------|--------|-------|
-| [Criterion 1] | X/Y | X/Y | +/-N | [What improved or regressed] |
-| [Criterion 2] | X/Y | X/Y | +/-N | [What improved or regressed] |
+| [Criterion 1] | [Prior level] | [Current level] | Improved / Same / Regressed | [What changed] |
+| [Criterion 2] | [Prior level] | [Current level] | Improved / Same / Regressed | [What changed] |
 
 ### Revision Quality Summary
 **Overall Improvement:** [Significant / Moderate / Minimal / None]
@@ -555,5 +555,5 @@ If the submission contains track changes or comments (extracted automatically), 
 - `skills/code-audit/SKILL.md` for auditing code submissions
 
 ### Project root folder
-- `criteria.md` for scoring criteria
+- `criteria.md` for evaluation criteria
 - `guidelines.md` for requirements and expectations
