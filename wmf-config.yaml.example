@@ -5,14 +5,14 @@
 # Use absolute path or ~ for home directory
 framework_path: ~/writing-mentor-framework
 
-# Assignment-specific files (relative to this config file's location)
-assignment: assignment.md
-rubric: rubric.md
+# Writing guidelines and evaluation criteria (relative to this config file's location)
+guidelines: guidelines.md
+criteria: criteria.md
 
-# Optional: Course-specific concepts file for enhanced assumption validation
-# If not specified, the framework will look for course_concepts.md in the current folder
+# Optional: Domain-specific concepts file for enhanced assumption validation
+# If not specified, the framework will look for domain_concepts.md in the current folder
 # or use general principles only
-course_concepts: null  # or: course_concepts.md, frank_bernanke_concepts.md, etc.
+domain_concepts: null  # or: domain_concepts.md, economics_concepts.md, etc.
 
 # Submission handling
 submissions:
@@ -33,8 +33,8 @@ output:
   rendered: feedback_rendered       # Rendered Excel charts
   feedback: feedback                # Generated feedback files
 
-# Optional: Turnitin reports folder
-turnitin: turnitin  # or null if not using
+# Optional: Similarity reports folder
+similarity_reports: similarity_reports  # or null if not using
 
 # Review settings
 review:

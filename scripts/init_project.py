@@ -5,7 +5,7 @@ Initialize a new project folder to use the Writing Mentor Framework.
 This script sets up a project folder with:
 - wmf-config.yaml pointing to the central framework
 - Minimal CLAUDE.md with review instructions
-- Template assignment.md and rubric.md
+- Template guidelines.md and criteria.md
 - Empty submissions/ folder
 
 Usage:
@@ -33,13 +33,13 @@ def create_config(target: Path, framework: Path) -> None:
 # Path to the framework installation
 framework_path: {framework}
 
-# Assignment-specific files (in this folder)
-assignment: assignment.md
-rubric: rubric.md
+# Writing guidelines and evaluation criteria (in this folder)
+guidelines: guidelines.md
+criteria: criteria.md
 
-# Optional: Course-specific concepts for assumption validation
+# Optional: Domain-specific concepts for assumption validation
 # Create this file or set to null to use general principles
-course_concepts: course_concepts.md
+domain_concepts: domain_concepts.md
 
 # Submission handling
 submissions:
@@ -53,8 +53,8 @@ output:
   rendered: feedback_rendered
   feedback: feedback
 
-# Optional: Turnitin reports
-turnitin: turnitin
+# Optional: Similarity reports
+similarity_reports: similarity_reports
 
 # Review settings
 review:
@@ -70,7 +70,7 @@ def create_claude_md(target: Path, framework: Path) -> None:
     """Create minimal CLAUDE.md in the target folder."""
     claude_content = f'''# CLAUDE.md
 
-This folder uses the **Writing Mentor Framework** for reviewing submissions.
+This folder uses the **Writing Mentor Framework** for reviewing writing.
 
 ## Configuration
 
@@ -105,15 +105,15 @@ When reviewing submissions, Claude Code should:
 
 1. **Read `wmf-config.yaml`** to get framework path and settings
 2. **Read framework instructions** from `{framework}/skills/feedback/SKILL.md`
-3. **Read assignment requirements** from `assignment.md`
-4. **Read evaluation criteria** from `rubric.md`
+3. **Read writing guidelines** from `guidelines.md`
+4. **Read evaluation criteria** from `criteria.md`
 5. **Read writing principles** from `{framework}/skills/feedback/references/economical_writing_principles.md`
-6. **Read course concepts** from `course_concepts.md` (if present) for assumption validation
+6. **Read domain concepts** from `domain_concepts.md` (if present) for assumption validation
 7. **Follow the isolated review workflow** in the framework SKILL.md
 
 ## Key Principles
 
-- **Two-tier feedback**: Reviewer Notes (for instructor) + Writer Feedback (for writer)
+- **Two-tier feedback**: Reviewer Notes (for reviewer) + Writer Feedback (for writer)
 - **Data validation**: Check internal consistency, verify formulas match charts
 - **Assumption auditing**: Check against economic/statistical principles
 - **Isolated review**: Each submission reviewed by fresh agent (no cross-contamination)
@@ -132,15 +132,15 @@ See framework README for detailed instructions.
 
 
 def create_template_files(target: Path) -> None:
-    """Create template assignment.md and rubric.md."""
+    """Create template guidelines.md and criteria.md."""
 
-    assignment_content = '''# Assignment Requirements
+    guidelines_content = '''# Writing Guidelines
 
-<!-- Replace this with your assignment requirements -->
+<!-- Replace this with your writing guidelines and requirements -->
 
 ## Overview
 
-[Describe the assignment purpose and context]
+[Describe the purpose and context of this writing]
 
 ## Required Components
 
@@ -152,7 +152,7 @@ def create_template_files(target: Path) -> None:
 
 - [Length, format, citation style, etc.]
 
-## Due Date
+## Deadline
 
 [Date]
 
@@ -161,7 +161,7 @@ def create_template_files(target: Path) -> None:
 - [Any data files, readings, etc.]
 '''
 
-    rubric_content = '''# Evaluation Rubric
+    criteria_content = '''# Evaluation Criteria
 
 <!-- Replace this with your evaluation criteria -->
 
@@ -188,11 +188,11 @@ def create_template_files(target: Path) -> None:
 <!-- Add more criteria as needed -->
 '''
 
-    course_concepts_content = '''# Course Concepts
+    domain_concepts_content = '''# Domain Concepts
 
 <!-- Optional: Add domain-specific concepts for enhanced assumption validation -->
 <!-- Without this file, the framework still provides full feedback on writing quality, -->
-<!-- analysis structure, and data validation - it just won't catch course-specific errors -->
+<!-- analysis structure, and data validation - it just won't catch domain-specific errors -->
 
 ## Key Principles
 
@@ -209,7 +209,7 @@ def create_template_files(target: Path) -> None:
 - **Term 1**: Definition
 - **Term 2**: Definition
 
-## Example: Economics Course
+## Example: Economics
 
 ```
 ## GDP Comparisons
@@ -223,26 +223,26 @@ def create_template_files(target: Path) -> None:
 ```
 '''
 
-    (target / 'assignment.md').write_text(assignment_content)
-    print(f"  Created: assignment.md (template)")
+    (target / 'guidelines.md').write_text(guidelines_content)
+    print(f"  Created: guidelines.md (template)")
 
-    (target / 'rubric.md').write_text(rubric_content)
-    print(f"  Created: rubric.md (template)")
+    (target / 'criteria.md').write_text(criteria_content)
+    print(f"  Created: criteria.md (template)")
 
-    (target / 'course_concepts.md').write_text(course_concepts_content)
-    print(f"  Created: course_concepts.md (template)")
+    (target / 'domain_concepts.md').write_text(domain_concepts_content)
+    print(f"  Created: domain_concepts.md (template)")
 
 
 def create_folders(target: Path) -> None:
     """Create necessary folders."""
-    folders = ['submissions', 'turnitin']
+    folders = ['submissions', 'similarity_reports']
     for folder in folders:
         (target / folder).mkdir(exist_ok=True)
         # Add .gitkeep to empty folders
         gitkeep = target / folder / '.gitkeep'
         if not gitkeep.exists():
             gitkeep.touch()
-    print(f"  Created: submissions/, turnitin/")
+    print(f"  Created: submissions/, similarity_reports/")
 
 
 def install_feedback_skill(target: Path, framework: Path) -> None:
@@ -252,7 +252,7 @@ def install_feedback_skill(target: Path, framework: Path) -> None:
 
     skill_content = f'''---
 name: feedback
-description: Review writer submissions using the Writing Mentor Framework
+description: Review writing submissions using the Writing Mentor Framework
 user-invocable: true
 ---
 
@@ -263,13 +263,13 @@ Review all submissions in this folder using the Writing Mentor Framework.
 ## Prerequisites
 
 Before running, ensure you have:
-- `assignment.md` - Your assignment requirements
-- `rubric.md` - Your evaluation criteria
-- `submissions/` - Folder containing writer work
+- `guidelines.md` - Your writing guidelines and requirements
+- `criteria.md` - Your evaluation criteria
+- `submissions/` - Folder containing writing to review
 
 Optional:
-- `course_concepts.md` - Domain concepts for assumption validation
-- `turnitin/` - Similarity reports
+- `domain_concepts.md` - Domain concepts for assumption validation
+- `similarity_reports/` - Similarity reports
 
 ## Workflow
 
@@ -284,8 +284,8 @@ When this skill is invoked:
    If dependencies are missing, prompt the user to install them before continuing.
 
 3. **Verify required files exist**:
-   - `assignment.md` (required)
-   - `rubric.md` (required)
+   - `guidelines.md` (required)
+   - `criteria.md` (required)
    - `submissions/` folder with at least one file (required)
 
    If any are missing, tell the user what's needed and stop.
@@ -303,12 +303,12 @@ When this skill is invoked:
 6. **Read the framework instructions** from `{framework}/skills/feedback/SKILL.md`
 
 7. **Read reference materials**:
-   - `assignment.md`
-   - `rubric.md`
+   - `guidelines.md`
+   - `criteria.md`
    - `{framework}/skills/feedback/references/economical_writing_principles.md`
-   - `course_concepts.md` (if present)
+   - `domain_concepts.md` (if present)
 
-8. **Enumerate submissions** by parsing filenames. Group by username (Canvas format: `username_assignmentID_submissionID_filename`).
+8. **Enumerate submissions** by parsing filenames. Group by writer (filename prefix before the first underscore).
 
 9. **Read parallelism setting** from `wmf-config.yaml`: `review.max_parallel_agents` (default: 3)
 
@@ -339,7 +339,7 @@ If using rounds (`submissions/round1/`, `submissions/round2/`):
 Feedback files are written to `feedback/` (or `feedback_round{{N}}/` for rounds).
 
 Each file contains:
-- **Section A: Reviewer Notes** - Technical audit for instructor only
+- **Section A: Reviewer Notes** - Technical audit for reviewer only
 - **Section B: Writer Feedback** - Teaching-focused guidance to share with writer
 '''
     (skill_dir / 'SKILL.md').write_text(skill_content)
@@ -386,7 +386,7 @@ def main():
 
     # Check for existing files
     existing_files = []
-    for f in ['wmf-config.yaml', 'CLAUDE.md', 'assignment.md', 'rubric.md']:
+    for f in ['wmf-config.yaml', 'CLAUDE.md', 'guidelines.md', 'criteria.md']:
         if (target / f).exists():
             existing_files.append(f)
 
@@ -414,11 +414,11 @@ def main():
     print("NEXT STEPS:")
     print()
     print("  1. DROP IN your files:")
-    print("     - assignment.md  <- Your assignment requirements")
-    print("     - rubric.md      <- Your evaluation criteria")
-    print("     - submissions/   <- Writer submissions (DOCX, PDF, XLSX)")
+    print("     - guidelines.md  <- Your writing guidelines and requirements")
+    print("     - criteria.md    <- Your evaluation criteria")
+    print("     - submissions/   <- Writing to review (DOCX, PDF, XLSX)")
     print()
-    print("  2. (Optional) Edit course_concepts.md with domain principles")
+    print("  2. (Optional) Edit domain_concepts.md with domain principles")
     print()
     print("  3. OPEN Claude Code:")
     print(f"     cd {target}")

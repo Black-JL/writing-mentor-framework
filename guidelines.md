@@ -1,14 +1,14 @@
-# Assignment: [ASSIGNMENT TITLE]
+# Writing Guidelines: [TITLE]
 
-> **TEMPLATE INSTRUCTIONS:** Replace this entire file with the actual assignment instructions you gave to writers. Delete this instruction block when done.
+> **TEMPLATE INSTRUCTIONS:** Replace this entire file with the actual writing guidelines you provided to writers. Delete this instruction block when done.
 >
 > The review agent will use this file to:
 > - Understand what writers were asked to do
 > - Check if required sections/elements are present
-> - Evaluate whether writers followed the instructions
+> - Evaluate whether writers followed the guidelines
 >
 > Include:
-> - Assignment objectives and learning goals
+> - Objectives and goals
 > - Required sections or components
 > - Formatting requirements (length, citations, etc.)
 > - Data sources or materials provided
@@ -19,7 +19,7 @@
 
 ## Overview
 
-[Describe the assignment purpose and learning objectives]
+[Describe the purpose and objectives of this writing]
 
 ## Requirements
 
@@ -53,6 +53,6 @@
 
 [List any data sources, readings, or materials provided to writers]
 
-## Due Date
+## Deadline
 
-[Original due date]
+[Deadline]

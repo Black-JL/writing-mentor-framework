@@ -1,6 +1,6 @@
 ---
 name: feedback
-description: Review writer submissions using the Writing Mentor Framework
+description: Review writing submissions using the Writing Mentor Framework
 user-invocable: true
 ---
 
@@ -19,13 +19,13 @@ Review all submissions in this folder using the Writing Mentor Framework.
 ## Prerequisites
 
 Before running, ensure you have:
-- `assignment.md` - Your assignment requirements
-- `rubric.md` - Your evaluation criteria
-- `submissions/` - Folder containing writer work
+- `guidelines.md` - Your writing guidelines and requirements
+- `criteria.md` - Your evaluation criteria
+- `submissions/` - Folder containing writing to review
 
 Optional:
-- `course_concepts.md` - Domain concepts for assumption validation
-- `turnitin/` - Similarity reports
+- `domain_concepts.md` - Domain concepts for assumption validation
+- `similarity_reports/` - Similarity reports
 
 ## Workflow
 
@@ -39,8 +39,8 @@ Optional:
    If dependencies are missing, prompt the user to install them before continuing.
 
 3. **Verify required files exist**:
-   - `assignment.md` (required)
-   - `rubric.md` (required)
+   - `guidelines.md` (required)
+   - `criteria.md` (required)
    - `submissions/` folder with at least one file (required)
 
    If any are missing, tell the user what's needed and stop.
@@ -58,12 +58,12 @@ Optional:
 6. **Read the framework instructions** from `{framework_path}/skills/feedback/SKILL.md`
 
 7. **Read reference materials**:
-   - `assignment.md`
-   - `rubric.md`
+   - `guidelines.md`
+   - `criteria.md`
    - `{framework_path}/skills/feedback/references/economical_writing_principles.md`
-   - `course_concepts.md` (if present)
+   - `domain_concepts.md` (if present)
 
-8. **Enumerate submissions** by parsing filenames. Group by username.
+8. **Enumerate submissions** by parsing filenames. Group by writer (filename prefix before the first underscore).
 
 9. **Read parallelism setting** from `wmf-config.yaml`: `review.max_parallel_agents` (default: 3)
 
@@ -85,7 +85,7 @@ Configure `review.max_parallel_agents` in `wmf-config.yaml`:
 |---------|----------|
 | `1` | Sequential mode — use if you experience rate limits or errors |
 | `3` | Default — good balance of speed and reliability |
-| `5-10` | Large classes with hundreds of submissions |
+| `5-10` | Large batches with hundreds of submissions |
 
 ## Multi-Round Reviews
 
@@ -100,5 +100,5 @@ If submissions are organized in rounds (`submissions/round1/`, `submissions/roun
 Feedback files are written to `feedback/` (or `feedback_round{N}/` for rounds).
 
 Each file contains:
-- **Section A: Reviewer Notes** - Technical audit for instructor only
+- **Section A: Reviewer Notes** - Technical audit for reviewer only
 - **Section B: Writer Feedback** - Teaching-focused guidance to share with writer

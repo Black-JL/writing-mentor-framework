@@ -157,7 +157,7 @@ def extract_docx(path):
         output.append("COMMENTS IN DOCUMENT")
         output.append("=" * 60)
         output.append("The writer's document contains comments.")
-        output.append("These may be instructor feedback or writer notes.")
+        output.append("These may be reviewer feedback or writer notes.")
         output.append("")
         for i, comment in enumerate(comments[:30], 1):  # Limit to 30
             output.append(f"  [{i}] {comment['author']}: \"{comment['text'][:300]}{'...' if len(comment['text']) > 300 else ''}\"")

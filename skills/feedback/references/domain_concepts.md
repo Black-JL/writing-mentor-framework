@@ -1,13 +1,13 @@
-# Course Concepts Reference
+# Domain Concepts Reference
 
-> **TEMPLATE INSTRUCTIONS:** This file is OPTIONAL. Use it to provide course-specific concepts, terminology, and frameworks that the review agent should reference when giving feedback.
+> **TEMPLATE INSTRUCTIONS:** This file is OPTIONAL. Use it to provide domain-specific concepts, terminology, and frameworks that the review agent should reference when giving feedback.
 >
 > Benefits of including this file:
-> - Feedback connects to what writers have studied
-> - Reinforces course vocabulary and frameworks
-> - Shows writers how their work relates to course material
+> - Feedback connects to relevant domain knowledge
+> - Reinforces proper vocabulary and frameworks
+> - Shows writers how their work relates to established principles
 >
-> If you don't have course-specific concepts to include, you can delete this file. The review agent will still work using the assignment requirements, rubric, and writing principles.
+> If you don't have domain-specific concepts to include, you can delete this file. The review agent will still work using the writing guidelines, evaluation criteria, and writing principles.
 
 ---
 
@@ -55,12 +55,12 @@
 
 | Instead of... | Writers should use... | Because... |
 |---------------|-------------------------|------------|
-| [Informal/imprecise term] | [Precise course term] | [Why the precise term matters] |
-| [Informal/imprecise term] | [Precise course term] | [Why the precise term matters] |
+| [Informal/imprecise term] | [Precise domain term] | [Why the precise term matters] |
+| [Informal/imprecise term] | [Precise domain term] | [Why the precise term matters] |
 
 ---
 
-## Textbook/Reading References
+## Reference Materials
 
 If writers should connect their analysis to specific readings:
 

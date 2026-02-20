@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This folder uses the **Writing Mentor Framework** for reviewing submissions.
+This folder uses the **Writing Mentor Framework** for reviewing writing.
 
 ## Configuration
 
@@ -29,15 +29,15 @@ When asked to review submissions, Claude Code should:
 
 1. **Read the config file** (`wmf-config.yaml`) to get framework path and settings
 2. **Read framework instructions** from `{framework_path}/skills/feedback/SKILL.md`
-3. **Read assignment requirements** from `assignment.md` (in this folder)
-4. **Read evaluation criteria** from `rubric.md` (in this folder)
+3. **Read writing guidelines** from `guidelines.md` (in this folder)
+4. **Read evaluation criteria** from `criteria.md` (in this folder)
 5. **Read writing principles** from `{framework_path}/skills/feedback/references/economical_writing_principles.md`
-6. **Read course concepts** from `course_concepts.md` (if present) or `{framework_path}/skills/feedback/references/course_concepts.md`
+6. **Read domain concepts** from `domain_concepts.md` (if present) or `{framework_path}/skills/feedback/references/domain_concepts.md`
 7. **Follow the isolated review workflow** described in the framework SKILL.md
 
 ## Key Principles
 
-- **Two-tier feedback**: Reviewer Notes (for instructor) + Writer Feedback (for writer)
+- **Two-tier feedback**: Reviewer Notes (for reviewer) + Writer Feedback (for writer)
 - **Data validation**: Check internal consistency and external validity
 - **Isolated review**: Each submission reviewed by a fresh agent to prevent bias
 - **Teaching focus**: Guide writers to discover fixes themselves

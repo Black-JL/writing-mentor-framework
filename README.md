@@ -12,14 +12,14 @@ When submissions include multiple components (document + spreadsheet, raw data +
 
 - **Chart-to-formula matching**: Renders Excel charts and matches them to underlying formulas
 - **Cross-file consistency**: Verifies that numbers in the document match the spreadsheet calculations
-- **Assumption auditing**: Checks economic/statistical assumptions against course principles (e.g., flagging nominal GDP when real GDP is needed, or missing PPP adjustment for cross-country comparisons)
+- **Assumption auditing**: Checks economic/statistical assumptions against domain principles (e.g., flagging nominal GDP when real GDP is needed, or missing PPP adjustment for cross-country comparisons)
 - **External source verification**: When data sources are cited, attempts to verify via APIs (FRED, World Bank, BLS) that the data pulled matches what was claimed
 
 ### Two-Tier Feedback System
 
 The framework produces **two distinct sections** of feedback:
 
-**Tier 1: Reviewer Notes** (For Instructor)
+**Tier 1: Reviewer Notes** (For Reviewer)
 - Complete technical audit with exact locations of issues
 - Data pathway mapping (source → calculation → chart → claim)
 - Assumption audit tables (expected vs. found)
@@ -52,12 +52,6 @@ Portions of the systematic evaluation approach are adapted from **Scott Cunningh
 
 The two-tier feedback system, data validation pipeline, assumption auditing, external API verification, pedagogical approach, feedback voice ("demanding but generous mentor"), economical writing principles integration, isolated review workflow, and file extraction pipeline are original to this framework.
 
-## Privacy Considerations
-
-When working with writer submissions, enabling Canvas Anonymous mode before downloading reduces identifiable information in filenames. Full compliance with institutional policies depends on your specific context and vendor agreements.
-
-The framework functions correctly with either anonymized or standard Canvas filenames.
-
 ## Installation
 
 **One-time setup** — Add the `wmf` command to your PATH:
@@ -80,15 +74,14 @@ Now you can use `wmf init` from any folder.
 ```bash
 # 1. Go to your project folder (or create a new one)
 cd /path/to/my-project
-# or: mkdir my-economics-project && cd my-economics-project
 
 # 2. Initialize the framework
 wmf init
 
 # 3. Drop in your files:
-#    - assignment.md (your assignment requirements)
-#    - rubric.md (your evaluation criteria)
-#    - submissions/ (writer work: DOCX, PDF, XLSX)
+#    - guidelines.md (your writing guidelines and requirements)
+#    - criteria.md (your evaluation criteria)
+#    - submissions/ (writing to review: DOCX, PDF, XLSX)
 
 # 4. Open Claude Code
 claude
@@ -111,9 +104,9 @@ python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/proj
 **Alternative: Full Copy (for single use or offline)**
 
 1. **Copy this folder** to your project location
-2. **Replace `assignment.md`** with the assignment or assignment requirements
-3. **Replace `rubric.md`** with your evaluation criteria
-4. **(Recommended) Edit `skills/feedback/references/course_concepts.md`** with domain concepts
+2. **Replace `guidelines.md`** with the writing guidelines and requirements
+3. **Replace `criteria.md`** with your evaluation criteria
+4. **(Recommended) Edit `skills/feedback/references/domain_concepts.md`** with domain concepts
 5. **Place submissions** in the `submissions/` folder
 6. **Ask Claude to review** the submissions
 
@@ -143,14 +136,14 @@ writing-mentor-framework/
 │   │   │   └── render_xlsx.py
 │   │   └── references/
 │   │       ├── economical_writing_principles.md
-│   │       └── course_concepts.md
+│   │       └── domain_concepts.md
 │   └── code-audit/
 │       └── SKILL.md               # Code review skill
 ├── wmf-config.yaml.example        # Config file template
-├── assignment.md                  # Template assignment
-├── rubric.md                      # Template rubric
+├── guidelines.md                  # Template writing guidelines
+├── criteria.md                    # Template evaluation criteria
 ├── submissions/                   # Template folder
-├── turnitin/                      # Template folder
+├── similarity_reports/            # Template folder
 └── .gitignore
 ```
 
@@ -162,11 +155,11 @@ When you run `wmf init`, it creates:
 My-Project/
 ├── wmf-config.yaml        # Points to central framework
 ├── CLAUDE.md              # Instructions for Claude Code
-├── assignment.md          # ← DROP IN your requirements
-├── rubric.md              # ← DROP IN your criteria
-├── course_concepts.md     # Your domain concepts (optional)
-├── submissions/           # ← DROP IN writer work
-├── turnitin/              # Similarity reports (optional)
+├── guidelines.md          # ← DROP IN your writing guidelines
+├── criteria.md            # ← DROP IN your evaluation criteria
+├── domain_concepts.md     # Your domain concepts (optional)
+├── submissions/           # ← DROP IN writing to review
+├── similarity_reports/    # Similarity reports (optional)
 └── skills/
     └── feedback/
         └── SKILL.md       # /feedback command (auto-installed)
@@ -178,21 +171,21 @@ The `/feedback` skill is automatically installed, so you can just type `/feedbac
 
 ### Required Files
 
-**`assignment.md`** - The requirements for the assignment
+**`guidelines.md`** - The writing guidelines and requirements
 - Include all required sections/components
 - Include formatting requirements
 - Include any resources provided
 
-**`rubric.md`** - Your evaluation criteria
+**`criteria.md`** - Your evaluation criteria
 - Define each criterion with point values
 - Describe what excellent, competent, and developing work looks like
 - Include total points if applicable
 
 ### Recommended File
 
-**`skills/feedback/references/course_concepts.md`** - Domain-specific concepts for assumption validation
+**`skills/feedback/references/domain_concepts.md`** - Domain-specific concepts for assumption validation
 
-This file **enhances** the assumption auditing capability. Without it, the framework still provides full feedback on writing quality, analysis structure, internal consistency, and data validation—it just won't be able to check assumptions against your specific course principles. Include:
+This file **enhances** the assumption auditing capability. Without it, the framework still provides full feedback on writing quality, analysis structure, internal consistency, and data validation—it just won't be able to check assumptions against your specific domain principles. Include:
 - Key economic/statistical principles that submissions should follow
 - Common errors to flag (e.g., "comparing nominal values across countries without PPP adjustment")
 - Correct approaches for common analytical tasks
@@ -213,8 +206,8 @@ This file **enhances** the assumption auditing capability. Without it, the frame
 
 ### Optional Files
 
-**`turnitin/`** - Similarity reports
-- Place exported reports here (or in `submissions/` with "turnitin" in the filename)
+**`similarity_reports/`** - Similarity reports
+- Place exported reports here (or in `submissions/` with "similarity" in the filename)
 - The framework incorporates findings into feedback
 - Feedback explains what matches mean and teaches proper citation practices
 
@@ -276,11 +269,11 @@ Provide feedback on all submissions
 2. **Renders Excel charts** as images for visual review
 3. **Maps data pathways**: Raw data → Calculations → Charts → Claims in document
 4. **Validates internal consistency**: Do formulas match charts? Do written claims match spreadsheet values?
-5. **Audits assumptions**: Checks against course concepts and economic/statistical principles
+5. **Audits assumptions**: Checks against domain concepts and economic/statistical principles
 6. **Attempts external verification**: Uses APIs (FRED, World Bank, etc.) to verify cited data when possible
-7. **Evaluates against the rubric** with scores for each criterion
+7. **Evaluates against the criteria** with scores for each criterion
 8. **Provides two-tier feedback**:
-   - **Reviewer Notes**: Complete technical audit for instructor
+   - **Reviewer Notes**: Complete technical audit for reviewer
    - **Writer Feedback**: Teaching-focused guidance for the author
 
 ### Performance Note
@@ -302,7 +295,7 @@ After all individual reviews complete, the framework automatically generates `fe
 - **One-paragraph summaries** per writer (key strength, biggest concern, score)
 - **Common issues** across all submissions
 
-This gives the instructor an at-a-glance view without opening 20+ individual files.
+This gives the reviewer an at-a-glance view without opening 20+ individual files.
 
 **Parallelism settings** (in `wmf-config.yaml`):
 
@@ -341,7 +334,7 @@ The centralized setup (Option A in Quick Start) keeps framework code separate fr
 ### Benefits
 
 - **Single source of truth**: Updates to the framework apply to all projects
-- **Smaller project folders**: Each project only contains assignment-specific files
+- **Smaller project folders**: Each project only contains project-specific files
 - **Cleaner separation**: Framework code lives separately from project data
 
 ### Config File Reference
@@ -352,10 +345,10 @@ The `wmf-config.yaml` file controls how the framework operates. See `wmf-config.
 # Path to the framework installation
 framework_path: ~/writing-mentor-framework
 
-# Assignment files (in this folder)
-assignment: assignment.md
-rubric: rubric.md
-course_concepts: course_concepts.md  # or null
+# Writing guidelines and evaluation criteria (in this folder)
+guidelines: guidelines.md
+criteria: criteria.md
+domain_concepts: domain_concepts.md  # or null
 
 # Submission handling
 submissions:
@@ -377,7 +370,7 @@ review:
 
 ### Multi-Round Reviews
 
-For assignments with resubmissions:
+For writing with resubmissions:
 
 1. Enable rounds in config: `submissions.rounds.enabled: true`
 2. Organize submissions: `submissions/round1/`, `submissions/round2/`, etc.
@@ -394,10 +387,10 @@ The framework automatically:
 
 ### Adding Domain-Specific Concepts (Recommended)
 
-Edit `course_concepts.md` (in your project folder, or `skills/feedback/references/course_concepts.md` if using the full copy approach) to include:
+Edit `domain_concepts.md` (in your project folder, or `skills/feedback/references/domain_concepts.md` if using the full copy approach) to include:
 - Key principles from your field (economics, statistics, etc.)
 - Common analytical errors to flag
-- Correct approaches for typical assignments
+- Correct approaches for typical analyses
 - This file enhances the assumption auditing capability
 
 ### Modifying the Feedback Format
