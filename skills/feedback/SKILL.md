@@ -157,6 +157,15 @@ Good writing is clear, concrete, and vigorous. When evaluating prose, apply the 
 - **Boilerplate** - "This paper discusses..." openings, table-of-contents paragraphs
 - **Abstract language** - when concrete examples would clarify
 
+**Structure and plain words (also read before reviewing):**
+- `references/peer.md`: one point per paragraph, PEER (Point, Evidence, Explain, Repeat/link), and the **skip test** (can the argument be followed from topic sentences alone?). A failed skip test is the most useful single piece of structural feedback a writer can get. Show them their own topic sentences in a list and ask where the argument breaks.
+- `references/orwell.md`: Orwell's six rules and four habits (dying metaphors, verbal false limbs, pretentious diction, meaningless words). Use the habit names in feedback; they teach a writer what to look for next time.
+- **AI-edit meaning drift** (`references/peer.md`, last section): when a submission looks AI-polished, check for synonym swaps, dropped qualifiers, changed verb strength, and widened outcomes. Point to where the claim now says more than the evidence supports. That is substantive, gradeable feedback, and it doesn't require guessing whether AI was used.
+
+### Voice of the feedback itself
+
+Tier 2 feedback goes to writers under the instructor's name. If a personal voice skill is installed (e.g. `jared-voice` in `~/.claude/skills/`), write Tier 2 in that voice, in Standard mode, keeping the demanding-but-generous mentor stance above. Tier 1 (reviewer notes) stays plain and technical.
+
 ### Presentation Preparation (if applicable)
 If writers will present their findings, feedback should prepare them to:
 - Anticipate tough questions from the audience
