@@ -1,7 +1,7 @@
 # Setup wizard, one set of instructions, and the data-loss fixes
 
 - **ID:** 2026-11-22-setup-wizard  ·  **Tier:** 2
-- **Status:** Built — awaiting Jared's click-through, merge to main, and publishing the release
+- **Status:** Shipped 2026-11-22 (915f75b, release v2.0.0). Jared: "merge it and publish the release" (also accepted D10, the Mac one-line installer)
 - **Branch / worktree:** spec/2026-11-22-setup-wizard at ~/GitHub/writing-mentor-framework-wizard
 
 ## Goal
@@ -116,7 +116,7 @@ tighten privacy.
 | D7 | Old `wmf init` and config | Remove | Jared 2026-11-22 |
 | D8 | Output | `feedback` folder; .md per writer + Word copy of Writer Feedback | Jared 2026-11-22 |
 | D9 | Mac installer | Yes | Jared 2026-11-22 |
-| D10 | Mac installer form | One line pasted into Terminal, not a `.command` file: a downloaded `.command` loses its run permission and Gatekeeper blocks it. Changed during build; flagged to Jared at hand-back | Claude 2026-11-22 (needs Jared's OK) |
+| D10 | Mac installer form | One line pasted into Terminal, not a `.command` file: a downloaded `.command` loses its run permission and Gatekeeper blocks it. Changed during build; flagged to Jared at hand-back | Claude 2026-11-22; accepted with the merge, Jared 2026-11-22 |
 
 ## Constitution rules this touches
 - Data rules: made-up sample files only, in tests and CI
