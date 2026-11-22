@@ -1,7 +1,7 @@
 # Setup wizard, one set of instructions, and the data-loss fixes
 
 - **ID:** 2026-11-22-setup-wizard  ·  **Tier:** 2
-- **Status:** Clarifying — awaiting Jared's approval
+- **Status:** Approved (Jared, "do it", 2026-11-22) — Building
 - **Branch / worktree:** spec/2026-11-22-setup-wizard at ~/GitHub/writing-mentor-framework-wizard
 
 ## Goal

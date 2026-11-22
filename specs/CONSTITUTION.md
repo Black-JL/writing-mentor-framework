@@ -1,7 +1,7 @@
 # Constitution — Writing Mentor Framework
 
 Standing rules every spec is checked against. Each rule cites where it came from.
-Changing this file needs Jared's OK.
+Changing this file needs Jared's OK. Approved by Jared ("do it") 2026-11-22.
 
 ## Purpose
 Let a mentor have Claude Code review written work (documents, spreadsheets, charts)
