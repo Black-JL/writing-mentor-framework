@@ -47,3 +47,11 @@ def render_xlsx(path, out_dir):
 
     # Convert PDF pages to PNG for visual review
     pdf_to_pngs(pdf_path, out_dir / path.stem)
+
+
+if __name__ == '__main__':
+    # Older review folders call this script directly; hand off to render_charts.py,
+    # which picks the best tool installed (same --input/--out options).
+    import sys as _sys
+    from render_charts import main as _main
+    _sys.exit(_main())

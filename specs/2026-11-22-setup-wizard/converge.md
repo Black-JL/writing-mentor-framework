@@ -22,6 +22,8 @@ Evidence produced in the 2026-11-22 session. Made-up sample files only.
 - T-C3 Time limits on outside programs (Quick Look hung on the Mac test machine).
 - /mentor used "students" unprompted → told to say "writers".
 
+- T-C5 Older review folders call `render_xlsx_quicklook.py` / `render_xlsx_excel.py` directly; T10 had removed their entry points (silent no-op). Restored as hand-offs to `render_charts.py`. Checked: old-folder commands (check_dependencies, extract, render_xlsx_quicklook) run with system `python3` on a sample folder; charts rendered.
+
 ## Not tested
 - Quitting Excel when the script opened it: Excel was already open on Jared's Mac, so only the "leave it open" path ran.
 - Excel chart rendering on Windows (no Excel on the test machine).

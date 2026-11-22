@@ -25,3 +25,4 @@ Tick when done AND its check passed. Commit after each, message starts with the 
 - [x] T-C2 — Excel on Mac fixed and tidied; OCR cut-off per page (A4)
 - [x] T-C3 — time limits on outside programs (A3)
 - [x] T-C4 — /mentor says "writers", not "students" (A9, style)
+- [x] T-C5 — old review folders' script commands work again (assumption: existing folders keep working)
