@@ -344,7 +344,8 @@ def extract_xlsx(path):
 
 def extract_pdf(path, work_dir):
     text = run([tool('pdftotext'), '-layout', str(path), '-']).stdout
-    if len(re.sub(r'\s+', '', text)) >= 200:
+    pages = max(1, text.count('\f'))  # pdftotext ends each page with a form feed
+    if len(re.sub(r'\s+', '', text)) >= 40 * pages:
         return text, 'text layer'
     if not find_tool('tesseract') or not find_tool('pdftoppm'):
         return text, 'little text found; OCR not available (tesseract missing)'

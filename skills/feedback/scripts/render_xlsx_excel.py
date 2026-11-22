@@ -30,18 +30,27 @@ finally {
 
 
 def _export_mac(path, pdf_path):
+    # Remember whether Excel was already open, and quit it afterwards if it wasn't.
     script = f'''
+    set wasRunning to application "Microsoft Excel" is running
     tell application "Microsoft Excel"
         set display alerts to false
-        set wb to open POSIX file "{path}"
+        try
+            set wb to open workbook workbook file name (POSIX file "{path}" as text)
+        on error errMsg number errNum
+            if not wasRunning then quit saving no
+            error errMsg number errNum
+        end try
         set pdfPath to POSIX file "{pdf_path}"
         try
-            save workbook as wb filename pdfPath file format PDF
+            save workbook as wb filename pdfPath file format PDF file format
         on error errMsg number errNum
             close wb saving no
+            if not wasRunning then quit saving no
             error errMsg number errNum
         end try
         close wb saving no
+        if not wasRunning then quit saving no
     end tell
     '''
     return run(['osascript', '-e', script], check=False)
