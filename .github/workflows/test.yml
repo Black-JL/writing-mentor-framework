@@ -1,0 +1,59 @@
+name: Install and test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: winget is present
+        run: winget --version
+      - name: Install (first run)
+        shell: cmd
+        env:
+          WMF_SOURCE: ${{ github.workspace }}
+        run: call install\Install-Writing-Mentor.cmd
+      - name: Install again (update)
+        shell: cmd
+        env:
+          WMF_SOURCE: ${{ github.workspace }}
+        run: call install\Install-Writing-Mentor.cmd
+      - name: /mentor command installed with real paths
+        shell: pwsh
+        run: |
+          $s = Get-Content "$HOME\.claude\skills\mentor\SKILL.md" -Raw
+          if ($s -match '\{\{') { throw 'placeholders left in SKILL.md' }
+          Select-String -Path "$HOME\.claude\skills\mentor\SKILL.md" -Pattern 'FRAMEWORK =|PY ='
+      - name: Dependency check (installed copy)
+        shell: pwsh
+        run: |
+          & "$HOME\writing-mentor-framework\.venv\Scripts\python.exe" "$HOME\writing-mentor-framework\skills\feedback\scripts\check_dependencies.py"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+      - name: Script checks on made-up samples (installed copy)
+        shell: pwsh
+        run: |
+          & "$HOME\writing-mentor-framework\.venv\Scripts\python.exe" "$HOME\writing-mentor-framework\tests\run_tests.py"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+
+  mac:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install (first run)
+        env:
+          WMF_SOURCE: ${{ github.workspace }}
+        run: bash install/install.sh
+      - name: Install again (update)
+        env:
+          WMF_SOURCE: ${{ github.workspace }}
+        run: bash install/install.sh
+      - name: /mentor command installed with real paths
+        run: "! grep -q '{{' ~/.claude/skills/mentor/SKILL.md && grep -E 'FRAMEWORK =|PY =' ~/.claude/skills/mentor/SKILL.md"
+      - name: Script checks on made-up samples (installed copy)
+        run: ~/writing-mentor-framework/.venv/bin/python ~/writing-mentor-framework/tests/run_tests.py
