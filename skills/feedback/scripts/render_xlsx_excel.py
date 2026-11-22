@@ -1,16 +1,36 @@
 #!/usr/bin/env python3
+"""
+Render XLSX workbooks (including their charts) to PDF and PNG using Microsoft Excel.
+
+macOS: drives Excel through AppleScript.
+Windows: drives Excel through PowerShell (Excel's COM interface).
+Both need Excel installed and poppler (pdftoppm) for the PNG step.
+"""
 import argparse
-import subprocess
+import os
 from pathlib import Path
 
+from _tools import IS_MAC, IS_WINDOWS, pdf_to_pngs, run, utf8_console
 
-def run_osascript(script):
-    return subprocess.run(['osascript', '-e', script], capture_output=True, text=True)
+# Paths go in through environment variables so spaces and quotes are safe.
+WINDOWS_SCRIPT = r'''
+$ErrorActionPreference = 'Stop'
+$xl = New-Object -ComObject Excel.Application
+$xl.Visible = $false
+$xl.DisplayAlerts = $false
+try {
+    $wb = $xl.Workbooks.Open($env:WMF_XLSX_IN, 0, $true)
+    try { $wb.ExportAsFixedFormat(0, $env:WMF_PDF_OUT) }
+    finally { $wb.Close($false) }
+}
+finally {
+    $xl.Quit()
+    [void][System.Runtime.InteropServices.Marshal]::ReleaseComObject($xl)
+}
+'''
 
 
-def render_xlsx(path, out_dir):
-    out_dir.mkdir(parents=True, exist_ok=True)
-    pdf_path = out_dir / f"{path.stem}.pdf"
+def _export_mac(path, pdf_path):
     script = f'''
     tell application "Microsoft Excel"
         set display alerts to false
@@ -25,24 +45,40 @@ def render_xlsx(path, out_dir):
         close wb saving no
     end tell
     '''
-    result = run_osascript(script)
+    return run(['osascript', '-e', script], check=False)
+
+
+def _export_windows(path, pdf_path):
+    env = os.environ.copy()
+    env['WMF_XLSX_IN'] = str(path.resolve())
+    env['WMF_PDF_OUT'] = str(pdf_path.resolve())
+    return run(
+        ['powershell', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass',
+         '-Command', WINDOWS_SCRIPT],
+        check=False, env=env,
+    )
+
+
+def render_xlsx(path, out_dir):
+    out_dir.mkdir(parents=True, exist_ok=True)
+    pdf_path = out_dir / f"{path.stem}.pdf"
+    if IS_MAC:
+        result = _export_mac(path, pdf_path)
+    elif IS_WINDOWS:
+        result = _export_windows(path, pdf_path)
+    else:
+        raise RuntimeError("Excel rendering works only on macOS and Windows. Use render_xlsx.py (LibreOffice).")
+
     if result.returncode != 0:
         raise RuntimeError(f"Excel render failed: {result.stderr.strip()} {result.stdout.strip()}")
-
     if not pdf_path.exists():
         raise RuntimeError(f"Excel did not create PDF for {path.name}")
 
-    # Convert PDF pages to PNG for visual review
-    subprocess.run([
-        'pdftoppm',
-        '-r', '200',
-        '-png',
-        str(pdf_path),
-        str(out_dir / path.stem)
-    ], check=True)
+    pdf_to_pngs(pdf_path, out_dir / path.stem)
 
 
 def main():
+    utf8_console()
     parser = argparse.ArgumentParser(description='Render XLSX to PDF/PNG using Excel.')
     parser.add_argument('--input', required=True, help='XLSX file or directory')
     parser.add_argument('--out', required=True, help='Output directory')

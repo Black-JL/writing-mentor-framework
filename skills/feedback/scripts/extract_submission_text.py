@@ -11,15 +11,13 @@ import xml.etree.ElementTree as ET
 
 import olefile
 
+from _tools import run, tool, utf8_console
+
 NS = {
     'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main',
     'w14': 'http://schemas.microsoft.com/office/word/2010/wordml',
     's': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
 }
-
-
-def run(cmd, check=True):
-    return subprocess.run(cmd, capture_output=True, text=True, check=check)
 
 
 def write_text(path, text):
@@ -302,7 +300,7 @@ def extract_xlsx(path):
 def extract_pdf(path, out_dir):
     txt_path = out_dir / f"{path.name}.txt"
     try:
-        result = run(['pdftotext', str(path), '-'])
+        result = run([tool('pdftotext'), str(path), '-'])
         text = result.stdout
     except Exception as exc:
         text = f"[pdftotext error: {exc}]"
@@ -312,9 +310,9 @@ def extract_pdf(path, out_dir):
         ocr_text = []
         img_prefix = out_dir / path.stem
         try:
-            run(['pdftoppm', '-r', '200', '-png', str(path), str(img_prefix)])
+            run([tool('pdftoppm'), '-r', '200', '-png', str(path), str(img_prefix)])
             for img in sorted(out_dir.glob(f"{path.stem}-*.png")):
-                ocr = run(['tesseract', str(img), 'stdout'])
+                ocr = run([tool('tesseract'), str(img), 'stdout'])
                 ocr_text.append(ocr.stdout)
         except Exception as exc:
             ocr_text.append(f"[ocr error: {exc}]")
@@ -350,6 +348,7 @@ def extract(path, out_dir):
 
 
 def main():
+    utf8_console()
     parser = argparse.ArgumentParser(description='Extract text from DOCX/PDF/XLSX submissions.')
     parser.add_argument('--input', required=True, help='File or directory to process')
     parser.add_argument('--out', required=True, help='Output directory for extracted text')

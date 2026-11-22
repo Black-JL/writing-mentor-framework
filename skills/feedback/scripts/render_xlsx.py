@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
+"""Render XLSX workbooks to PDF and PNG with LibreOffice (macOS, Windows, Linux)."""
 import argparse
 import os
-import subprocess
 from pathlib import Path
 
-
-def run(cmd, check=True, env=None):
-    return subprocess.run(cmd, capture_output=True, text=True, check=check, env=env)
+from _tools import IS_WINDOWS, pdf_to_pngs, run, tool, utf8_console
 
 
 def render_xlsx(path, out_dir):
@@ -15,7 +13,7 @@ def render_xlsx(path, out_dir):
     user_profile = out_dir / 'lo-profile'
     user_profile.mkdir(parents=True, exist_ok=True)
     cmd = [
-        '/Applications/LibreOffice.app/Contents/MacOS/soffice',
+        tool('soffice'),
         '--headless',
         '--nologo',
         '--nofirststartwizard',
@@ -23,14 +21,15 @@ def render_xlsx(path, out_dir):
         '--nodefault',
         '--nolockcheck',
         '--invisible',
-        f'-env:UserInstallation=file://{user_profile}',
+        f'-env:UserInstallation={user_profile.resolve().as_uri()}',
         '--convert-to', 'pdf',
         '--outdir', str(out_dir),
         str(path)
     ]
     env = os.environ.copy()
-    env['SAL_USE_VCLPLUGIN'] = 'gen'
-    env['HOME'] = str(out_dir)
+    if not IS_WINDOWS:  # the 'gen' display plugin is X11-only
+        env['SAL_USE_VCLPLUGIN'] = 'gen'
+        env['HOME'] = str(out_dir)
     result = run(cmd, check=False, env=env)
     if result.returncode != 0:
         details = f"returncode={result.returncode} stdout={result.stdout.strip()} stderr={result.stderr.strip()}"
@@ -44,16 +43,11 @@ def render_xlsx(path, out_dir):
         raise RuntimeError(f"PDF not created for {path.name}")
 
     # Convert PDF pages to PNG for visual review
-    run([
-        'pdftoppm',
-        '-r', '200',
-        '-png',
-        str(pdf_path),
-        str(out_dir / path.stem)
-    ])
+    pdf_to_pngs(pdf_path, out_dir / path.stem)
 
 
 def main():
+    utf8_console()
     parser = argparse.ArgumentParser(description='Render XLSX to PDF and PNGs for chart review.')
     parser.add_argument('--input', required=True, help='XLSX file or directory')
     parser.add_argument('--out', required=True, help='Output directory')

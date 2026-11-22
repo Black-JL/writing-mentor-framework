@@ -1,416 +1,272 @@
 # Writing Mentor Framework
 
-A structured framework for providing rigorous feedback on written work. Goes beyond surface-level review to validate data, check internal and external consistency, and deliver two-tier feedback for reviewers and writers.
+A set of instructions and scripts that lets Claude Code review written work the way a demanding but generous mentor would. It reads the documents, spreadsheets and charts a writer hands in, checks that the numbers and claims agree with each other, scores the work against your rubric, and writes feedback in two parts: technical notes for you, the mentor, and teaching-focused feedback for the writer.
 
-## What This Framework Does
+## What it does
 
-The Writing Mentor Framework provides **comprehensive validation and teaching-focused feedback** on written work and analytical submissions.
+### Checks the work, not only the prose
 
-### Data Validation & Consistency Checking
+When a submission has several parts (a report plus a spreadsheet, raw data plus analysis, charts pasted into a document), the framework traces each number from its source to the claim it supports:
 
-When submissions include multiple components (document + spreadsheet, raw data + analysis, embedded charts), the framework validates the entire data pipeline:
+- **Charts against formulas:** turns Excel charts into images and compares them with the formulas behind them.
+- **Document against spreadsheet:** checks that numbers in the text match the spreadsheet's calculations.
+- **Assumptions:** checks the analysis against the principles of your field. For example, it flags nominal GDP used where real GDP is needed, or a cross-country comparison with no PPP adjustment.
+- **Cited data:** when a writer cites a public source, it tries to confirm the figures through that source's API (FRED, World Bank, BLS).
 
-- **Chart-to-formula matching**: Renders Excel charts and matches them to underlying formulas
-- **Cross-file consistency**: Verifies that numbers in the document match the spreadsheet calculations
-- **Assumption auditing**: Checks economic/statistical assumptions against course principles (e.g., flagging nominal GDP when real GDP is needed, or missing PPP adjustment for cross-country comparisons)
-- **External source verification**: When data sources are cited, attempts to verify via APIs (FRED, World Bank, BLS) that the data pulled matches what was claimed
+### Feedback in two parts
 
-### Two-Tier Feedback System
+Each review produces one file with two sections.
 
-The framework produces **two distinct sections** of feedback:
+**Section A: Reviewer Notes (for the mentor only)**
+- Every issue, with its exact location
+- The path each number takes: source → calculation → chart → claim
+- An assumption table (expected vs. found)
+- What external checks were tried and what they found
+- How each issue was found
 
-**Tier 1: Reviewer Notes** (For Instructor)
-- Complete technical audit with exact locations of issues
-- Data pathway mapping (source → calculation → chart → claim)
-- Assumption audit tables (expected vs. found)
-- External validation attempts and results
-- Evidence trail documenting how issues were identified
+**Section B: Writer Feedback (to share with the writer)**
+- Shows the evidence that something is wrong, without handing over the fix
+- Points to the area of concern instead of correcting line by line
+- Asks questions that lead the writer to find the fix
+- The writer learns by doing the correction
 
-**Tier 2: Writer Feedback** (For Writer/Author)
-- Teaching-focused guidance that shows *evidence* something is wrong without giving the exact fix
-- Points to areas of concern without line-by-line correction
-- Prompts reflection with questions that guide the writer toward discovering the fix themselves
-- Helps writers learn by doing the correction work themselves
-
-**Example of the difference:**
+**The same issue, written for each reader:**
 
 | Reviewer Notes | Writer Feedback |
 |----------------|-----------------|
-| "Cell D15 uses `=B15/C15` but C15 contains nominal GDP. FRED API confirms series GDP (nominal) was used, not GDPC1 (real)." | "Your GDP comparison shows a pattern, but I found an inconsistency between your data source and your claims. Review whether your GDP figures are nominal or real—this distinction matters. What adjustment would be needed if the data is nominal?" |
+| "Cell D15 uses `=B15/C15` but C15 contains nominal GDP. FRED confirms series GDP (nominal) was used, not GDPC1 (real)." | "Your GDP comparison shows a pattern, but your data source and your claims don't agree. Check whether your GDP figures are nominal or real; the difference matters here. What adjustment would you need if the data is nominal?" |
 
-## Attribution
+### The mentor's stance
 
-This framework was created by **Jared Black**.
+- Checks the data and calculations before judging the writing
+- Explains why an issue matters, not only that it exists
+- Treats clear writing as a professional skill, not grammar policing
+- Puts the most important improvements first, sorted as Major Concerns, Minor Concerns and Suggestions
+- Ends with questions for the writer to reflect on
 
-Portions of the systematic evaluation approach are adapted from **Scott Cunningham's Referee 2 protocol** ([MixtapeTools](https://github.com/scunning1975/MixtapeTools)), specifically:
+Writing feedback follows `economical_writing_principles.md`: active verbs, concrete examples, plain language, a natural voice.
 
-- **Systematic checklists** for consistent evaluation coverage
-- **Severity tiering** (Major Concerns / Minor Concerns / Suggestions)
-- **"Questions for Reflection"** section (adapted from "Questions for Authors")
-- **Executive summary** structure
-- **Code audit skill** (adapted from the Code Audit and Replication Package Audit)
+## What you need
 
-The two-tier feedback system, data validation pipeline, assumption auditing, external API verification, pedagogical approach, feedback voice ("demanding but generous mentor"), economical writing principles integration, isolated review workflow, and file extraction pipeline are original to this framework.
+- **Claude Code**, signed in with a Claude Pro or Max plan (or an API key). It runs in a terminal, or in Cursor and VS Code through the Claude Code extension.
+- **Python 3**
+- **poppler** (reads PDFs), **tesseract** (reads scanned PDFs), and the `olefile` Python package (reads old .doc and .xls files)
+- **Optional:** Microsoft Excel or LibreOffice, so the review can see charts as pictures. Without either, it still reads every formula and value.
 
-## Privacy Considerations
+## Install
 
-When working with writer submissions, enabling Canvas Anonymous mode before downloading reduces identifiable information in filenames. Full compliance with institutional policies depends on your specific context and vendor agreements.
-
-The framework functions correctly with either anonymized or standard Canvas filenames.
-
-## Installation
-
-**One-time setup** — Add the `wmf` command to your PATH:
+### macOS
 
 ```bash
-# Clone or download the framework to a permanent location
+brew install poppler tesseract
+python3 -m pip install olefile
 git clone https://github.com/Black-JL/writing-mentor-framework.git ~/writing-mentor-framework
-
-# Add to your shell profile (~/.zshrc or ~/.bashrc)
 echo 'export PATH="$HOME/writing-mentor-framework/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-Now you can use `wmf init` from any folder.
+Install Claude Code from [claude.com/claude-code](https://claude.com/claude-code) if you don't have it.
 
-## Quick Start
+### Windows 10 or 11
 
-**For each new project:**
+Type these into PowerShell.
 
-```bash
-# 1. Go to your project folder (or create a new one)
-cd /path/to/my-project
-# or: mkdir my-economics-project && cd my-economics-project
+1. Install the tools:
+   ```powershell
+   winget install -e --id Git.Git
+   winget install -e --id Python.Python.3.12
+   winget install -e --id oschwartz10612.Poppler
+   winget install -e --id UB-Mannheim.TesseractOCR
+   irm https://claude.ai/install.ps1 | iex
+   ```
+   Close PowerShell and open it again so it finds the new programs.
+2. Download the framework and the Python package it needs:
+   ```powershell
+   git clone https://github.com/Black-JL/writing-mentor-framework.git "$HOME\writing-mentor-framework"
+   python -m pip install olefile
+   ```
+3. Add the `wmf` command:
+   ```powershell
+   [Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path","User") + ";$HOME\writing-mentor-framework\bin", "User")
+   ```
+   Close PowerShell and open it again.
 
-# 2. Initialize the framework
-wmf init
+On Windows the Python command is `python`; on macOS it is `python3`.
 
-# 3. Drop in your files:
-#    - assignment.md (your assignment requirements)
-#    - rubric.md (your evaluation criteria)
-#    - submissions/ (writer work: DOCX, PDF, XLSX)
-
-# 4. Open Claude Code
-claude
-
-# 5. Type: /feedback
-```
-
-That's it. Claude will check dependencies, extract submissions, and generate two-tier feedback.
-
----
-
-**Alternative: Manual Setup**
-
-If you prefer not to install the `wmf` command:
+### Check the install
 
 ```bash
-python ~/writing-mentor-framework/scripts/init_project.py --target /path/to/project
+python3 ~/writing-mentor-framework/skills/feedback/scripts/check_dependencies.py
 ```
 
-**Alternative: Full Copy (for single use or offline)**
+On Windows: `python "$HOME\writing-mentor-framework\skills\feedback\scripts\check_dependencies.py"`
 
-1. **Copy this folder** to your project location
-2. **Replace `assignment.md`** with the assignment or assignment requirements
-3. **Replace `rubric.md`** with your evaluation criteria
-4. **(Recommended) Edit `skills/feedback/references/course_concepts.md`** with domain concepts
-5. **Place submissions** in the `submissions/` folder
-6. **Ask Claude to review** the submissions
+It lists anything missing with the install command for your system, and says which tool it will use for chart images.
 
-## Folder Structure
+## Use it
 
-### Framework Installation
+Do this once for each assignment you review.
 
-```
-writing-mentor-framework/
-├── README.md                      # This file
-├── CLAUDE.md                      # Instructions for Claude Code
-├── bin/
-│   └── wmf                        # CLI tool (add to PATH)
-├── scripts/
-│   └── init_project.py            # Initialize new project folders
-├── templates/
-│   ├── CLAUDE.md.minimal          # Minimal CLAUDE.md template
-│   └── skills/feedback/SKILL.md    # /feedback skill template
-├── skills/
-│   ├── feedback/
-│   │   ├── SKILL.md               # Detailed feedback workflow
-│   │   ├── scripts/               # Extraction utilities
-│   │   │   ├── check_dependencies.py
-│   │   │   ├── extract_submission_text.py
-│   │   │   ├── render_xlsx_excel.py
-│   │   │   ├── render_xlsx_quicklook.py
-│   │   │   └── render_xlsx.py
-│   │   └── references/
-│   │       ├── economical_writing_principles.md
-│   │       └── course_concepts.md
-│   └── code-audit/
-│       └── SKILL.md               # Code review skill
-├── wmf-config.yaml.example        # Config file template
-├── assignment.md                  # Template assignment
-├── rubric.md                      # Template rubric
-├── submissions/                   # Template folder
-├── turnitin/                      # Template folder
-└── .gitignore
+1. **Set up a folder.** In a terminal, go to the folder (or a new one) and run:
+   ```bash
+   wmf init
+   ```
+2. **Add your files:**
+   - `assignment.md`: what the assignment asked for
+   - `rubric.md`: how you score it
+   - `course_concepts.md` (optional but recommended): the principles of your field the analysis should follow
+   - `submissions/`: the writers' files (Word, PDF, Excel)
+3. **Open Claude Code in that folder.** Either type `claude` in the terminal, or open the folder in Cursor and open the Claude Code panel.
+4. **Type `/feedback`.**
+
+Claude checks the tools, pulls the text and formulas out of every file, renders the charts, and then reviews each writer's work. The feedback lands in `feedback/`, one file per writer, plus `feedback/FEEDBACK_SUMMARY.md`.
+
+If you'd rather not install `wmf`, run the setup script directly:
+
+```bash
+python3 ~/writing-mentor-framework/scripts/init_project.py --target /path/to/folder
 ```
 
-### Project Folder (After `wmf init`)
-
-When you run `wmf init`, it creates:
+### What `wmf init` creates
 
 ```
-My-Project/
-├── wmf-config.yaml        # Points to central framework
-├── CLAUDE.md              # Instructions for Claude Code
-├── assignment.md          # ← DROP IN your requirements
-├── rubric.md              # ← DROP IN your criteria
-├── course_concepts.md     # Your domain concepts (optional)
-├── submissions/           # ← DROP IN writer work
-├── turnitin/              # Similarity reports (optional)
-└── skills/
-    └── feedback/
-        └── SKILL.md       # /feedback command (auto-installed)
+My-Assignment/
+├── wmf-config.yaml        # settings, and where the framework is installed
+├── CLAUDE.md              # instructions Claude Code reads in this folder
+├── assignment.md          # ← replace with your assignment
+├── rubric.md              # ← replace with your rubric
+├── course_concepts.md     # ← your field's principles (optional)
+├── submissions/           # ← put the writers' files here
+├── turnitin/              # similarity reports (optional)
+└── .claude/skills/feedback/SKILL.md   # the /feedback command
 ```
 
-The `/feedback` skill is automatically installed, so you can just type `/feedback` in Claude Code.
+The framework itself stays in one place, so an update to it applies to every assignment folder.
 
-## Setup Details
+## Your input files
 
-### Required Files
+**`assignment.md`:** the required sections and components, formatting rules, and any data or readings provided.
 
-**`assignment.md`** - The requirements for the assignment
-- Include all required sections/components
-- Include formatting requirements
-- Include any resources provided
+**`rubric.md`:** each criterion with its points, and what excellent, competent and developing work looks like.
 
-**`rubric.md`** - Your evaluation criteria
-- Define each criterion with point values
-- Describe what excellent, competent, and developing work looks like
-- Include total points if applicable
+**`course_concepts.md`:** without it, the review still covers writing, structure, internal consistency and data checks. With it, the review can also catch errors specific to your field. Include key principles, common errors to flag, correct approaches, and terms. For example:
 
-### Recommended File
-
-**`skills/feedback/references/course_concepts.md`** - Domain-specific concepts for assumption validation
-
-This file **enhances** the assumption auditing capability. Without it, the framework still provides full feedback on writing quality, analysis structure, internal consistency, and data validation—it just won't be able to check assumptions against your specific course principles. Include:
-- Key economic/statistical principles that submissions should follow
-- Common errors to flag (e.g., "comparing nominal values across countries without PPP adjustment")
-- Correct approaches for common analytical tasks
-- Terminology and definitions
-
-**Example content:**
 ```markdown
 ## GDP Comparisons
-- Cross-time comparisons require real (inflation-adjusted) GDP, not nominal
-- Cross-country comparisons require PPP adjustment or common currency conversion
-- Per-capita normalization needed when comparing countries of different sizes
+- Comparisons over time need real (inflation-adjusted) GDP, not nominal
+- Comparisons across countries need PPP adjustment or a common currency
+- Countries of different sizes need per-capita figures
 
 ## Statistical Claims
-- Correlation does not imply causation
-- Statistical significance requires appropriate tests
-- Sample size affects reliability of estimates
+- Correlation does not show causation
+- Claims of significance need an appropriate test
 ```
 
-### Optional Files
+**`turnitin/` (optional):** put exported similarity reports here. The feedback explains what the matches mean and how to cite properly.
 
-**`turnitin/`** - Similarity reports
-- Place exported reports here (or in `submissions/` with "turnitin" in the filename)
-- The framework incorporates findings into feedback
-- Feedback explains what matches mean and teaches proper citation practices
+**`submissions/`:** handles
+- PDFs, including scanned pages (read with OCR)
+- Word documents (.docx, .doc), including Excel objects pasted into them
+- Excel workbooks (.xlsx, .xls): formulas read, charts rendered
+- Raw data and plain text files
 
-### Submissions Folder
+When a writer hands in more than one version, the review uses the latest.
 
-Place all submission files in `submissions/`. The framework handles multi-component submissions:
-- PDF documents (with OCR for scanned pages)
-- Word documents (.docx, .doc) including embedded Excel objects
-- Excel workbooks (.xlsx, .xls) - formulas extracted, charts rendered
-- Raw data files
-- Plain text files
+## How a review runs
 
-## Dependencies
+1. Pulls text and formulas from every file (OCR for scanned PDFs, embedded Excel included)
+2. Renders Excel charts as images, using Excel, then LibreOffice, then Quick Look (macOS), whichever is installed
+3. Maps each number's path: raw data → calculation → chart → claim
+4. Checks that formulas match charts and that the text matches the spreadsheet
+5. Checks assumptions against `course_concepts.md` and general economic and statistical principles
+6. Tries to confirm cited public data through its API
+7. Scores each rubric criterion
+8. Writes the Reviewer Notes and the Writer Feedback
 
-The framework will **automatically check** for required dependencies on first run and provide platform-specific install guidance. It detects your operating system and available package managers.
+**Each writer is reviewed separately.** A fresh Claude agent reviews each writer's work, so one review can't color the next. By default three run at once. Expect several minutes per writer. Because each agent starts clean, a large batch won't run out of context, and you can leave it running.
 
-**Required:**
-- `olefile` — Python package for old Office formats
-- `poppler` — PDF text extraction (provides `pdftotext`)
-- `tesseract` — OCR for scanned PDFs
+**The summary.** When every review is done, `feedback/FEEDBACK_SUMMARY.md` lists all scores from highest to lowest, the mean, median and range, one paragraph per writer (main strength, biggest concern, score), and the issues that came up across many submissions.
 
-**What happens without these?**
-- Without olefile: Cannot read older .doc/.xls formats (pre-2007)
-- Without poppler: Cannot extract text from PDF files
-- Without tesseract: Cannot OCR scanned/image-based PDFs
+## Settings
 
-The framework still works for supported file types even with missing dependencies.
-
-**Manual install by platform:**
-
-| Platform | Package Manager | Commands |
-|----------|-----------------|----------|
-| macOS | Homebrew | `brew install poppler tesseract` |
-| Ubuntu/Debian | apt | `sudo apt-get install poppler-utils tesseract-ocr` |
-| Fedora | dnf | `sudo dnf install poppler-utils tesseract` |
-| Windows | Chocolatey | `choco install poppler tesseract` |
-| Windows | Scoop | `scoop install poppler tesseract` |
-| All | pip | `pip install olefile` |
-
-Or let the framework prompt you — it will detect what's missing, explain what each dependency does, and show the exact commands for your system.
-
-## Usage
-
-Open Claude Code in the project folder and ask:
-
-```
-Review the submissions in the submissions folder
-```
-
-Or:
-
-```
-Provide feedback on all submissions
-```
-
-## How the Framework Works
-
-1. **Extracts text and formulas** from all submission files (including OCR for scanned PDFs, embedded Excel objects)
-2. **Renders Excel charts** as images for visual review
-3. **Maps data pathways**: Raw data → Calculations → Charts → Claims in document
-4. **Validates internal consistency**: Do formulas match charts? Do written claims match spreadsheet values?
-5. **Audits assumptions**: Checks against course concepts and economic/statistical principles
-6. **Attempts external verification**: Uses APIs (FRED, World Bank, etc.) to verify cited data when possible
-7. **Evaluates against the rubric** with scores for each criterion
-8. **Provides two-tier feedback**:
-   - **Reviewer Notes**: Complete technical audit for instructor
-   - **Writer Feedback**: Teaching-focused guidance for the author
-
-### Performance Note
-
-**The framework takes time to run** — expect several minutes per submission for thorough review. However, it's designed to be reliable:
-
-- **One agent per submission**: Each writer's work is reviewed by a separate agent with fresh context
-- **No context accumulation**: Because each agent starts clean, the conversation history doesn't grow unbounded
-- **Parallel batching**: Submissions are reviewed in parallel batches (default: 3 at a time) for speed
-
-This architecture means the framework **won't time out or hit context window limits**, even with large batches. You can start it and walk away — it will work through all submissions reliably.
-
-### Feedback Summary Report
-
-After all individual reviews complete, the framework automatically generates `feedback/FEEDBACK_SUMMARY.md` — a single file containing:
-
-- **Score table** (all writers, sorted highest to lowest)
-- **Summary statistics** (mean, median, range)
-- **One-paragraph summaries** per writer (key strength, biggest concern, score)
-- **Common issues** across all submissions
-
-This gives the instructor an at-a-glance view without opening 20+ individual files.
-
-**Parallelism settings** (in `wmf-config.yaml`):
-
-| Setting | Use Case |
-|---------|----------|
-| `max_parallel_agents: 1` | Sequential mode — use if you experience rate limits or errors |
-| `max_parallel_agents: 3` | Default — good balance of speed and reliability |
-| `max_parallel_agents: 5-10` | Large batches with hundreds of submissions |
-
-## Feedback Philosophy
-
-The framework provides feedback as a demanding but generous mentor would:
-
-- **Validates before evaluating**: Checks the underlying data and calculations, not just the prose
-- **Explains WHY issues matter**, not just that they exist
-- **Shows evidence** of problems without giving exact fixes (in writer feedback)
-- **Prompts reflection** with questions that guide writers toward solutions
-- **Treats writing quality as a professional skill**, not pedantic grammar policing
-- **Prioritizes concrete improvements** so writers know what to focus on
-
-## Writing Evaluation
-
-All feedback applies the principles from `economical_writing_principles.md`:
-
-- Active verbs over nominalization
-- Concrete examples over abstractions
-- Plain language over jargon
-- Natural voice over bureaucratic prose
-
-Writing feedback focuses on WHY clear writing matters professionally—unclear writing suggests unclear thinking to readers.
-
-## Centralized Setup Details
-
-The centralized setup (Option A in Quick Start) keeps framework code separate from project data.
-
-### Benefits
-
-- **Single source of truth**: Updates to the framework apply to all projects
-- **Smaller project folders**: Each project only contains assignment-specific files
-- **Cleaner separation**: Framework code lives separately from project data
-
-### Config File Reference
-
-The `wmf-config.yaml` file controls how the framework operates. See `wmf-config.yaml.example` for all options:
+`wmf-config.yaml` in each assignment folder. See `wmf-config.yaml.example` for every option.
 
 ```yaml
-# Path to the framework installation
 framework_path: ~/writing-mentor-framework
 
-# Assignment files (in this folder)
 assignment: assignment.md
 rubric: rubric.md
 course_concepts: course_concepts.md  # or null
 
-# Submission handling
 submissions:
   folder: submissions
   rounds:
-    enabled: false  # Set true for multi-round reviews
+    enabled: false        # true for assignments with resubmissions
 
-# Output folders
 output:
   extracted: feedback_extracted
   rendered: feedback_rendered
   feedback: feedback
 
-# Review settings
 review:
-  max_parallel_agents: 3  # 1=sequential, 3=default, 5-10=large batches
-  compare_to_round: null  # For resubmission comparisons
+  max_parallel_agents: 3  # 1 if you hit rate limits; 5-10 for large batches
+  compare_to_round: null  # e.g. 1 when reviewing round 2
 ```
 
-### Multi-Round Reviews
+### Resubmissions
 
-For assignments with resubmissions:
+1. Set `submissions.rounds.enabled: true`
+2. Put each round in its own folder: `submissions/round1/`, `submissions/round2/`
+3. Set `review.compare_to_round: 1` when reviewing round 2
 
-1. Enable rounds in config: `submissions.rounds.enabled: true`
-2. Organize submissions: `submissions/round1/`, `submissions/round2/`, etc.
-3. Set comparison: `review.compare_to_round: 1` (for round 2 reviews)
+The review then reads the writer's tracked changes, compares the new version with the earlier feedback, and gives both a standalone score and an assessment of how much improved.
 
-The framework automatically:
-- Extracts track changes from DOCX files to show what writers modified
-- Compares current work to prior feedback
-- Provides both standalone scores and improvement assessments
+## Privacy
 
----
+Claude Code sends the text of each file to Anthropic for review. Before you run it, confirm that your organization allows this for the work you're reviewing. If names shouldn't be sent, remove them from the files and filenames first; the review works the same either way. The `.gitignore` keeps `submissions/` and all feedback out of git.
 
-## Customization
+## Changing how it works
 
-### Adding Domain-Specific Concepts (Recommended)
+- **Field-specific checks:** edit `course_concepts.md` in the assignment folder.
+- **Feedback format, sections or voice:** edit `skills/feedback/SKILL.md` in the framework.
+- **Writing standards:** edit `skills/feedback/references/economical_writing_principles.md`.
 
-Edit `course_concepts.md` (in your project folder, or `skills/feedback/references/course_concepts.md` if using the full copy approach) to include:
-- Key principles from your field (economics, statistics, etc.)
-- Common analytical errors to flag
-- Correct approaches for typical assignments
-- This file enhances the assumption auditing capability
+## Framework files
 
-### Modifying the Feedback Format
+```
+writing-mentor-framework/
+├── bin/
+│   ├── wmf                         # wmf command, macOS/Linux
+│   └── wmf.cmd                     # wmf command, Windows
+├── scripts/init_project.py         # sets up an assignment folder
+├── skills/
+│   ├── feedback/
+│   │   ├── SKILL.md                # the full review instructions
+│   │   ├── scripts/
+│   │   │   ├── check_dependencies.py
+│   │   │   ├── extract_submission_text.py
+│   │   │   ├── render_charts.py           # picks Excel / LibreOffice / Quick Look
+│   │   │   ├── render_xlsx_excel.py       # Excel (macOS or Windows)
+│   │   │   ├── render_xlsx.py             # LibreOffice (any system)
+│   │   │   ├── render_xlsx_quicklook.py   # Quick Look (macOS only)
+│   │   │   └── _tools.py                  # finds poppler, tesseract, LibreOffice
+│   │   └── references/             # writing principles, example course concepts
+│   └── code-audit/SKILL.md         # review of code files handed in with the writing
+├── templates/                      # templates used by wmf init
+├── wmf-config.yaml.example
+└── CLAUDE.md                       # instructions for using this folder directly
+```
 
-Edit `skills/feedback/SKILL.md` to:
-- Change the output format
-- Add or remove feedback sections
-- Adjust the two-tier structure
-- Modify the mentor voice
+## Attribution
 
-### Adjusting Writing Standards
+Created by **Jared Black**.
 
-Edit `skills/feedback/references/economical_writing_principles.md` to:
-- Emphasize different writing principles
-- Add discipline-specific writing guidance
-- Adjust the level of writing feedback
+Parts of the systematic review approach are adapted from **Scott Cunningham's Referee 2 protocol** ([MixtapeTools](https://github.com/scunning1975/MixtapeTools)):
+
+- Systematic checklists for consistent coverage
+- Severity tiers (Major Concerns / Minor Concerns / Suggestions)
+- The "Questions for Reflection" section (adapted from "Questions for Authors")
+- The executive summary structure
+- The code audit skill (adapted from the Code Audit and Replication Package Audit)
+
+The two-part feedback, the data checks, the assumption audit, external API checks, the teaching approach, the demanding-but-generous mentor voice, the economical writing principles, the one-agent-per-writer review, and the file extraction scripts are original to this framework.

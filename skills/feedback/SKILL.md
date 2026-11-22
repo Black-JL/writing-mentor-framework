@@ -263,7 +263,7 @@ Check if the submission contains code files:
 - Run `scripts/extract_submission_text.py` to extract DOCX text, XLSX formulas/labels, embedded Excel objects, and PDF text
 - If PDF text is sparse, the script automatically runs OCR
 - **Render Excel charts** to images for visual review:
-  - `scripts/render_xlsx_excel.py` (preferred) or `scripts/render_xlsx_quicklook.py` (fallback)
+  - `scripts/render_charts.py` (tries Excel on macOS/Windows, then LibreOffice, then Quick Look on macOS)
 - **Extract formulas** from all Excel files for validation
 
 ### 2a) Check for track changes and comments (resubmissions)
@@ -553,8 +553,10 @@ If the submission contains track changes or comments (extracted automatically), 
 
 ### scripts/
 - `scripts/extract_submission_text.py`: Extract DOCX text, XLSX formulas/labels, PDF text; uses OCR for image-based PDFs
-- `scripts/render_xlsx_excel.py`: Convert XLSX to PDF/PNG via Microsoft Excel for chart review
-- `scripts/render_xlsx_quicklook.py`: Convert XLSX to PNG using Quick Look when Excel automation is unavailable
+- `scripts/render_charts.py`: Render XLSX charts to PNG with the best tool installed (calls the three below)
+- `scripts/render_xlsx_excel.py`: Convert XLSX to PDF/PNG via Microsoft Excel (macOS or Windows)
+- `scripts/render_xlsx.py`: Convert XLSX to PDF/PNG via LibreOffice (any system)
+- `scripts/render_xlsx_quicklook.py`: Convert XLSX to PNG using Quick Look (macOS only)
 
 ### references/
 - `references/economical_writing_principles.md` for evaluating writing quality

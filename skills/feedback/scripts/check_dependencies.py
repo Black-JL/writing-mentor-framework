@@ -8,6 +8,9 @@ import subprocess
 import sys
 import shutil
 import platform
+from pathlib import Path
+
+from _tools import find_tool, utf8_console
 
 
 def get_platform_info():
@@ -15,13 +18,13 @@ def get_platform_info():
     system = platform.system().lower()
 
     package_managers = {
+        'winget': shutil.which('winget'),
         'brew': shutil.which('brew'),
         'apt': shutil.which('apt-get'),
         'dnf': shutil.which('dnf'),
         'yum': shutil.which('yum'),
         'pacman': shutil.which('pacman'),
         'choco': shutil.which('choco'),
-        'winget': shutil.which('winget'),
         'scoop': shutil.which('scoop'),
     }
 
@@ -40,8 +43,8 @@ def check_python_package(package_name):
 
 
 def check_command(command):
-    """Check if a command-line tool is available."""
-    return shutil.which(command) is not None
+    """Check if a command-line tool is available (PATH or usual install folders)."""
+    return find_tool(command) is not None
 
 
 def get_install_instructions(system, managers):
@@ -64,6 +67,7 @@ def get_install_instructions(system, managers):
                 'pacman': 'sudo pacman -S poppler',
             },
             'windows': {
+                'winget': 'winget install -e --id oschwartz10612.Poppler',
                 'choco': 'choco install poppler',
                 'scoop': 'scoop install poppler',
                 'manual': 'Download from: https://github.com/oschwartz10612/poppler-windows/releases',
@@ -81,6 +85,7 @@ def get_install_instructions(system, managers):
                 'pacman': 'sudo pacman -S tesseract',
             },
             'windows': {
+                'winget': 'winget install -e --id UB-Mannheim.TesseractOCR',
                 'choco': 'choco install tesseract',
                 'scoop': 'scoop install tesseract',
                 'manual': 'Download from: https://github.com/UB-Mannheim/tesseract/wiki',
@@ -125,6 +130,7 @@ def get_package_manager_install_instructions(system, managers):
 
 
 def main():
+    utf8_console()
     system, managers = get_platform_info()
     instructions = get_install_instructions(system, managers)
 
@@ -136,15 +142,25 @@ def main():
         missing.append('olefile')
 
     # Check command-line tools
-    if not check_command('pdftotext'):
+    if not (check_command('pdftotext') and check_command('pdftoppm')):
         missing.append('poppler')
 
     if not check_command('tesseract'):
         missing.append('tesseract')
 
+    # Optional: chart images need Excel or LibreOffice
+    import render_charts
+    renderers = [name for name, _ in render_charts.methods()]
+    if renderers:
+        chart_note = f"Excel chart images: will use {', '.join(renderers)}."
+    else:
+        chart_note = ("Excel chart images: not available (optional). Install Microsoft Excel "
+                      "or LibreOffice to let the review see charts as pictures.")
+
     # All good!
     if not missing:
         print("✓ All dependencies are installed. The framework is ready to use.")
+        print(chart_note)
         return 0
 
     # Report what's missing
@@ -233,8 +249,14 @@ def main():
     print("prompt you before running any install commands, and you can always")
     print("install them manually using the commands above.")
     print()
+    if system == 'windows':
+        print("On Windows, close and reopen the terminal after installing so it")
+        print("picks up the new programs.")
+        print()
+    print(chart_note)
+    print()
     print("Run this check again after installing to verify:")
-    print("  python skills/feedback/scripts/check_dependencies.py")
+    print(f"  python \"{Path(__file__).resolve().as_posix()}\"")
     print()
 
     return 1

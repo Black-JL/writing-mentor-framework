@@ -33,9 +33,11 @@ If any dependencies are missing, the script will list them and show the install 
 ```
 Some dependencies are missing. Would you like me to install them?
 - pip install olefile
-- brew install poppler
-- brew install tesseract
+- brew install poppler         (Windows: winget install -e --id oschwartz10612.Poppler)
+- brew install tesseract       (Windows: winget install -e --id UB-Mannheim.TesseractOCR)
 ```
+
+Use the exact commands `check_dependencies.py` prints; they match the user's system.
 
 Only proceed with the review workflow after dependencies are confirmed.
 
@@ -51,8 +53,8 @@ Before reviewing, run the extraction scripts to prepare all materials:
 # Extract text and formulas from all submissions
 python skills/feedback/scripts/extract_submission_text.py --input submissions --out feedback_extracted
 
-# Render Excel charts for visual review and formula validation
-python skills/feedback/scripts/render_xlsx_quicklook.py --input submissions --out feedback_rendered
+# Render Excel charts for visual review (uses Excel, then LibreOffice, then Quick Look)
+python skills/feedback/scripts/render_charts.py --input submissions --out feedback_rendered
 ```
 
 Then enumerate submissions by parsing filenames (Canvas format: `username_assignmentID_submissionID_filename`). Group files by username. For writers with multiple submissions, identify the final version (highest submissionID).
@@ -183,22 +185,21 @@ Extract text and formulas from all submissions:
 python skills/feedback/scripts/extract_submission_text.py --input submissions --out feedback_extracted
 ```
 
-Render Excel charts (Quick Look method):
+Render Excel charts (picks the best tool installed: Excel on macOS/Windows, then LibreOffice, then Quick Look on macOS):
 ```bash
-python skills/feedback/scripts/render_xlsx_quicklook.py --input submissions --out feedback_rendered
+python skills/feedback/scripts/render_charts.py --input submissions --out feedback_rendered
 ```
-
-Render Excel charts (Excel automation - preferred for chart fidelity):
-```bash
-python skills/feedback/scripts/render_xlsx_excel.py --input submissions --out feedback_rendered
-```
+If no renderer is installed it says so and the review continues from formulas and values.
 
 ## Dependencies
 
 The extraction scripts require:
 - `olefile` Python package (`pip install olefile`)
-- `pdftotext` and `pdftoppm` from poppler (`brew install poppler`)
-- `tesseract` for OCR fallback (`brew install tesseract`)
+- `pdftotext` and `pdftoppm` from poppler (`brew install poppler`; Windows: `winget install -e --id oschwartz10612.Poppler`)
+- `tesseract` for OCR fallback (`brew install tesseract`; Windows: `winget install -e --id UB-Mannheim.TesseractOCR`)
+- Optional, for chart images: Microsoft Excel or LibreOffice
+
+On Windows the command is `python`; on macOS it is `python3`.
 
 ## Setup for a New Project
 

@@ -52,7 +52,7 @@ Optional:
 
 5. **Render Excel charts** (if any .xlsx files exist):
    ```bash
-   python {framework_path}/skills/feedback/scripts/render_xlsx_quicklook.py --input submissions --out feedback_rendered
+   python {framework_path}/skills/feedback/scripts/render_charts.py --input submissions --out feedback_rendered
    ```
 
 6. **Read the framework instructions** from `{framework_path}/skills/feedback/SKILL.md`
