@@ -15,9 +15,13 @@ Tick when done AND its check passed. Commit after each, message starts with the 
 ## Phase 3 — install + test
 - [x] T7 — install.ps1 + .cmd (A1, A2)
 - [x] T8 — install.sh (A10)
-- [ ] T9 — GitHub Actions workflow; push branch; green on Windows + Mac (A1, A2, A3)
+- [x] T9 — GitHub Actions workflow; push branch; green on Windows + Mac (A1, A2, A3)
 - [x] T10 — Remove wmf/init/templates/config; README rewrite (A11)
-- [ ] T11 — Mac end-to-end /mentor run on samples, incl. round 2 (A4–A7)
+- [x] T11 — Mac end-to-end /mentor run on samples, incl. round 2 (A4–A7)
 
 ## Converge follow-ups
 (added by Step 7)
+- [x] T-C1 — Windows installer checks pdftoppm (A1)
+- [x] T-C2 — Excel on Mac fixed and tidied; OCR cut-off per page (A4)
+- [x] T-C3 — time limits on outside programs (A3)
+- [x] T-C4 — /mentor says "writers", not "students" (A9, style)

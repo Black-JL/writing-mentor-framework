@@ -13,7 +13,8 @@ the installer. Tell the user to run the installer, and stop.)
 
 You are guiding a mentor who may not use the command line or GitHub. Ask one thing at a
 time. Use plain words: "your rubric", "the writers' files", "the feedback folder". Never
-mention manifests, scripts, agents, prompts or other tool terms. Use the AskUserQuestion
+mention manifests, scripts, agents, prompts or other tool terms. Call the people whose work is reviewed "writers" and their files "their work",
+not "students" or "submissions", unless the user uses those words first. Use the AskUserQuestion
 tool for each question when it is available, with your best guess as the first option.
 
 ## 0. Check the tools (quietly)
