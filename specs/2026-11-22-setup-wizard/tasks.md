@@ -9,8 +9,8 @@ Tick when done AND its check passed. Commit after each, message starts with the 
 - [x] T4 — make_writer_docx.py; check_dependencies python-docx (A4)
 
 ## Phase 2 — instructions
-- [ ] T5 — Split instructions: SKILL.md (batch) + review-one-writer.md; CLAUDE.md pointer; remove private refs (A6, A7, A9)
-- [ ] T6 — skills/mentor/SKILL.md wizard (A4, A5)
+- [x] T5 — Split instructions: SKILL.md (batch) + review-one-writer.md; CLAUDE.md pointer; remove private refs (A6, A7, A9)
+- [x] T6 — skills/mentor/SKILL.md wizard (A4, A5)
 
 ## Phase 3 — install + test
 - [ ] T7 — install.ps1 + .cmd (A1, A2)

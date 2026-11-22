@@ -35,4 +35,4 @@ When Stuckler had ChatGPT tighten sentences, the prose got leaner, but the meani
 3. **Changed verb strength:** "reduce" became "harm". That is stronger than the evidence supports.
 4. **Widened outcome:** "metabolic outcomes" became "metabolic health".
 
-In Research-Project-Flow, the `write` skill (Step 5) checks for exactly these four changes.
+When reviewing, check for exactly these four changes: they are where a claim quietly grows beyond its evidence.
