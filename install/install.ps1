@@ -49,9 +49,10 @@ function Find-Python {
         "$env:ProgramFiles\Python3*\python.exe")
 }
 function Find-Git { Find-Command 'git' @("$env:ProgramFiles\Git\cmd\git.exe") }
-function Find-Poppler { Find-Command 'pdftotext' @(
-        "$env:LOCALAPPDATA\Microsoft\WinGet\Packages\oschwartz10612.Poppler*\poppler-*\Library\bin\pdftotext.exe",
-        "$env:ProgramFiles\poppler*\Library\bin\pdftotext.exe") }
+# pdftoppm, not pdftotext: some programs (e.g. Git, TeX) ship pdftotext alone.
+function Find-Poppler { Find-Command 'pdftoppm' @(
+        "$env:LOCALAPPDATA\Microsoft\WinGet\Packages\oschwartz10612.Poppler*\poppler-*\Library\bin\pdftoppm.exe",
+        "$env:ProgramFiles\poppler*\Library\bin\pdftoppm.exe") }
 function Find-Tesseract { Find-Command 'tesseract' @(
         "$env:ProgramFiles\Tesseract-OCR\tesseract.exe",
         "${env:ProgramFiles(x86)}\Tesseract-OCR\tesseract.exe",

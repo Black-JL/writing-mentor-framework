@@ -60,7 +60,7 @@ def get_install_instructions(system, managers):
             'all_platforms': 'python -m pip install python-docx',
         },
         'poppler': {
-            'description': 'PDF toolkit (provides pdftotext for extracting text from PDFs)',
+            'description': 'PDF toolkit (pdftotext reads PDF text; pdftoppm turns pages into images for OCR and charts)',
             'darwin': {
                 'brew': 'brew install poppler',
             },
