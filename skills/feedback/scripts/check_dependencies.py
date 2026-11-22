@@ -52,8 +52,12 @@ def get_install_instructions(system, managers):
 
     instructions = {
         'olefile': {
-            'description': 'Python package for reading older Office file formats',
-            'all_platforms': 'pip install olefile',
+            'description': 'Python package for reading objects pasted into Word files',
+            'all_platforms': 'python -m pip install olefile',
+        },
+        'python-docx': {
+            'description': 'Python package for saving the Writer Feedback as a Word file',
+            'all_platforms': 'python -m pip install python-docx',
         },
         'poppler': {
             'description': 'PDF toolkit (provides pdftotext for extracting text from PDFs)',
@@ -140,6 +144,8 @@ def main():
     # Check Python packages
     if not check_python_package('olefile'):
         missing.append('olefile')
+    if not check_python_package('docx'):
+        missing.append('python-docx')
 
     # Check command-line tools
     if not (check_command('pdftotext') and check_command('pdftoppm')):
@@ -183,7 +189,9 @@ def main():
     print("-" * 70)
     print()
     if 'olefile' in missing:
-        print("  • Without olefile: Cannot read older .doc/.xls formats (pre-2007)")
+        print("  • Without olefile: Cannot read some spreadsheets pasted into Word files")
+    if 'python-docx' in missing:
+        print("  • Without python-docx: Writer Feedback is not saved as a Word file")
     if 'poppler' in missing:
         print("  • Without poppler: Cannot extract text from PDF files")
     if 'tesseract' in missing:

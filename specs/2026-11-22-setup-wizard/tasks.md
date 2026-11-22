@@ -3,10 +3,10 @@
 Tick when done AND its check passed. Commit after each, message starts with the task id.
 
 ## Phase 1 — scripts
-- [ ] T1 — Made-up samples + test runner (serves A3, A8)
-- [ ] T2 — Extraction fixes: no crash, all sheets, cell addresses, shared formulas, cut notices, .doc/.xls, per-file report, olefile optional, subfolders, whole paragraphs, OCR image names (A3)
-- [ ] T3 — prepare_review.py group/run + .gitignore (A3, A6, A8)
-- [ ] T4 — make_writer_docx.py; check_dependencies python-docx (A4)
+- [x] T1 — Made-up samples + test runner (serves A3, A8)
+- [x] T2 — Extraction fixes: no crash, all sheets, cell addresses, shared formulas, cut notices, .doc/.xls, per-file report, olefile optional, subfolders, whole paragraphs, OCR image names (A3)
+- [x] T3 — prepare_review.py group/run + .gitignore (A3, A6, A8)
+- [x] T4 — make_writer_docx.py; check_dependencies python-docx (A4)
 
 ## Phase 2 — instructions
 - [ ] T5 — Split instructions: SKILL.md (batch) + review-one-writer.md; CLAUDE.md pointer; remove private refs (A6, A7, A9)

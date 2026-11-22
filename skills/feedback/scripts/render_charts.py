@@ -11,6 +11,7 @@ If none works, it prints why and exits 0. The review continues without chart
 images; formulas and values are still read by extract_submission_text.py.
 """
 import argparse
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -32,6 +33,25 @@ def excel_available():
 
 
 def methods():
+    """Renderers to try, best first. WMF_CHART_TOOLS (e.g. "libreoffice" or "none") limits them."""
+    allowed = os.environ.get('WMF_CHART_TOOLS', 'excel,libreoffice,quicklook').lower().split(',')
+    found = [m for m in _all_methods() if m[0].lower().replace(' ', '') in allowed]
+    return found
+
+
+def render_file(path, out_dir, available=None):
+    """Render one workbook. Returns (method name or None, list of error notes)."""
+    errors = []
+    for name, render in (methods() if available is None else available):
+        try:
+            render(path, out_dir)
+            return name, errors
+        except Exception as exc:
+            errors.append(f'{name}: {exc}')
+    return None, errors
+
+
+def _all_methods():
     found = []
     if excel_available() and find_tool('pdftoppm'):
         import render_xlsx_excel
@@ -67,13 +87,11 @@ def main():
 
     failed = []
     for path in files:
-        for name, render in available:
-            try:
-                render(path, out_dir)
-                print(f"Rendered {path.name} with {name}")
-                break
-            except Exception as exc:  # try the next method
-                print(f"  {name} could not render {path.name}: {exc}")
+        used, errors = render_file(path, out_dir, available)
+        for e in errors:
+            print(f"  {e}")
+        if used:
+            print(f"Rendered {path.name} with {used}")
         else:
             failed.append(path.name)
 
