@@ -13,4 +13,4 @@ def render_xlsx(path, out_dir):
         '-s', '1400',
         '-o', str(out_dir),
         str(path)
-    ], check=True, capture_output=True, text=True)
+    ], check=True, capture_output=True, text=True, timeout=90)  # Quick Look can hang with no screen

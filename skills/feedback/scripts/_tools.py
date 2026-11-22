@@ -85,11 +85,12 @@ def tool(name):
     return path
 
 
-def run(cmd, check=True, env=None):
-    """Run a command and read its output as UTF-8 (Windows defaults to cp1252)."""
+def run(cmd, check=True, env=None, timeout=300):
+    """Run a command, read its output as UTF-8 (Windows defaults to cp1252), and give up
+    after `timeout` seconds so a stuck program can't stall a review."""
     return subprocess.run(
         cmd, capture_output=True, text=True, encoding='utf-8', errors='replace',
-        check=check, env=env,
+        check=check, env=env, timeout=timeout,
     )
 
 
