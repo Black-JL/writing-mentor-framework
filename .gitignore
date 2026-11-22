@@ -16,9 +16,6 @@ __pycache__/
 /feedback/
 feedback_report_*.md
 
-# Submissions (don't commit writer work)
-submissions/*
-!submissions/.gitkeep
 
 # IDE
 .idea/
@@ -31,3 +28,10 @@ submissions/*
 .venv/
 env/
 venv/
+
+# Never commit writers' work or review output
+submissions/
+feedback*/
+*_extracted/
+*_rendered/
+turnitin/

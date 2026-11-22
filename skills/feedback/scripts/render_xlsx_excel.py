@@ -6,7 +6,6 @@ macOS: drives Excel through AppleScript.
 Windows: drives Excel through PowerShell (Excel's COM interface).
 Both need Excel installed and poppler (pdftoppm) for the PNG step.
 """
-import argparse
 import os
 from pathlib import Path
 
@@ -75,25 +74,3 @@ def render_xlsx(path, out_dir):
         raise RuntimeError(f"Excel did not create PDF for {path.name}")
 
     pdf_to_pngs(pdf_path, out_dir / path.stem)
-
-
-def main():
-    utf8_console()
-    parser = argparse.ArgumentParser(description='Render XLSX to PDF/PNG using Excel.')
-    parser.add_argument('--input', required=True, help='XLSX file or directory')
-    parser.add_argument('--out', required=True, help='Output directory')
-    args = parser.parse_args()
-
-    in_path = Path(args.input)
-    out_dir = Path(args.out)
-
-    if in_path.is_dir():
-        for path in sorted(in_path.iterdir()):
-            if path.suffix.lower() == '.xlsx':
-                render_xlsx(path, out_dir)
-    else:
-        render_xlsx(in_path, out_dir)
-
-
-if __name__ == '__main__':
-    main()

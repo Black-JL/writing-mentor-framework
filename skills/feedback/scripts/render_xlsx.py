@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Render XLSX workbooks to PDF and PNG with LibreOffice (macOS, Windows, Linux)."""
-import argparse
 import os
 from pathlib import Path
 
@@ -44,25 +43,3 @@ def render_xlsx(path, out_dir):
 
     # Convert PDF pages to PNG for visual review
     pdf_to_pngs(pdf_path, out_dir / path.stem)
-
-
-def main():
-    utf8_console()
-    parser = argparse.ArgumentParser(description='Render XLSX to PDF and PNGs for chart review.')
-    parser.add_argument('--input', required=True, help='XLSX file or directory')
-    parser.add_argument('--out', required=True, help='Output directory')
-    args = parser.parse_args()
-
-    in_path = Path(args.input)
-    out_dir = Path(args.out)
-
-    if in_path.is_dir():
-        for path in sorted(in_path.iterdir()):
-            if path.suffix.lower() == '.xlsx':
-                render_xlsx(path, out_dir)
-    else:
-        render_xlsx(in_path, out_dir)
-
-
-if __name__ == '__main__':
-    main()

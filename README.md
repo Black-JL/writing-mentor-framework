@@ -48,129 +48,84 @@ Writing feedback follows `economical_writing_principles.md`: active verbs, concr
 
 ## What you need
 
-- **Claude Code**, signed in with a Claude Pro or Max plan (or an API key). It runs in a terminal, or in Cursor and VS Code through the Claude Code extension.
-- **Python 3**
-- **poppler** (reads PDFs), **tesseract** (reads scanned PDFs), and the `olefile` Python package (reads old .doc and .xls files)
-- **Optional:** Microsoft Excel or LibreOffice, so the review can see charts as pictures. Without either, it still reads every formula and value.
+- A Mac, or a PC with Windows 10 or 11
+- A Claude Pro or Max plan, used through Claude Code: in Cursor or VS Code (the Claude Code extension), in the Claude desktop app's Code tab, or in a terminal
+- Optional: Microsoft Excel or LibreOffice, so the review can see charts as pictures. Without either, it still reads every formula, value and chart data range.
+
+The installer adds everything else.
 
 ## Install
 
-### macOS
+### Windows
+
+1. Download **[Install-Writing-Mentor.cmd](https://github.com/Black-JL/writing-mentor-framework/releases/latest/download/Install-Writing-Mentor.cmd)**.
+2. Double-click it. Windows will say "Windows protected your PC", because the file comes from the internet and isn't from a known publisher. Click **More info**, then **Run anyway**.
+3. Windows may also ask for permission while programs install. Click **Yes**.
+
+It installs what is missing (Git, Python, poppler for PDFs, Tesseract for scanned pages, Claude Code), puts the framework in your user folder under `writing-mentor-framework`, and adds the `/mentor` command to Claude Code. It needs winget, which comes with current Windows; if your computer is managed by your organization and winget is blocked, ask IT to install "App Installer".
+
+### Mac
+
+Open Terminal and paste:
 
 ```bash
-brew install poppler tesseract
-python3 -m pip install olefile
-git clone https://github.com/Black-JL/writing-mentor-framework.git ~/writing-mentor-framework
-echo 'export PATH="$HOME/writing-mentor-framework/bin:$PATH"' >> ~/.zshrc
-source ~/.zshrc
+curl -fsSL https://raw.githubusercontent.com/Black-JL/writing-mentor-framework/main/install/install.sh | bash
 ```
 
-Install Claude Code from [claude.com/claude-code](https://claude.com/claude-code) if you don't have it.
+It needs [Homebrew](https://brew.sh). It installs poppler, Tesseract, Python and Claude Code if missing, puts the framework in `~/writing-mentor-framework`, and adds the `/mentor` command.
 
-### Windows 10 or 11
+### Updating
 
-Type these into PowerShell.
-
-1. Install the tools:
-   ```powershell
-   winget install -e --id Git.Git
-   winget install -e --id Python.Python.3.12
-   winget install -e --id oschwartz10612.Poppler
-   winget install -e --id UB-Mannheim.TesseractOCR
-   irm https://claude.ai/install.ps1 | iex
-   ```
-   Close PowerShell and open it again so it finds the new programs.
-2. Download the framework and the Python package it needs:
-   ```powershell
-   git clone https://github.com/Black-JL/writing-mentor-framework.git "$HOME\writing-mentor-framework"
-   python -m pip install olefile
-   ```
-3. Add the `wmf` command:
-   ```powershell
-   [Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path","User") + ";$HOME\writing-mentor-framework\bin", "User")
-   ```
-   Close PowerShell and open it again.
-
-On Windows the Python command is `python`; on macOS it is `python3`.
-
-### Check the install
-
-```bash
-python3 ~/writing-mentor-framework/skills/feedback/scripts/check_dependencies.py
-```
-
-On Windows: `python "$HOME\writing-mentor-framework\skills\feedback\scripts\check_dependencies.py"`
-
-It lists anything missing with the install command for your system, and says which tool it will use for chart images.
+Run the installer again. It updates the framework and skips programs that are already installed.
 
 ## Use it
 
-Do this once for each assignment you review.
+1. Put the assignment, the rubric, and the writers' files in one folder. Word, PDF, Excel and text files all work. The writers' files can sit in a subfolder.
+2. Open that folder in Cursor (File → Open Folder), then open the Claude Code panel. Or open it in the Claude desktop app's Code tab.
+3. Type **`/mentor`**.
 
-1. **Set up a folder.** In a terminal, go to the folder (or a new one) and run:
-   ```bash
-   wmf init
-   ```
-2. **Add your files:**
-   - `assignment.md`: what the assignment asked for
-   - `rubric.md`: how you score it
-   - `course_concepts.md` (optional but recommended): the principles of your field the analysis should follow
-   - `submissions/`: the writers' files (Word, PDF, Excel)
-3. **Open Claude Code in that folder.** Either type `claude` in the terminal, or open the folder in Cursor and open the Claude Code panel.
-4. **Type `/feedback`.**
+Claude then asks you, one question at a time:
+- which file is the assignment, and which is the rubric (or you can paste them)
+- where the writers' files are
+- whether there is a file of course principles to check against (optional)
+- whether this is a first submission or a revision; for a revision, where the earlier feedback is
 
-Claude checks the tools, pulls the text and formulas out of every file, renders the charts, and then reviews each writer's work. The feedback lands in `feedback/`, one file per writer, plus `feedback/FEEDBACK_SUMMARY.md`.
+It shows you which files it thinks belong to which writer and asks you to confirm or correct the grouping. If a writer handed in the same file twice, it reviews the newest. Before it starts, it reminds you that the files' contents go to Anthropic to be read, and waits for your yes.
 
-If you'd rather not install `wmf`, run the setup script directly:
+When it finishes, the `feedback` folder holds, for each writer:
+- `<writer>.md` with both sections: Reviewer Notes (for you) and Writer Feedback
+- `<writer> - Writer Feedback.docx` with only the Writer Feedback, ready to send after you read it
 
-```bash
-python3 ~/writing-mentor-framework/scripts/init_project.py --target /path/to/folder
-```
+plus `FEEDBACK_SUMMARY.md`: all scores, mean, median and range, one paragraph per writer, and the issues several writers share.
 
-### What `wmf init` creates
+### Resubmissions
 
-```
-My-Assignment/
-├── wmf-config.yaml        # settings, and where the framework is installed
-├── CLAUDE.md              # instructions Claude Code reads in this folder
-├── assignment.md          # ← replace with your assignment
-├── rubric.md              # ← replace with your rubric
-├── course_concepts.md     # ← your field's principles (optional)
-├── submissions/           # ← put the writers' files here
-├── turnitin/              # similarity reports (optional)
-└── .claude/skills/feedback/SKILL.md   # the /feedback command
-```
+Run `/mentor` on the revised files and answer "revision". Give it the earlier feedback folder. Each writer's review then checks which earlier points were addressed, reads tracked changes, and gives both a standalone score and the change from last time. The results go to `feedback-round2` (or the round you give).
 
-The framework itself stays in one place, so an update to it applies to every assignment folder.
+### Course principles (recommended)
 
-## Your input files
-
-**`assignment.md`:** the required sections and components, formatting rules, and any data or readings provided.
-
-**`rubric.md`:** each criterion with its points, and what excellent, competent and developing work looks like.
-
-**`course_concepts.md`:** without it, the review still covers writing, structure, internal consistency and data checks. With it, the review can also catch errors specific to your field. Include key principles, common errors to flag, correct approaches, and terms. For example:
+A short file of the principles your field expects makes the assumption checks sharper. Without it, the review still covers writing, structure, internal consistency and data. For example:
 
 ```markdown
-## GDP Comparisons
+## GDP comparisons
 - Comparisons over time need real (inflation-adjusted) GDP, not nominal
 - Comparisons across countries need PPP adjustment or a common currency
 - Countries of different sizes need per-capita figures
 
-## Statistical Claims
+## Statistical claims
 - Correlation does not show causation
 - Claims of significance need an appropriate test
 ```
 
-**`turnitin/` (optional):** put exported similarity reports here. The feedback explains what the matches mean and how to cite properly.
+### What files it reads
 
-**`submissions/`:** handles
 - PDFs, including scanned pages (read with OCR)
-- Word documents (.docx, .doc), including Excel objects pasted into them
-- Excel workbooks (.xlsx, .xls): formulas read, charts rendered
-- Raw data and plain text files
+- Word files (.docx; old .doc with LibreOffice), including spreadsheets pasted into them, tracked changes, comments and footnotes
+- Excel workbooks (.xlsx; old .xls with LibreOffice): every sheet, every formula with its cell address, and the cells each chart is drawn from
+- Data, code and text files (.csv, .txt, .py, .R, .do, .ipynb, ...)
+- Similarity reports (files with "turnitin" or "similarity" in the name)
 
-When a writer hands in more than one version, the review uses the latest.
+A file it can't read is reported to you by name, and the review goes ahead without it.
 
 ## How a review runs
 
@@ -178,84 +133,47 @@ When a writer hands in more than one version, the review uses the latest.
 2. Renders Excel charts as images, using Excel, then LibreOffice, then Quick Look (macOS), whichever is installed
 3. Maps each number's path: raw data → calculation → chart → claim
 4. Checks that formulas match charts and that the text matches the spreadsheet
-5. Checks assumptions against `course_concepts.md` and general economic and statistical principles
+5. Checks assumptions against your course principles and general economic and statistical principles
 6. Tries to confirm cited public data through its API
 7. Scores each rubric criterion
 8. Writes the Reviewer Notes and the Writer Feedback
 
-**Each writer is reviewed separately.** A fresh Claude agent reviews each writer's work, so one review can't color the next. By default three run at once. Expect several minutes per writer. Because each agent starts clean, a large batch won't run out of context, and you can leave it running.
-
-**The summary.** When every review is done, `feedback/FEEDBACK_SUMMARY.md` lists all scores from highest to lowest, the mean, median and range, one paragraph per writer (main strength, biggest concern, score), and the issues that came up across many submissions.
-
-## Settings
-
-`wmf-config.yaml` in each assignment folder. See `wmf-config.yaml.example` for every option.
-
-```yaml
-framework_path: ~/writing-mentor-framework
-
-assignment: assignment.md
-rubric: rubric.md
-course_concepts: course_concepts.md  # or null
-
-submissions:
-  folder: submissions
-  rounds:
-    enabled: false        # true for assignments with resubmissions
-
-output:
-  extracted: feedback_extracted
-  rendered: feedback_rendered
-  feedback: feedback
-
-review:
-  max_parallel_agents: 3  # 1 if you hit rate limits; 5-10 for large batches
-  compare_to_round: null  # e.g. 1 when reviewing round 2
-```
-
-### Resubmissions
-
-1. Set `submissions.rounds.enabled: true`
-2. Put each round in its own folder: `submissions/round1/`, `submissions/round2/`
-3. Set `review.compare_to_round: 1` when reviewing round 2
-
-The review then reads the writer's tracked changes, compares the new version with the earlier feedback, and gives both a standalone score and an assessment of how much improved.
+**Each writer is reviewed separately.** A fresh review is started for each writer and given only that writer's files, so one review can't color the next. Three run at once. Expect several minutes per writer. Because each review starts clean, a large batch won't run out of context, and you can leave it running.
 
 ## Privacy
 
-Claude Code sends the text of each file to Anthropic for review. Before you run it, confirm that your organization allows this for the work you're reviewing. If names shouldn't be sent, remove them from the files and filenames first; the review works the same either way. The `.gitignore` keeps `submissions/` and all feedback out of git.
+Claude Code sends the contents of the files to Anthropic to be read. Before you run a review, confirm that your organization allows this for the work you're reviewing. If names shouldn't be sent, remove them from the files and file names first; the review works the same either way.
+
+Each writer's work is reviewed separately, and each review is given only that writer's files. `/mentor` adds a `.gitignore` to the folder so that, if the folder is ever put in Git, the writers' files and the feedback stay out of it.
 
 ## Changing how it works
 
-- **Field-specific checks:** edit `course_concepts.md` in the assignment folder.
-- **Feedback format, sections or voice:** edit `skills/feedback/SKILL.md` in the framework.
-- **Writing standards:** edit `skills/feedback/references/economical_writing_principles.md`.
+- **What each review checks, and the feedback format:** `skills/feedback/review-one-writer.md`
+- **How a batch runs** (how many at once, the summary): `skills/feedback/SKILL.md`
+- **The questions `/mentor` asks:** `skills/mentor/SKILL.md` (run the installer again after changing it)
+- **Writing standards:** `skills/feedback/references/economical_writing_principles.md`, `peer.md`, `orwell.md`
 
 ## Framework files
 
 ```
 writing-mentor-framework/
-├── bin/
-│   ├── wmf                         # wmf command, macOS/Linux
-│   └── wmf.cmd                     # wmf command, Windows
-├── scripts/init_project.py         # sets up an assignment folder
+├── install/
+│   ├── Install-Writing-Mentor.cmd   # Windows setup (double-click)
+│   ├── install.ps1                  # what the Windows setup runs
+│   └── install.sh                   # Mac setup
 ├── skills/
+│   ├── mentor/SKILL.md              # the /mentor command
 │   ├── feedback/
-│   │   ├── SKILL.md                # the full review instructions
-│   │   ├── scripts/
-│   │   │   ├── check_dependencies.py
-│   │   │   ├── extract_submission_text.py
-│   │   │   ├── render_charts.py           # picks Excel / LibreOffice / Quick Look
-│   │   │   ├── render_xlsx_excel.py       # Excel (macOS or Windows)
-│   │   │   ├── render_xlsx.py             # LibreOffice (any system)
-│   │   │   ├── render_xlsx_quicklook.py   # Quick Look (macOS only)
-│   │   │   └── _tools.py                  # finds poppler, tesseract, LibreOffice
-│   │   └── references/             # writing principles, example course concepts
-│   └── code-audit/SKILL.md         # review of code files handed in with the writing
-├── templates/                      # templates used by wmf init
-├── wmf-config.yaml.example
-└── CLAUDE.md                       # instructions for using this folder directly
+│   │   ├── SKILL.md                 # runs a batch of reviews
+│   │   ├── review-one-writer.md     # what each review does, and its format
+│   │   ├── references/              # writing principles, example course principles
+│   │   └── scripts/                 # reading files, charts, grouping, Word copies
+│   └── code-audit/SKILL.md          # review of code handed in with the writing
+├── tests/                           # checks on made-up sample files
+└── specs/                           # how changes are planned
 ```
+
+For developers: `python tests/run_tests.py` checks the scripts on made-up files. GitHub runs the same checks on Windows and Mac, including both installers, on every push.
 
 ## Attribution
 
