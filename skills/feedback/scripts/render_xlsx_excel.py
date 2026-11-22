@@ -7,6 +7,8 @@ Windows: drives Excel through PowerShell (Excel's COM interface).
 Both need Excel installed and poppler (pdftoppm) for the PNG step.
 """
 import os
+import shutil
+import tempfile
 from pathlib import Path
 
 from _tools import IS_MAC, IS_WINDOWS, pdf_to_pngs, run, utf8_console
@@ -67,11 +69,33 @@ def _export_windows(path, pdf_path):
     )
 
 
+# Excel for Mac is sandboxed: opening or saving a file outside its own container makes
+# it ask "Grant File Access" for every file. Files inside its container need no grant,
+# so on macOS the workbook is copied in, exported there, and the PDF copied back out.
+MAC_EXCEL_CONTAINER = Path.home() / 'Library' / 'Containers' / 'com.microsoft.Excel' / 'Data'
+
+
+def _export_mac_in_container(path, pdf_path):
+    if not MAC_EXCEL_CONTAINER.is_dir():  # Excel not sandboxed (or never opened): use paths as given
+        return _export_mac(path, pdf_path)
+    work = Path(tempfile.mkdtemp(prefix='wmf-render-', dir=MAC_EXCEL_CONTAINER))
+    try:
+        inside = work / f'book{path.suffix.lower()}'
+        shutil.copy2(path, inside)
+        inside_pdf = work / 'book.pdf'
+        result = _export_mac(inside, inside_pdf)
+        if inside_pdf.exists():
+            shutil.move(str(inside_pdf), str(pdf_path))
+        return result
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+
+
 def render_xlsx(path, out_dir):
     out_dir.mkdir(parents=True, exist_ok=True)
     pdf_path = out_dir / f"{path.stem}.pdf"
     if IS_MAC:
-        result = _export_mac(path, pdf_path)
+        result = _export_mac_in_container(path, pdf_path)
     elif IS_WINDOWS:
         result = _export_windows(path, pdf_path)
     else:
