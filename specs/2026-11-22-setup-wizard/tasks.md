@@ -13,8 +13,8 @@ Tick when done AND its check passed. Commit after each, message starts with the 
 - [x] T6 — skills/mentor/SKILL.md wizard (A4, A5)
 
 ## Phase 3 — install + test
-- [ ] T7 — install.ps1 + .cmd (A1, A2)
-- [ ] T8 — install.sh (A10)
+- [x] T7 — install.ps1 + .cmd (A1, A2)
+- [x] T8 — install.sh (A10)
 - [ ] T9 — GitHub Actions workflow; push branch; green on Windows + Mac (A1, A2, A3)
 - [ ] T10 — Remove wmf/init/templates/config; README rewrite (A11)
 - [ ] T11 — Mac end-to-end /mentor run on samples, incl. round 2 (A4–A7)
